@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<title>日期选择</title>
+
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/jquery-ui-1.8.21.custom.css" media="all" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/jquery-ui-1.8.21.custom.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/jQuerySampleScript.js"></script>
+
+</head>
+
+<body>
+
+<div class="container"><div id="container">
+
+<label>开始日: </label><input class="datepicker" type="text" />
+
+<!-- #container --></div><!-- .container --></div>
+<!--
+操作对象的DOM
+-->
+<ul>
+<li>第0个li的文字不变色</li>
+<li><h3><span>第1个li</span>的文字不变色</h3></li>
+<li>第2个li中指定了动画模式的文字变红色</li>
+<li><span>第3个li的文字不变色</span></li>
+<li>最后一个li的文字不变色</li>
+</ul>
+<script type="text/javascript">
+
+$(function(){
+	(function animate(){
+		$("li:eq(2)").toggle('slow',animate);
+	})();
+	$("li:animated").css("color","red");
+});
+</script>
+
+</body>
+</html>
