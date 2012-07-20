@@ -14,10 +14,10 @@ class IndexAction extends Action {
 	}
 	
 	public function user(){
-		 $demo = new Model('student');
+		$demo = M('student');
 		$list=$demo->select();
 		$this->assign('list',$list);
-		$this->display();
+		$this->display("index:user");
 	}
 	
 }
