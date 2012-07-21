@@ -146,7 +146,7 @@ var preClassName = "";
 </script>
 
 
-<body onload="initinav('项目概貌')">
+<body onload="initinav('起步创业')">
 <div id="left_content">
      <div id="user_info">
      	欢迎您，<strong>admin</strong><br />[<a href="#">系统管理员</a>，<a href="#">退出</a>]
@@ -161,55 +161,55 @@ var preClassName = "";
 //在这里进行左侧菜单栏的条目控制
 	var outlookbar=new outlook();
 	var t;
-	t=outlookbar.addtitle('项目管理','项目概貌',1)
+	t=outlookbar.addtitle('项目管理','起步创业',1)
       outlookbar.additem('项目申请',t,'point_add')
       outlookbar.additem('项目可研',t,'pointlist')
       outlookbar.additem('项目批复',t,'ProjectManager_Reply_77.jsp')
       outlookbar.additem('项目调整',t,'ProjectManager_Adjustment_77.jsp')
         
-	t=outlookbar.addtitle('项目计划','项目概貌',1)	
+	t=outlookbar.addtitle('项目计划','起步创业',1)	
 	outlookbar.additem('验收计划制定',t,'GoToAcceptancePlan.action')
 	outlookbar.additem('验收计划查看/编辑',t,'inquireAcceptanceList.action')
 	outlookbar.additem('投资计划制定',t,'GoToInvestmentPlan.action')
 	outlookbar.additem('投资计划查看/编辑',t,'InquireInvestmentList.action')
 	outlookbar.additem('采购计划制定',t,'GoToPurchasingPlan.action')
 	outlookbar.additem('采购计划查看/编辑',t,'InquirePurchasingList.action')
-	t=outlookbar.addtitle('组织管理','项目概貌',1)
+	t=outlookbar.addtitle('组织管理','起步创业',1)
 	outlookbar.additem('采购各环节负责人选定',t,'InquireNoPrincipalList.action')
 	outlookbar.additem('负责人查看/编辑',t,'InquirePrincipalList.action')
 	
 
-	t=outlookbar.addtitle('项目采购','项目实施',1)
+	t=outlookbar.addtitle('项目采购','助跑创业',1)
     outlookbar.additem('实施合同',t,'ContractManager_77.jsp')
     outlookbar.additem('招标方案',t,'TenderManager_77.jsp')
 	
-	t=outlookbar.addtitle('费用管理','项目实施',1)
+	t=outlookbar.addtitle('费用管理','助跑创业',1)
 	outlookbar.additem('填写账户支出',t,'initExpenditureAccountAction.action')
 	outlookbar.additem('查看账户支出',t,'expenditure/checkAccount.jsp')
 	outlookbar.additem('修改账户支出',t,'expenditure/modifyAccount.jsp')
 
-	t=outlookbar.addtitle('设备管理管理','项目实施',1)
+	t=outlookbar.addtitle('设备管理管理','助跑创业',1)
 	outlookbar.additem('查看设备费用',t,'expenditure/checkEquipment.jsp')
 	
-	t=outlookbar.addtitle('验收管理','验收管理',1)
+	t=outlookbar.addtitle('验收管理','加油创业',1)
 	outlookbar.additem('填报验收完成信息',t,'initFillAcceptanceResultAction.action')
 	outlookbar.additem('查看验收信息',t,'acceptance/checkAcceptance.jsp')
 	
 	
-	t=outlookbar.addtitle('表格查看','信息展示',1)
+	t=outlookbar.addtitle('表格查看','腾飞创业',1)
 	outlookbar.additem('按单位查看项目',t,'viewProjectInfoByTableCompanyAction.action')
 	outlookbar.additem('按经费查看项目',t,'previewProjectInfoByTableFundScopeAction.action')
 	outlookbar.additem('按时间查看项目',t,'viewProjectInfoByTableTimeAction.action')
 	
-	t=outlookbar.addtitle('图形查看','信息展示',1)
+	t=outlookbar.addtitle('图形查看','腾飞创业',1)
 	outlookbar.additem('按等级查看项目',t,'viewProjectInfoByPieClassAction.action')
 	outlookbar.additem('按经费查看项目',t,'viewProjectInfoByPieFundScopeAction.action')
 
 	
-	t=outlookbar.addtitle('查看信息','个人信息',1)
+	t=outlookbar.addtitle('查看信息','用户管理',1)
 	outlookbar.additem('查看用户信息',t,'viewUserInfoAction.action?id=${UserID}')
 	
-	t=outlookbar.addtitle('用户管理','个人信息',1)
+	t=outlookbar.addtitle('添加信息','用户管理',1)
 	outlookbar.additem('修改用户信息',t,'viewUserInfoAction2.action?id=${UserID}')
 
 </script>
