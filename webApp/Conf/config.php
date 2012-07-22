@@ -13,9 +13,12 @@ return array(
 	'DB_CHARSET'	=>	'utf8',
 	'ROUTER_ON'		=>	true,
 	'APP_DEBUG'     =>  true,
+	'SHOW_ERROR_MSG' => true, //异常显示
 	'SHOW_PAGE_TRACE' => false, // 显示页面Trace 信息
 	'TOKEN_ON'      =>  false,
-	'USER_AUTH_KEY' =>  'aid'
+	'USER_AUTH_KEY' =>  'uid',//用户id
+	'USER_NAME' => 'uname',   //用户名
+	'USER_ROLE' => 'urole'    //用户的角色
 		//'USER_AUTH_GATEWAY'	=>'/Public/Login',
     	//'DEFAULT_MODULE' => 'Public',
 		//'DEFAULT_ACTION' => 'Login'
