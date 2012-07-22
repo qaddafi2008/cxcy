@@ -31,23 +31,23 @@ function showInnerText(Id){
 	var showText = "对不起没有信息！";
 	switch(switchId){
 	    case 1:
-		   showText =  "【项目概貌】";
+		   showText =  "【起步创业】";
 		   break;
 	    case 2:
-		   showText =  "【项目实施】";
+		   showText =  "【助跑创业】";
 		   break;
 	    case 3:
-		   showText =  "【验收管理】";
+		   showText =  "【加油创业】";
 		   break;		   
 	    case 4:
-		   showText =  "【信息展示】";
+		   showText =  "【腾飞创业】";
 		   break;	
 	    case 5:
-		   showText =  "【个人信息】";
+		   showText =  "【用户管理】";
 		   break;
-		case 6:
+		/*case 6:
 		   showText =  "【站点管理】";
-		   break;	   		   
+		   break;*/	   		   
 	}
 	getObject('show_text').innerHTML = showText;
 }
@@ -70,11 +70,11 @@ function showInnerText(Id){
 <body>
 <div id="nav">
     <ul>
-    <li id="man_nav_1" onClick="list_sub_nav(id,'项目概貌')"  class="bg_image_onclick">项目概貌</li>
-    <li id="man_nav_2" onClick="list_sub_nav(id,'项目实施')"  class="bg_image">项目实施</li>
-    <li id="man_nav_3" onClick="list_sub_nav(id,'验收管理')"  class="bg_image">验收管理</li>
-    <li id="man_nav_4" onClick="list_sub_nav(id,'信息展示')"  class="bg_image">信息展示</li>
-    <li id="man_nav_5" onClick="list_sub_nav(id,'个人信息')"  class="bg_image">个人信息</li>
+    <li id="man_nav_1" onClick="list_sub_nav(id,'起步创业')"  class="bg_image_onclick">起步创业</li>
+    <li id="man_nav_2" onClick="list_sub_nav(id,'助跑创业')"  class="bg_image">助跑创业</li>
+    <li id="man_nav_3" onClick="list_sub_nav(id,'加油创业')"  class="bg_image">加油创业</li>
+    <li id="man_nav_4" onClick="list_sub_nav(id,'腾飞创业')"  class="bg_image">腾飞创业</li>
+    <li id="man_nav_5" onClick="list_sub_nav(id,'用户管理')"  class="bg_image">用户管理</li>
     
 
     </ul>
