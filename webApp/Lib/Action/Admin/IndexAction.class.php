@@ -39,4 +39,10 @@ class IndexAction extends Action {
 		
 		$this->display();
 	}
+	
+	public function logout(){
+		session(null);//清空当前的session
+		$this->display('index');
+		//echo " <script>top.location   =   '".__URL__. "/index'</script> ";
+	}
 }
