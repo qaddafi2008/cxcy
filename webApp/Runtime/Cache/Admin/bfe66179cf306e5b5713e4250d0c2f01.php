@@ -1,0 +1,48 @@
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><html><head><title>pointlist.html</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><link rel="stylesheet" href="__PUBLIC__/css/admin/common.css" type="text/css" /><link rel="stylesheet" href="__PUBLIC__/css/admin/main.css" type="text/css" /><script>var  highlightcolor='#eafcd5';
+//此处clickcolor只能用win系统颜色代码才能成功,如果用#xxxxxx的代码就不行,还没搞清楚为什么:(
+var  clickcolor='#51b2f6';
+function  changeto(){
+source=event.srcElement;
+if  (source.tagName=="TR"||source.tagName=="TABLE")
+return;
+while(source.tagName!="TD")
+source=source.parentElement;
+source=source.parentElement;
+cs  =  source.children;
+//alert(cs.length);
+if  (cs[1].style.backgroundColor!=highlightcolor&&source.id!="nc"&&cs[1].style.backgroundColor!=clickcolor)
+for(i=0;i<cs.length;i++){
+	cs[i].style.backgroundColor=highlightcolor;
+}
+}
+
+function  changeback(){
+if  (event.fromElement.contains(event.toElement)||source.contains(event.toElement)||source.id=="nc")
+return
+if  (event.toElement!=source&&cs[1].style.backgroundColor!=clickcolor)
+//source.style.backgroundColor=originalcolor
+for(i=0;i<cs.length;i++){
+	cs[i].style.backgroundColor="";
+}
+}
+
+function  clickto(){
+source=event.srcElement;
+if  (source.tagName=="TR"||source.tagName=="TABLE")
+return;
+while(source.tagName!="TD")
+source=source.parentElement;
+source=source.parentElement;
+cs  =  source.children;
+//alert(cs.length);
+if  (cs[1].style.backgroundColor!=clickcolor&&source.id!="nc")
+for(i=0;i<cs.length;i++){
+	cs[i].style.backgroundColor=clickcolor;
+}
+else
+for(i=0;i<cs.length;i++){
+	cs[i].style.backgroundColor="";
+}
+}
+</script></head><body><div class="main_zone"><div style="height:30px;"><span style=" position:relative; top:15px;font-size:25px; font-weight:bold;">【配送点列表】</span></div><div style="height:20px"><span style="float:right">		搜索：
+		<select name="sort" id="sellsel"><option value="">配送点编号编号</option></select><input type="text" name="search" value=""><input class="my_button" type="submit" value="搜索"><a href="#">[查看全部]</a></span></div><hr /><div style="height:20px;width:99%"><span style="float:left">&nbsp;&nbsp;&nbsp;<input type="checkbox" name="checkbox62" value="checkbox" />全选 </span><span style="float:right"><input class="my_button" type="button" name="bdel_button" value="批量删除" /></span></div><table class="list_table" cellpadding="0" cellspacing="1" bgcolor="#c0de98" onMouseOver="changeto()"  onmouseout="changeback()"><tr><td width="6%" height="26" background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">选择</td><td width="12%" height="26" background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">配送点编号</td><td width="20%" height="26" background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">配送点名称</td><td width="32%" height="26" background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">配送点所在地址</td><td width="30%" height="26" background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">操作</td></tr><tr><td height="26" bgcolor="#FFFFFF" align="center"><input name="checkbox" type="checkbox" class="STYLE2" value="checkbox" /></td><td height="26" bgcolor="#FFFFFF" align="center">A0012</td><td height="26" bgcolor="#FFFFFF" align="center">天津配送点</td><td height="26" bgcolor="#FFFFFF" align="center">天津市**区**大街**号</td><td height="26" bgcolor="#FFFFFF" align="center"><a href="#">[详细信息]</a><a href="#">[修改]</a><a href="#">[关闭]</a><a href="#">[删除]</a></td></tr></table><div style="height:30px;width:99%;position:relative; top:15px"><span style="float:left">共120条纪录，当前第1/10页，每页10条纪录</span><span style="float:right"><a href="#"><img src="__PUBLIC__/images/admin/images/first.gif" width="37" height="15" /></a><a href="#"><img src="__PUBLIC__/images/admin/images/back.gif" width="43" height="15" /></a><a href="#"><img src="__PUBLIC__/images/admin/images/next.gif" width="43" height="15" /></a><a href="#"><img src="__PUBLIC__/images/admin/images/last.gif" width="37" height="15" /></a><span style="position:relative; bottom:3px">转到第<input name="textfield" type="text" style="height:20px; width:30px;"/>页</span><a href="#"><img src="__PUBLIC__/images/admin/images/go.gif" width="37" height="15" /></a></span></div></div></body></html>
