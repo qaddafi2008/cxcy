@@ -24,9 +24,9 @@ class IndexAction extends Action {
 		if(!$checkAdmin){
 			$this->error("用户或密码错误！");
 		}else{
-			session(C('USER_AUTH_KEY'),$checkAdmin['stuffid']);
-			session(C('USER_NAME'),$checkAdmin['usrname']);
-			session(C('USER_ROLE'),$checkAdmin['role']);
+			session(C('USER_AUTH_KEY'),$checkAdmin['stuffid']);//USER_AUTH_KEY 为用户id
+			session(C('USER_NAME'),$checkAdmin['usrname']);//USER_NAME为用户姓名
+			session(C('USER_ROLE'),$checkAdmin['role']);//USER_ROLE为用户角色，0为管理员，1为评审老师，2为学生
 			
 			
 			$this->success('登陆成功','mainpage');
