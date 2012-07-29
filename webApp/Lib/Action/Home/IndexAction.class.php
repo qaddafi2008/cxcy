@@ -136,4 +136,8 @@ class IndexAction extends Action {
 		$this->display("index:user");
 	}
 	
+	public function cyk(){
+		echo 'msg is: '.$_GET['msg'].'<br/>secondmsg:'.$_GET['secondmsg'];
+	}
+	
 }
