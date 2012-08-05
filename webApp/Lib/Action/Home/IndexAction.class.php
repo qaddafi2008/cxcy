@@ -22,7 +22,6 @@ class IndexAction extends Action {
 			'content'=>'测试内容测试内容测试内容测试内容测试内容测试内容'
 		);
 		$this->assign('maincontent',$maincontent);
-		
 		$this->display("page");
 	}
 	
@@ -63,12 +62,12 @@ class IndexAction extends Action {
 		$modelname = "腾飞创业：";//本模块名称
 		$navlist[0] = array(
 			"color"=>'color',
-			"url"=>'__URL__/tengfei/type/1',
+			"url"=>'__URL__/tengfei/type/rhtf',
 			"title"=>'如何腾飞',
 		);
 		$navlist[1] = array(
 			"color"=>'',
-			"url"=>'__URL__/tengfei/type/2',
+			"url"=>'__URL__/tengfei/type/tfzw',
 			"title"=>'腾飞展望',
 		);
 		
@@ -80,14 +79,14 @@ class IndexAction extends Action {
 		
 		//从数据库转存信息
 		$num = 0;
-		if($type==1||$type==2)//如何腾飞和腾飞展望
+		if($type=="rhtf"||$type=="tfzw")//如何腾飞和腾飞展望
 		{
 			//数据库
 			$incubator = M('incubator');
 			$incubatormodules = M('incubatormodules');
 		
 			//查询incubator表
-			$condition1['incubatorid'] = $type;
+			$condition1['incubatorid'] = $type=="rhtf"?1:2;
 			$temp = $incubator->where($condition1)->select();
 			foreach($temp as $one=>$value)
 			{
@@ -98,7 +97,7 @@ class IndexAction extends Action {
 			}
 			
 			//查询incubatormodules表
-			$condition2['incubatorno'] = $type;
+			$condition2['incubatorno'] = $type=="rhtf"?1:2;
 			$temp = $incubatormodules->where($condition2)->select();
 			foreach($temp as $one=>$value)
 			{
