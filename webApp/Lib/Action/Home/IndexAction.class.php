@@ -114,12 +114,10 @@ class IndexAction extends Action {
 		//左侧导航栏
 		$modelname = "腾飞创业：";//本模块名称
 		$navlist[0] = array(
-			"color"=>'color',
 			"url"=>'__URL__/tengfei/type/rhtf',
 			"title"=>'如何腾飞',
 		);
 		$navlist[1] = array(
-			"color"=>'',
 			"url"=>'__URL__/tengfei/type/tfzw',
 			"title"=>'腾飞展望',
 		);
