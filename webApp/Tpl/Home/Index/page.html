@@ -8,31 +8,9 @@
 <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/home/front.css" />
 <script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="__PUBLIC__/js/jquery.tipsy.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/page.js"></script>
 
-<script language="javascript" type="text/javascript">
-$(document).ready(function() {
 
-    $(".signin").click(function(e) {          
-		e.preventDefault();
-        $("fieldset#signin_menu").toggle();
-		$(".signin").toggleClass("menu-open");
-    });
-	
-	$("fieldset#signin_menu").mouseup(function() {
-		return false
-	});
-	$(document).mouseup(function(e) {
-		if($(e.target).parent("a.signin").length==0) {
-			$(".signin").removeClass("menu-open");
-			$("fieldset#signin_menu").hide();
-		}
-	});			
-	
-});
-$(function() {
-	  $('#forgot_username_link').tipsy({gravity: 'w'});   
-  });
-</script>
 </head>
 <body>
 	<include file="header"/>
@@ -42,7 +20,7 @@ $(function() {
 			{$modelname}
 				<ul id="list">
 				<volist name ='navlist' id ='nav'>
-					<li class={$nav.color}><a href={$nav.url}>{$nav.title}</a></li>
+					<li><a href={$nav.url}>{$nav.title}</a></li>
 				</volist>
 				</ul>
 			</div>
