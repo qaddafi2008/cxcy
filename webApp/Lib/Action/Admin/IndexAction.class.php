@@ -1,5 +1,5 @@
 <?php
-// 本类由系统自动生成，仅供测试用途
+
 class IndexAction extends Action {
 	public function checkAdminLogin(){
 		$urole = session(C('USER_ROLE'));
@@ -17,7 +17,7 @@ class IndexAction extends Action {
 	public function login(){
 		$stuff = M('stuff');
 		$map['usrname'] = $_POST['user_name'];
-		$map['password'] = $_POST['user_password'];
+		$map['password'] = md5($_POST['user_password']);
 		$map['role'] = 0;//0为管理员
 		
 		$checkAdmin = $stuff->where($map)->find();

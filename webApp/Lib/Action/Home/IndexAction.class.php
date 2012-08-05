@@ -1,10 +1,63 @@
 <?php
-// 本类由系统自动生成，仅供测试用途
+
 class IndexAction extends Action {
-    public function index(){
+    public function index()
+	{
         //header("Content-Type:text/html; charset=utf-8");
         //echo '<div style="font-weight:normal;color:blue;float:left;width:345px;text-align:center;border:1px solid silver;background:#E8EFFF;padding:8px;font-size:14px;font-family:Tahoma">^_^ Hello,北京欢迎您！<span style="font-weight:bold;color:red">创新创业平台</span></div>';
 		$this->display();
+	}
+	
+	public function login()
+	{
+		//echo .'-'.$_POST[''].'-'.$_POST['usertype'];
+		
+		
+		if('teacher' ==$_POST['usertype'])
+		{
+			$condition['usrname']= $_POST['username'];
+			$condition['password']= md5($_POST['password']);
+			$condition['role']= 1;
+			
+			$stuff = M('stuff');
+			$checkTeacher = $stuff->where($condition)->find();
+			if(!$checkTeacher)
+			{
+				$this->error("用户或密码错误！");
+			}else
+			{
+				session(C('USER_AUTH_KEY'),$checkTeacher['stuffid']);//USER_AUTH_KEY 为用户id
+				session(C('USER_NAME'),$checkTeacher['usrname']);//USER_NAME为用户姓名
+				session(C('USER_ROLE'),$checkTeacher['role']);//USER_ROLE为用户角色，0为管理员，1为评审老师，2为学生
+			
+			
+				$this->success('登陆成功','index');
+			}
+		}else//type is student
+		{
+			$condition['stuno']= $_POST['username'];
+			$condition['spassword']= md5($_POST['password']);
+			
+			$student = M('student');
+        	$checkStudent = $student->where($condition)->find();
+			if(!$checkStudent)
+			{
+				$this->error("用户或密码错误！");
+			}else
+			{
+				session(C('USER_AUTH_KEY'),$checkStudent['sid']);//USER_AUTH_KEY 为用户id
+				session(C('USER_NAME'),$checkStudent['sname']);//USER_NAME为用户姓名
+				session(C('USER_ROLE'),2);//USER_ROLE为用户角色，0为管理员，1为评审老师，2为学生
+			
+			
+				$this->success('登陆成功','index');
+			}
+		}
+	}
+	
+	public function logout(){
+		session(null);//清空当前的session
+		$this->display('index');
 	}
 	
 	public function insert(){
