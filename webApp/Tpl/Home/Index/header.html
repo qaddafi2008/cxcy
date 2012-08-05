@@ -1,14 +1,11 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<body>
-	<div id="header">
+   <div id="header">
 		<div id="header_inside">
 			<img src="__PUBLIC__/css/images/index/header2.png" alt="setalpm"
 				width="999" height="222" border="0" usemap="#Map" /><br />
 			<div class="main_nav hover">
 				<ul id="menu">
-					<li><a href="__URL__/index" class="but_active">Home</a></li>
-					<li><a href="__URL__/page" class="but">起步创业</a>
+					<li><a href="__URL__/index" class="but1_active">Home</a></li>
+					<li><a href="__URL__/page" class="but2">起步创业</a>
 						<dl>
 							<dd>
 								<a href="#">创意库</a>
@@ -23,7 +20,7 @@
 							</dd>
 						</dl></li>
 
-					<li><a href="__URL__/page" class="but">助跑创业</a>
+					<li><a href="__URL__/page" class="but3">助跑创业</a>
 						<dl>
 							<dd>
 								<a href="#">学生创新创业<br />系列赛事
@@ -33,7 +30,7 @@
 								<a href="#">创业导师计划</a>
 							</dd>
 						</dl></li>
-					<li><a href="__URL__/page" class="but">加油创业</a>
+					<li><a href="__URL__/page" class="but4">加油创业</a>
 						<dl>
 							<dd>
 								<a href="#">国际创业<br />交流活动
@@ -43,7 +40,7 @@
 								<a href="#">河合创业基金</a>
 							</dd>
 						</dl></li>
-					<li><a href="__URL__/tengfei" class="but">腾飞创业</a>
+					<li><a href="__URL__/tengfei" class="but5">腾飞创业</a>
 						<dl>
 							<dd>
 								<a href="__URL__/tengfei">创新创业成长计划孵化器</a>
@@ -52,9 +49,18 @@
 				</ul>
 			</div>
 			<div id="welcomeinfo">
-				欢迎您！<a href="#" class="signin"><span>登陆</span></a>
+				欢迎您！<?php 
+                 $role = session(C('USER_ROLE'));
+                 if(null != $role)
+                 {
+                 	echo session(C('USER_NAME'));
+                    echo '， <a href="__URL__/logout" target="_top"><span>退出</span></a>';
+                 }else
+                 { 
+                 	echo '<a href="#" class="signin"><span>登陆</span></a>';
+                 } ?>
 				<fieldset id="signin_menu">
-					<form method="post" id="signin" action="__URL__/index/login">
+					<form method="post" id="signin" action="__URL__/login">
 						<p>
 						<label for="username">用户名：</label> <input
 							id="username" name="username" value="" title="username"
@@ -71,18 +77,18 @@
 							<input id="teacher" name="usertype" value="teacher" title="teacher" tabindex="7" type= "radio"/>教师
 						</p>
 						<p class="remember">
-							<input id="signin_submit" value="Sign in" tabindex="6"
+							<input id="signin_submit" value="登录" tabindex="6"
 								type="submit"> <input id="remember" name="remember_me"
 								value="1" tabindex="7" type="checkbox"> <label
-								for="remember">Remember me</label>
+								for="remember">记住信息</label>
 						</p>
 						<p class="forgot">
-							<a href="#" id="resend_password_link">Forgot your password?</a>
+							<a href="#" id="resend_password_link">忘记密码？</a>
 						</p>
 						<p class="forgot-username">
-							<A id=forgot_username_link
-								title="If you remember your password, try logging in with your email"
-								href="#">Forgot your username?</A>
+							<a id=forgot_username_link
+								title="试试用户名为学号的情况"
+								href="#">忘记用户名？</A>
 						</p>
 					</form>
 				</fieldset>
@@ -104,5 +110,3 @@
        <area shape="poly" coords="776,124,818,152,793,189,751,160" href="#">
        <area shape="poly" coords="834,52,885,61,878,105,828,96" href="#">
 	</map>
-</body>
-</html>
