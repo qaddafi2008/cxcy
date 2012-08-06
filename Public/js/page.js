@@ -1,6 +1,5 @@
+var href = window.location.href;//当前url
 $(document).ready(function() {
-	
-	var href = window.location.href;//当前url
 	var ishomepage = -1;//当前homepage的index
 	$.each($("#menu>li>a"), function(i,item){  
 			$(this).attr("class","but");
@@ -37,7 +36,6 @@ $(document).ready(function() {
 					$(this).parent("dd").parent("dl").parent("li").removeClass("hover");
 					$(this).parent("dd").parent("dl").parent("li").children("a").addClass("color_active");
 					$(this).parent("dd").parent("dl").parent("li").children("dl").show();
-				
 				}
 		);
 	});
@@ -99,6 +97,13 @@ $(function() {
 //腾飞创业部分首页的页面内跳转
 function forwardto(dest)
 {
+	var atemp = $("#list>li>dl>dd>a:contains("+dest+")");
+	var hreftemp = $(atemp).parent().parent().parent().children("a:first").attr("href");
+	if(href.indexOf(hreftemp)==-1)
+	{
+		top.location = hreftemp;
+	}
+	
 	$.each($("#main_block .title"),function(i,item){
 		if($(this).text()==dest)
 		{
@@ -106,4 +111,24 @@ function forwardto(dest)
 			$( 'html, body' ).animate( { scrollTop: scrolltop }, { duration:300 , queue:false } );
 		}
 	});
+}
+
+function writeObj(obj){
+	    var description = "";
+	    for(var i in obj){ 
+	        var property=obj[i]; 
+	        description+=i+" = "+property+"\n";
+	    } 
+	    alert(description);
+}
+function ShowObjProperty(Obj) {
+	var PropertyList = '';
+	var PropertyCount = 0;
+	for (i in Obj) {
+		if (Obj.i != null)
+			PropertyList = PropertyList + i + '属性：' + Obj.i + '\r\n';
+		else
+			PropertyList = PropertyList + i + '方法\r\n';
+	}
+	alert(PropertyList);
 }

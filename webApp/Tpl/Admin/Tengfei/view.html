@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>腾飞创业</title>
+<link rel="stylesheet" href="__PUBLIC__/css/admin/common.css"
+	type="text/css" />
+<link rel="stylesheet" href="__PUBLIC__/css/admin/main.css"
+	type="text/css" />
+<style type="text/css">
+body{
+	margin:20px 0 0 0;
+}
+	.title{
+		font-size: 18px;
+		margin:0,0,10px,0;
+	}
+</style>
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>	
+<script type="text/javascript" src="__PUBLIC__/ckeditor/ckeditor.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+			$("#submit").click(function(){
+				$("#tip").hide();
+				//alert(CKEDITOR.instances.content.getData());
+				$.post(
+					"__URL__/submit",
+					{
+						mid:$("input[name=mid]").attr("value"),
+						submid:$("input[name=submid]").attr("value"),
+						content:CKEDITOR.instances.content.getData()
+					},
+					function(data,textStatus){
+						$("#tip").text(data.info);
+						$("#tip").show(1000);
+				},'json');
+			});
+	});
+</script>
+</head>
+<body>
+
+<form method="post" action="__URL__/submit">
+<input type="hidden" name="mid" value={$mid}>
+<input type="hidden" name="submid" value={$submid}>
+<span class="title">模块名称：{$modulename}</span><br/>
+<span class="title">内容：<span id="tip"></span></span>
+<textarea class="ckeditor" cols="100%" id="content" name="content">{$content}</textarea>
+<script type="text/javascript">
+  CKEDITOR.replace( 'content' );
+ function getContenet(){
+      return CKEDITOR.instances.content.getData();    //获取textarea的值
+  }
+</script>
+	<center>
+			<input id="submit" class="my_button" type="button" value="确 认 ">&nbsp;&nbsp;&nbsp;&nbsp;
+			<input class="my_button" type="reset" value="重 置 ">
+		</center>
+</form>
+</body>
+</html>
