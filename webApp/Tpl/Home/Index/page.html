@@ -5,48 +5,54 @@
 <title>北大创新创业成长计划平台</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/style.css" />
-<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/home/front.css" />
+<link rel="stylesheet" type="text/css"
+	href="__PUBLIC__/css/home/front.css" />
 <script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/jquery-ui-1.8.21.custom.min.js"></script>
 <script type="text/javascript" src="__PUBLIC__/js/jquery.tipsy.js"></script>
 <script type="text/javascript" src="__PUBLIC__/js/page.js"></script>
-
-
 </head>
 <body>
-	<include file="header"/>
+	<include file="header" />
 	<div id="wrapper">
 		<div id="content_inside">
 			<div id="sidebar">
-			{$modelname}
+				{$modelname}
+				<div class="sidebar_nav">
 				<ul id="list">
-				<volist name ='navlist' id ='nav'>
-					<li><a href={$nav.url}>{$nav.title}</a></li>
-				</volist>
+					<volist name='navlist' id='nav'>
+					<li class="hover"><a class="parent" href={$nav.url}>{$nav.title}</a>
+						<dl><volist name="nav['subnav']" id="subnav">
+						
+							<dd class="child">
+								<a href={$subnav.url}>{$subnav.title}</a>
+							</dd>
+						</volist></dl></li>
+					</volist>
 				</ul>
+				</div>
 			</div>
 			<div id="main_block">
 				<div class="about">
-				<div>
-				<volist name="maincontent" id="maincontent"> 
-					<p class="title">{$maincontent.title}</p>
-					<p class="content">{$maincontent.content}</p>
-				</volist>
-				</div>
-				<div>
 					<div>
-					<volist name ='newslist' id ='news'>
-					<a href={$news.url}>
-						<span class="content">{$news.title}</span>
-						<span class="timearea">{$news.time}</span>
-					</a>
-					</volist>
+						<volist name="maincontent" id="maincontent">
+						<p class="title">{$maincontent.title}</p>
+						<p class="content">{$maincontent.content}</p>
+						</volist>
 					</div>
+					<div>
+						<div>
+							<volist name='newslist' id='news'> <a href={$news.url}>
+								<span class="content">{$news.title}</span> <span
+								class="timearea">{$news.time}</span>
+							</a> </volist>
+						</div>
+					</div>
+
 				</div>
-				
 			</div>
 		</div>
 	</div>
-	</div>
-	<include file="footer"/>
+	<include file="footer" />
 </body>
 </html>
