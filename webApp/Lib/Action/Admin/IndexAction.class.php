@@ -1,12 +1,6 @@
 <?php
 
-class IndexAction extends Action {
-	public function checkAdminLogin(){
-		$urole = session(C('USER_ROLE'));
-		if($urole == null || $urole!=0)
-			$this->error(session(C('USER_ROLE')).'请先登录！','index');
-	}
-	
+class IndexAction extends Action {	
     public function index(){
         /*header("Content-Type:text/html; charset=utf-8");
         echo '<div style="font-weight:normal;color:blue;float:left;width:345px;text-align:center;border:1px solid silver;background:#E8EFFF;padding:8px;font-size:14px;font-family:Tahoma">您好，这里是后台管理平台<span style="font-weight:bold;color:red">创新创业平台</span></div>';*/
@@ -35,7 +29,8 @@ class IndexAction extends Action {
 	}
 	
 	public function mainpage(){
-		$this->checkAdminLogin();//如果没有登录，则不会进到下一行
+		//$this->checkAdminLogin();//如果没有登录，则不会进到下一行
+		R('Admin/Authority/checkAdminLogin');//表示调用Admin分组下Authority模块的checkAdminLogin方法
 		
 		$this->display();
 	}
