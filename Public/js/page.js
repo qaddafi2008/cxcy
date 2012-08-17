@@ -73,25 +73,30 @@ $(document).ready(function() {
 	
 	
 	//sidebar跟随滚动条滚动
-	var basetop = $("#main_block").offset().top ;//sidebar的基准top
-	$(window).scroll(function (){ 
-		var scrolltop = $(window).scrollTop();
-		if(scrolltop>basetop)
-		{
-			$("#sidebar").animate({top : scrolltop +"px" },{ duration:300 , queue:false });
-		}
-		else
-		{
-			$("#sidebar").animate({top : basetop+"px" },{ duration:300 , queue:false });
+	var offset = $("#main_block").offset();
+	if(offset != null)
+	{
+		var basetop = offset.top ;//sidebar的基准top
+		$(window).scroll(function (){ 
+			var scrolltop = $(window).scrollTop();
+			if(scrolltop>basetop)
+			{
+				$("#sidebar").animate({top : scrolltop +"px" },{ duration:300 , queue:false });
+			}
+			else
+			{
+				$("#sidebar").animate({top : basetop+"px" },{ duration:300 , queue:false });
 			
-		}
-	}); 
+			}
+	});
+	}
 	
 });
 $(function() {
 	$('#forgot_username_link').tipsy({
 		gravity : 'w'
 	});
+
 });
 
 //腾飞创业部分首页的页面内跳转

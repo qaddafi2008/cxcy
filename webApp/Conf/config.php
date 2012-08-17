@@ -18,7 +18,8 @@ return array(
 	'TOKEN_ON'      =>  false,
 	'USER_AUTH_KEY' =>  'uid',//用户id
 	'USER_NAME' => 'uname',   //用户名
-	'USER_ROLE' => 'urole'    //用户的角色
+	'USER_ROLE' => 'urole',    //用户的角色
+	'IS_SURVEYED' => 'issurveyed' //是否已填写调查问卷，-1为否，1为是，0为不需要填写（如老师和管理员）
 		//'USER_AUTH_GATEWAY'	=>'/Public/Login',
     	//'DEFAULT_MODULE' => 'Public',
 		//'DEFAULT_ACTION' => 'Login'

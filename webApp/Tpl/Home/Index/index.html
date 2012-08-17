@@ -6,9 +6,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/style.css" />
 <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/home/front.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/jquery-ui-1.8.21.custom.css" media="all" />
 <script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/jquery-ui-1.8.21.custom.min.js"></script>
 <script type="text/javascript" src="__PUBLIC__/js/jquery.tipsy.js"></script>
 <script type="text/javascript" src="__PUBLIC__/js/page.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/survey.js"></script>
 
 </head>
 <body>
@@ -28,6 +31,79 @@
 			</div>
 		</div>
 	</div>
+    
+
+
 	<include file="footer"/>
+	
+	<input id = "issurveyed" name = "issurveyed" type = "hidden" value = "<?php echo session(C('IS_SURVEYED'));?>"/>
+
+<div id="dialog1" title="调查问卷">
+<form>
+<label>Q1：您是否参加过两场或两场以上与创业有关的讲座？</label><br/>
+<center>
+<label>是<input name="q1" type="radio" value="yes" checked /></label> 
+&nbsp;&nbsp;
+<label>否<input name="q1" type="radio" value="no"  /></label> <br/>
+</center>
+
+<label>Q2：您是否选修过校团委开设的创新创业实践暑期课程？</label><br/>
+<center>
+<label>是<input name="q2" type="radio" value="yes"  checked /></label>
+&nbsp;&nbsp;
+<label>否<input name="q2" type="radio" value="no" /></label><br/>
+</center>
+</form>
+</div>
+
+
+<div id="dialog2" title="调查问卷">
+<form>
+<label>Q3：您是否参加过北京大学学生创业计划大赛？</label><br/>
+<center>
+<label>是<input name="q3" type="radio" value="yes" checked  /></label> 
+&nbsp;&nbsp;
+<label>否<input name="q3" type="radio" value="no"  /></label> 
+</center>
+
+<label>Q4：您是否参加过校外举办的创业大赛？</label><br/>
+<center>
+<label>是<input name="q4" type="radio" value="yes" checked  /></label>
+&nbsp;&nbsp;
+<label>否<input name="q4" type="radio" value="no"  /></label>
+</center>
+
+<label>Q5：您是否希望有人能为您的创业项目做指导？</label><br/>
+<center>
+<label>是<input name="q5" type="radio" value="yes" checked  /></label>
+&nbsp;&nbsp;
+<label>否<input name="q5" type="radio" value="no"  /></label>
+</center>
+</form>
+</div>
+
+
+<div id="dialog3" title="调查问卷">
+<form>
+<label>Q6：您是否申报过“河合创业基金”？</label><br/>
+<center>
+<label>是<input name="q6" type="radio" value="yes" checked  /></label> 
+&nbsp;&nbsp;
+<label>否<input name="q6" type="radio" value="no"  /></label> <br/>
+</center>
+
+<label>Q7：您是否参与过由校团委或其他组织负责的创业国际交流项目？</label><br/>
+<center>
+<label>是<input name="q7" type="radio" value="yes" checked  /></label>
+&nbsp;&nbsp;
+<label>否<input name="q7" type="radio" value="no"  /></label>
+</center>
+</form>
+</div>
+
+<div id="survey_result" title="指导选择">
+	<p id="result"></p>
+</div>
+
 </body>
 </html>

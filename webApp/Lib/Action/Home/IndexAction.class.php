@@ -7,6 +7,7 @@ class IndexAction extends Action {
 		$this->display ();
 	}
 	
+	//登录
 	public function login() {
 		//echo .'-'.$_POST[''].'-'.$_POST['usertype'];
 		
@@ -24,9 +25,9 @@ class IndexAction extends Action {
 				session ( C ( 'USER_AUTH_KEY' ), $checkTeacher ['stuffid'] ); //USER_AUTH_KEY 为用户id
 				session ( C ( 'USER_NAME' ), $checkTeacher ['usrname'] ); //USER_NAME为用户姓名
 				session ( C ( 'USER_ROLE' ), $checkTeacher ['role'] ); //USER_ROLE为用户角色，0为管理员，1为评审老师，2为学生
-				
+				session ( C ( 'IS_SURVEYED' ), 0); //是否已填写调查问卷，-1为否，1为是，0为不需要填写（如老师和管理员）
 
-				$this->success ( '登陆成功', 'index' );
+				$this->success ( '登陆成功','index' );
 			}
 		} else //type is student
 {
@@ -41,16 +42,29 @@ class IndexAction extends Action {
 				session ( C ( 'USER_AUTH_KEY' ), $checkStudent ['sid'] ); //USER_AUTH_KEY 为用户id
 				session ( C ( 'USER_NAME' ), $checkStudent ['sname'] ); //USER_NAME为用户姓名
 				session ( C ( 'USER_ROLE' ), 2 ); //USER_ROLE为用户角色，0为管理员，1为评审老师，2为学生
-				
+				session ( C ( 'IS_SURVEYED' ), $checkStudent['issurveyed']==null?-1:$checkStudent['issurveyed']); //是否已填写调查问卷，-1为否，1为是，0为不需要填写（如老师和管理员）
 
-				$this->success ( '登陆成功', 'index' );
+				$this->success ( '登陆成功','index');
 			}
 		}
 	}
 	
+	//退出
 	public function logout() {
 		session ( null ); //清空当前的session
 		$this->display ( 'index' );
+	}
+	
+	//标记用户已填写调查问卷
+	public function surveyIsDone(){
+		$uid = session ( C ( 'USER_AUTH_KEY' ));
+		
+		$student = M('student');
+		$data['issurveyed'] = 1;
+		$student->where("sid = $uid")->save($data);
+		session ( C ( 'IS_SURVEYED' ),1);//重新设置是否填写调查问卷的session值为是，即1
+		
+		echo 'Modify successfully!';
 	}
 	
 	public function insert() {
