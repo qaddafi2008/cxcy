@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>赛事设置</title>
+<title>阶段设置</title>
 <link rel="stylesheet" href="__PUBLIC__/css/admin/common.css"
 	type="text/css" />
 <link rel="stylesheet" href="__PUBLIC__/css/admin/main.css"
@@ -33,37 +33,37 @@
 </script>
 </head>
 <body>
-	<form id="form" ENCTYPE="multipart/form-data" action="__URL__/submit"
+	<form id="form" ENCTYPE="multipart/form-data" action="__URL__/submitproc"
 		method="post">
-		<input type="hidden" id="comtype" name="comtype" value={$competition[ "comtype"]} />
+		<input type="hidden" id="compid" name="compid" value={$comagenda[ "compid"]} />
 		<table class="form_table">
 			<tr>
-				<td class="first_td">标题： <input type="hidden" id="comid"
-					name="comid" value={$competition[ "comid"]}/>
+				<td class="first_td">阶段标题： <input type="hidden" id="agendaid"
+					name="agendaid" value={$comagenda[ "agendaid"]}/>
 				</td>
-				<td class="second_td"><input id="subject" name="subject"
-					class="my_text" type="text" value={$competition["subject"]}>
+				<td class="second_td"><input id="status" name="status"
+					class="my_text" type="text" value={$comagenda[ "status"]}>
 					<span id="tips"></span></td>
 			</tr>
 			<tr>
-				<td class="first_td">发布时间：</td>
-				<td class="second_td"><input id="createtime" name="createtime"
-					class="my_text" type="text" value='{$competition["createtime"]} ' /><img
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',el:'createtime'})"
+				<td class="first_td">结束时间：</td>
+				<td class="second_td"><input id="endtime" name="endtime"
+					class="my_text" type="text" value='{$comagenda[ "endtime"]} ' /><img
+					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',el:'endtime'})"
 					src="__PUBLIC__/js/My97DatePicker/skin/datePicker.gif" width="16" />
 				</td>
 			</tr>
 			<tr>
-				<td class="first_td">赛事描述：</td>
+				<td class="first_td">阶段描述：</td>
 				<td class="second_td"><textarea class="ckeditor" cols="100%"
-						id="description" name="description" rows="9">{$competition["description"]}</textarea>
+						id="description" name="description" rows="9">{$comagenda[ "description"]}</textarea>
 				</td>
 			</tr>
 			<tr>
 				<td class="first_td">上传附件：</td>
 				<td class="second_td">
 				
-				已有附件：<input readonly="readonly" id="alreadyfile" name="alreadyfile" type="text" value='{$competition["attachmentpath"]}' style="width: 300px;"/>
+				已有附件：<input readonly="readonly" id="alreadyfile" name="alreadyfile" type="text" value='{$comagenda["attachmentpath"]}' style="width: 300px;"/>
 				<input type="file" name="file" id="file" onchange="this.previousSibling.value=('修改附件：'+this.value);" />
 				<input type="button" id="delfile" value="清除附件"></td>
 			</tr>

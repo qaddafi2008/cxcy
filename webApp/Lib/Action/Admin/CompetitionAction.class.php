@@ -1,5 +1,5 @@
 <?php
-
+require("Common.php");
 class CompetitionAction extends Action {
 
 	public function detail() {
@@ -13,30 +13,46 @@ class CompetitionAction extends Action {
 			else if($module == "hhss"){
 				$condition = array ('comtype' => 2 );
 			}
-			$competitions = M ( 'competitions' );
-			$temp = $competitions->where ( $condition )->find ();
-			$this->assign ( "competition", $temp);
+			if($condition){
+				$competitions = M ( 'competitions' );
+				$temp = $competitions->where ( $condition )->find ();
+				$temp['attachmentpath'] = substr($temp['attachmentpath'],0,stripos($temp['attachmentpath'], "###"));
+				$this->assign ( "competition", $temp);
+			}
+			$this->display ();
 		}
 		else if($submodule=="proc"){
-			
+			if ($module == "cxss") {
+				$condition = array ('agendaid' => 1 );
+			}
+			else if($module == "hhss"){
+				$condition = array ('agendaid' => 2 );
+			}
+			if($condition){
+				$comagendas = M ( 'comagenda' );
+				$temp = $comagendas->where ( $condition )->find ();
+				$temp['attachmentpath'] = substr($temp['attachmentpath'],0,stripos($temp['attachmentpath'], "###"));
+				$this->assign ( "comagenda", $temp);
+			}
+			$this->display ("detailproc");
 		}
-		$this->display ();
+
 	}
+	//主赛事设置的提交，不区分创新创业赛事或者河合；由post过来的comid设置
 	public function submit() {
-		//print_r($_FILES);
-		$module = $_GET ['_URL_'] [3];
-		$submodule = $_GET ['_URL_'] [4];
-		if (!$submodule||$submodule==null||$submodule=="") {
-			$competition = array ('comid' => $_POST ["comid"], 'subject' => $_POST ["subject"], 'createtime' => $_POST ['createtime'], 'description' => $_POST ['description'] );
-			if (! isset ( $_POST ['alreadyfile'] )) {
-				$competition ['attachmentpath'] = "";
-			}
-			if ($this->upload () == SUCCESS) {
-				$competition ['attachmentpath'] = $_FILES ["file"] ["name"];
-			}
-			$competitions = M ( 'competitions' );
-			$result = $competitions->save ( $competition );
+		$module = ($_POST ["comtype"]=='1'?"cxss":"hhss");//所提交更新的模块
+		$competition = array ('comid' => $_POST ["comid"], 'subject' => $_POST ["subject"], 'createtime' => $_POST ['createtime'], 'description' => $_POST ['description'] );
+		if (! isset ( $_POST ['alreadyfile'] )||$_POST ['alreadyfile']==""||$_POST ['alreadyfile']==null) {
+			Common::removefile($module);
+			$competition ['attachmentpath'] = "";
 		}
+		$filestatus = Common::upload($module);
+		if($filestatus == SUCCESS){
+			$competition ['attachmentpath'] = $_FILES ["file"] ["name"]."###".$module;
+		}
+		$competitions = M ( 'competitions' );
+		$result = $competitions->save ( $competition );
+		/*
 		if ($result) {
 			// 成功后返回客户端新增的用户ID，并返回提示信息和操作状态
 			$this->ajaxReturn ( $result, "(更新成功！)", 1 );
@@ -44,32 +60,46 @@ class CompetitionAction extends Action {
 			// 错误后返回错误的操作状态和提示信息
 			$this->ajaxReturn ( 0, "(未更新！)", 0 );
 		}
-
-		//$this->display("view");
-		//redirect(U('/Admin/Tengfei/view/mid/3'), 5, '页面跳转中...');
-	}
-
-	protected function upload() {
-
-		if (($_FILES ["file"] ["size"] < 10 * 1024 * 1024)) {
-
-			if ($_FILES ["file"] ["error"] > 0) {
-				//echo "Return Code: " . $_FILES["file"]["error"] . "<br />";
-				return ERROR;
-			} else {
-				if (file_exists ( "./Uploads/" . $_FILES ["file"] ["name"] )) {
-					echo $_FILES ["file"] ["name"] . " already exists. ";
-					unlink("./Uploads/" . $_FILES ["file"] ["name"]);
-				} else {
-					move_uploaded_file ( $_FILES ["file"] ["tmp_name"], "./Uploads/" . $_FILES ["file"] ["name"] );
-					//echo "Stored in: " . "./Uploads/" . $_FILES ["file"] ["name"];
-				}
-				return SUCCESS;
-			}
-		} else {
-			//echo "Invalid file";
-			return "Invalid";
+		*/
+		$url = "detail/".$module;//更新后的跳转地址
+		if ($result) {
+			$this->success('更新成功', $url);
+		}else{
+			if($filestatus=="nofile")
+				$msg = "未设置附件或附件不合法！";
+			else if($filestatus==ERROR)
+				$msg = "附件上传错误!";
+			else if($filestatus=="Invalidsize")
+				$msg = "附件过大！";
+			$this->error($msg);
 		}
 	}
 
+	//赛事阶段的设置，不区别创新创业赛事或河合
+	public function submitproc() {
+		$module = ($_POST ["compid"]=='1'?"cxss":"hhss");
+		$comagenda = array ('agendaid' => $_POST ["agendaid"], 'compid' => $_POST ["compid"],'status'=>$_POST ['status'], 'endtime' => $_POST ['endtime'], 'description' => $_POST ['description'] );
+		if (! isset ( $_POST ['alreadyfile'] )||$_POST ['alreadyfile']==""||$_POST ['alreadyfile']==null) {
+			Common::removefile($module."proc");
+			$comagenda ['attachmentpath'] = "";
+		}
+		$filestatus = Common::upload($module."proc");
+		if ($filestatus == SUCCESS) {
+			$comagenda ['attachmentpath'] = $_FILES ["file"] ["name"]."###".$module."proc";
+		}
+		$comagendas = M ( 'comagenda' );
+		$result = $comagendas->save ( $comagenda );
+		$url = "detail/".$module."/proc";
+		if ($result) {
+			$this->success('更新成功', $url);
+		}else{
+			if($filestatus=="nofile")
+				$msg = "未设置附件或附件不合法！";
+			else if($filestatus==ERROR)
+				$msg = "附件上传错误!";
+			else if($filestatus=="Invalidsize")
+				$msg = "附件过大！";
+			$this->error($msg);
+		}
+	}
 }
