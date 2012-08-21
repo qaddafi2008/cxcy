@@ -222,13 +222,13 @@ var preClassName = "";
 
 	
 	t=outlookbar.addtitle('个人信息','用户管理',1)
-	outlookbar.additem('查看信息',t,'viewUserInfoAction.action?id=${UserID}')
-	outlookbar.additem('修改信息',t,'url')
-	outlookbar.additem('修改密码',t,'url')
-	outlookbar.additem('修改二次密码',t,'url')
+	outlookbar.additem('修改密码',t,'__GROUP__/user/changePassword/type/0')
+	outlookbar.additem('修改二次密码',t,'__GROUP__/user/changePassword/type/1')
 	
 	t=outlookbar.addtitle('账号管理','用户管理',1)
-	outlookbar.additem('账号列表',t,'viewUserInfoAction2.action?id=${UserID}')
+	outlookbar.additem('老师账号列表',t,'__GROUP__/user/teacherList')
+	outlookbar.additem('学生账号列表',t,'__GROUP__/user/studentPage/p/0')
+	outlookbar.additem('管理员账号列表',t,'__GROUP__/user/administratorList')
 	outlookbar.additem('创建老师账号',t,'__GROUP__/user/createTeacher')
 	outlookbar.additem('创建管理员账号',t,'__GROUP__/user/secondPswdVerify')
 

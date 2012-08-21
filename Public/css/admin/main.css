@@ -9,7 +9,7 @@ div.main_zone{
 	margin: 5px 0 0 0;
 	background-color:#FFFFFF;
 	padding: 10px 10px 20px 10px;
-	overflow: scroll;
+	overflow: auto; 
 }
 
 div.main_zone a{
@@ -37,13 +37,13 @@ table.list_table td,th{
 table.form_table {
 border-collapse: collapse;
 border: 1px solid #C1DAD7;
-width: 100%;
+width: 99%;
 padding: 0;
 margin: 0;
 }
 
 table.form_table .first_td {
-width: 100px;
+width: 150px;
 border: 1px solid #c0de98;
 font-size:11px;
 padding: 6px 6px 6px 12px;
