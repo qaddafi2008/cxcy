@@ -57,6 +57,14 @@ for(i=0;i<cs.length;i++){
 }
 }
 
+function confirmDel(){
+	if(confirm("确定要删除该老师账号吗？")){
+		return true;
+	}else{
+		return false;
+	}
+}
+
 </script>
   </head>
   
@@ -64,7 +72,7 @@ for(i=0;i<cs.length;i++){
   <div class="main_zone">		
 	<div style="height:20px;width:99%">
 		<span style="float:left">&nbsp;&nbsp;&nbsp;<input type="checkbox" name="checkbox62" value="checkbox" />全选 </span>
-        <span style="float:right"><input class="my_button" type="button" name="aaa" onClick="jqueryconfirm()" value="确认" /><input class="my_button" type="button" name="bdel_button" onClick="jqueryalert()" value="批量删除" /></span>
+        <span style="float:right"><input class="my_button" type="button" name="bdel_button" onClick="#" value="批量删除" /></span>
     </div>
 
 	
@@ -81,9 +89,8 @@ for(i=0;i<cs.length;i++){
             <td height="26" bgcolor="#FFFFFF" align="center">{$vo.usrname}</td>
             <td height="26" bgcolor="#FFFFFF" align="center">{$vo.teachername}</td>
             <td height="26" bgcolor="#FFFFFF" align="center">
-            	<a href="">[详细信息]</a>
-            	<a href="#">[修改]</a>
-            	<a href="__URL__/deleteTeacher/sid/{$vo.stuffid}">[删除]</a>
+            	<a href="__URL__/teacherDetail/stuffid/{$vo.stuffid}">[详细信息]</a>&nbsp;
+            	<a onClick="return confirmDel();" href="__URL__/deleteTeacher/stuffid/{$vo.stuffid}">[删除]</a>
             </td>
         </tr>
 		</volist>

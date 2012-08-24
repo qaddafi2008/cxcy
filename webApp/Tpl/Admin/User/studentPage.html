@@ -66,6 +66,14 @@ function jqueryconfirm(){
     jAlert('确认： ' + r, '结果');
 });
 }
+
+function confirmDel(){
+	if(confirm("确定要删除该学生账号吗？")){
+		return true;
+	}else{
+		return false;
+	}
+}
 </script>
   </head>
   
@@ -90,9 +98,7 @@ function jqueryconfirm(){
             <td height="26" bgcolor="#FFFFFF" align="center">{$vo.stuno}</td>
             <td height="26" bgcolor="#FFFFFF" align="center">{$vo.sname}</td>
             <td height="26" bgcolor="#FFFFFF" align="center">
-            	<a href="">[详细信息]</a>
-            	<a href="#">[修改]</a>
-            	<a href="__URL__/deleteStudent/sid/{$vo.sid}">[删除]</a>
+            	<a onClick="return confirmDel();" href="__URL__/deleteStudent/sid/{$vo.sid}">[删除]</a>
             </td>
         </tr>
 		</volist>

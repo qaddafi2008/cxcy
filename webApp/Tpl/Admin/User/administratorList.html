@@ -56,6 +56,14 @@ for(i=0;i<cs.length;i++){
 	cs[i].style.backgroundColor="";
 }
 }
+
+function confirmDel(){
+	if(confirm("确定要删除该管理员账号吗？")){
+		return true;
+	}else{
+		return false;
+	}
+}
 </script>
   </head>
   
@@ -78,9 +86,7 @@ for(i=0;i<cs.length;i++){
             <td height="26" bgcolor="#FFFFFF" align="center"><input name="checkbox" type="checkbox" class="STYLE2" value="{$vo.stuffid}" /></td>
             <td height="26" bgcolor="#FFFFFF" align="center">{$vo.usrname}</td>
             <td height="26" bgcolor="#FFFFFF" align="center">
-            	<a href="">[详细信息]</a>
-            	<a href="#">[修改]</a>
-            	<a href="__URL__/deleteTeacher/sid/{$vo.stuffid}">[删除]</a>
+            	<a onClick="return confirmDel();" href="__URL__/deleteAdministrator/stuffid/{$vo.stuffid}">[删除]</a>
             </td>
         </tr>
 		</volist>

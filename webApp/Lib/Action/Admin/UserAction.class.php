@@ -6,6 +6,8 @@ class UserAction extends Action {
 	}
 	//创建评委老师账号
 	public function addTeacher(){
+		R('Admin/Authority/checkAdminLogin');//表示调用Admin分组下Authority模块的checkAdminLogin方法
+		
 		$stuff = M('stuff');
 		$condition['usrname']=$_POST['usrname'];
 		$condition['role']=1;
@@ -47,6 +49,8 @@ class UserAction extends Action {
 	
 	//创建管理员账号
 	public function addAdministrator(){
+		R('Admin/Authority/checkAdminLogin');//表示调用Admin分组下Authority模块的checkAdminLogin方法
+		
 		$stuff = M('stuff');
 		$condition['usrname']=$_POST['usrname'];
 		$condition['role']=0;
@@ -101,13 +105,15 @@ class UserAction extends Action {
 	//分页显示学生信息
 	public function studentPage(){
 		R('Admin/Authority/checkAdminLogin');//表示调用Admin分组下Authority模块的checkAdminLogin方法
+		
 		$student = M('student');
-		$list = $student->order('sid')->page($_GET['p'].',5')->select();
+		$list = $student->order('sid')->page($_GET['p'].',10')->select();
 		$this->assign('list',$list);
 		import("ORG.Util.Page");
 		$count = $student->count();
-		$page = new Page($count,5);
+		$page = new Page($count,10);
 		
+		//设置分页展示信息的样式
 		$page->setConfig('prev','<img src="__PUBLIC__/images/admin/images/back.gif" width="43" height="15" />');
 		$page->setConfig('next','<img src="__PUBLIC__/images/admin/images/next.gif" width="43" height="15" />');
 		$gotoPage = '<span style="position:relative; bottom:3px">转到第<input name="textfield" type="text" style="height:20px; width:30px;"/>页</span>'.
@@ -120,6 +126,8 @@ class UserAction extends Action {
 	}
 	
 	public function deleteStudent(){
+		R('Admin/Authority/checkAdminLogin');//表示调用Admin分组下Authority模块的checkAdminLogin方法
+		
 		$condition['sid'] = $_GET['sid'];
 		$student = M('student');
 		
@@ -130,17 +138,71 @@ class UserAction extends Action {
 	}
 	
 	public function teacherList(){
+		R('Admin/Authority/checkAdminLogin');//表示调用Admin分组下Authority模块的checkAdminLogin方法
+		
 		$stuff = M('stuff');
 		$list = $stuff->where('role=1')->order('stuffid')->select();
 		$this->assign('list',$list);
 		$this->display();
 	}
 	
+	public function teacherDetail(){
+		R('Admin/Authority/checkAdminLogin');//表示调用Admin分组下Authority模块的checkAdminLogin方法
+		
+		$stuff = M('stuff');
+		$teacher = $stuff->where('stuffid='.$_GET['stuffid'])->find();
+		$this->assign('t',$teacher);
+		$this->display();
+	}
+	
+	public function updateTeacher(){
+		R('Admin/Authority/checkAdminLogin');//表示调用Admin分组下Authority模块的checkAdminLogin方法
+		
+		$data['teachername'] = $_POST['tname'];
+		$data['teachertitle'] = $_POST['ttitle'];
+		$data['major'] = $_POST['tmajor'];
+		$data['area'] = $_POST['tarea'];
+		$data['teacherdescription'] = $_POST['tdescription'];
+		
+		$stuff = M('stuff');
+		if($stuff->where('stuffid='.$_POST['stuffid'])->save($data))
+			$this->success("修改老师账号成功！");
+		else
+			$this->error("修改失败！");
+	}
+	
+	public function deleteTeacher(){
+		R('Admin/Authority/checkAdminLogin');//表示调用Admin分组下Authority模块的checkAdminLogin方法
+		
+		$stuff = M('stuff');
+		if($stuff->where('stuffid='.$_GET['stuffid'])->delete())
+			$this->success("删除老师账号成功！");
+		else
+			$this->error("删除失败！");
+	}
+	
 	public function administratorList(){
+		R('Admin/Authority/checkAdminLogin');//表示调用Admin分组下Authority模块的checkAdminLogin方法
+	
 		$stuff = M('stuff');
 		$list = $stuff->where('role=0')->order('stuffid')->select();
 		$this->assign('list',$list);
 		$this->display();
+	}
+	
+	public function deleteAdministrator(){
+		R('Admin/Authority/checkAdminLogin');//表示调用Admin分组下Authority模块的checkAdminLogin方法
+		
+		$stuffid = $_GET['stuffid'];
+		if(session(C ( 'USER_AUTH_KEY' )) == $stuffid)
+			$this->error("不能删除自己！");
+		
+		$stuff = M('stuff');
+		
+		if($stuff->where("stuffid=$stuffid")->delete())
+			$this->success("删除管理员账号成功！");
+		else
+			$this->error("删除失败！");
 	}
 }
 ?>
