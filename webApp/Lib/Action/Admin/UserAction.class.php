@@ -125,6 +125,7 @@ class UserAction extends Action {
 		$this->display();
 	}
 	
+	//删除学生账号
 	public function deleteStudent(){
 		R('Admin/Authority/checkAdminLogin');//表示调用Admin分组下Authority模块的checkAdminLogin方法
 		
@@ -137,6 +138,25 @@ class UserAction extends Action {
 			$this->error("删除失败！");
 	}
 	
+	//批量删除多个学生账号
+	public function batchDeleteStudents(){
+		$sids = $_GET['sids'];
+		$sidArray = explode(',',$sids);
+		$condition = "";
+		for($i=0;$i<count($sidArray)-2;$i++){
+			$condition .= 'sid='.$sidArray[$i].' OR ';
+		}
+		$condition .= 'sid='.$sidArray[count($sidArray)-2];
+		
+		//echo $sids.'<br/>'.$condition;
+		$student = M('student');
+		if($student->where($condition)->delete())
+			$this->success("删除学生账号成功！");
+		else
+			$this->error("删除失败！");
+	}
+	
+	//显示老师列表
 	public function teacherList(){
 		R('Admin/Authority/checkAdminLogin');//表示调用Admin分组下Authority模块的checkAdminLogin方法
 		
@@ -146,6 +166,7 @@ class UserAction extends Action {
 		$this->display();
 	}
 	
+	//显示老师详细信息
 	public function teacherDetail(){
 		R('Admin/Authority/checkAdminLogin');//表示调用Admin分组下Authority模块的checkAdminLogin方法
 		

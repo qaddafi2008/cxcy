@@ -5,9 +5,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="__PUBLIC__/css/admin/common.css" type="text/css" />
     <link rel="stylesheet" href="__PUBLIC__/css/admin/main.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/jquery-ui-1.8.21.custom.css" media="all" />
     <script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="__PUBLIC__/js/jquery-ui-1.8.21.custom.min.js"></script>
     
 <script>
 var  highlightcolor='#eafcd5';
@@ -57,16 +55,6 @@ for(i=0;i<cs.length;i++){
 }
 }
 
-function jqueryalert(){
-	jAlert('这是一个提示框', '啊提示');
-}
-
-function jqueryconfirm(){
-	jConfirm('确认删除吗？', '确认框', function(r) {
-    jAlert('确认： ' + r, '结果');
-});
-}
-
 function confirmDel(){
 	if(confirm("确定要删除该学生账号吗？")){
 		return true;
@@ -80,8 +68,8 @@ function confirmDel(){
   <body>
   <div class="main_zone">		
 	<div style="height:20px;width:99%">
-		<span style="float:left">&nbsp;&nbsp;&nbsp;<input type="checkbox" name="checkbox62" value="checkbox" />全选 </span>
-        <span style="float:right"><input class="my_button" type="button" name="aaa" onClick="jqueryconfirm()" value="确认" /><input class="my_button" type="button" name="bdel_button" onClick="jqueryalert()" value="批量删除" /></span>
+		<span style="float:left">&nbsp;&nbsp;&nbsp;<input type="checkbox" id="cb_all" name="cb_all" />全选 </span>
+        <span style="float:right"><input class="my_button" type="button" id="bdel_button" name="bdel_button" value="批量删除" /></span>
     </div>
 
 	
@@ -94,7 +82,7 @@ function confirmDel(){
           </tr>
 		  <volist name ='list' id ='vo'>
           <tr>
-            <td height="26" bgcolor="#FFFFFF" align="center"><input name="checkbox" type="checkbox" class="STYLE2" value="{$vo.sid}" /></td>
+            <td height="26" bgcolor="#FFFFFF" align="center"><input name="cb_id" type="checkbox" class="STYLE2" value="{$vo.sid}" /></td>
             <td height="26" bgcolor="#FFFFFF" align="center">{$vo.stuno}</td>
             <td height="26" bgcolor="#FFFFFF" align="center">{$vo.sname}</td>
             <td height="26" bgcolor="#FFFFFF" align="center">
@@ -108,5 +96,29 @@ function confirmDel(){
     </div>
 		
   </div>
+  <script type="text/javascript">
+  $(function(){
+			 
+  	$('#bdel_button').click(function(){
+		var val = "";
+		$('input[name="cb_id"]:checked').each(function(){
+			val += $(this).val()+",";
+		});
+		if("" == val)
+			alert("请先选择要删除的项！");
+		else{
+			if(confirm("确定要删除选中的所有学生账号吗？"))
+				window.location.href='__URL__/batchDeleteStudents/sids/'+val;
+		}
+	});
+	
+	$('#cb_all').click(function(){
+		if($("#cb_all").attr("checked")==undefined)
+			$("input:checkbox").attr("checked",false);
+		else
+	 		$("input:checkbox").attr("checked",true);
+	});
+  });
+  </script>
   </body>
 </html>

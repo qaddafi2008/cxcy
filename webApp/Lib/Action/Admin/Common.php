@@ -25,6 +25,31 @@ class Common{
 			return "Invalidsize";
 		}
 	}
+	
+	//添加后缀形式的文件上传，确保不冲突，以  ### 为分隔,只删除已经存在的同名文件
+	public static function uploadFile($suffix) {
+		if(!$_FILES ["file"]) return "nofile";
+		if (($_FILES ["file"] ["size"] < 10 * 1024 * 1024)) {
+
+			if ($_FILES ["file"] ["error"] > 0) {
+				return "error";
+			} else {
+				$destfile = "./Uploads/" . $_FILES ["file"] ["name"]."###".$suffix;
+				$destfile = Common::utf82gbk($destfile);
+				if(file_exists($destfile))
+					unlink($destfile);
+				
+				if(move_uploaded_file ( $_FILES ["file"] ["tmp_name"], $destfile))//上传附件
+					return "success";
+				else
+					return "error";
+			}
+		} else {
+			//echo "Invalid file";
+			return "Invalidsize";
+		}
+	}
+	
 	//删除以suffix为后缀产文件
 	public static function removefile($suffix)
 	{
@@ -37,6 +62,14 @@ class Common{
 			}
 		}
 	}
+	
+	//删除文件名为“$filename###$suffix”的文件
+	public static function removeOneFile($filename,$suffix)
+	{
+		$destfile = "./Uploads/" . $filename."###".$suffix;
+		$destfile = Common::utf82gbk($destfile);
+		return unlink($destfile);
+	}
 	//utf-8转gbk
 	public static function utf82gbk($name)
 	{
@@ -46,6 +79,30 @@ class Common{
 	public static function gbk2utf8($name)
 	{
 		return iconv("gbk","utf8",$name);
+	}
+	
+	//下载文件名为“$filename###$suffix”的文件
+	public static function downloadFile($file_name,$suffix)
+	{
+		$real_file_name = $file_name."###".$suffix;     //下载文件名  
+		$file_dir = "./Uploads/";        //下载文件存放目录
+		$destfile =  Common::utf82gbk($file_dir . $real_file_name);
+		//检查文件是否存在  
+		if (! file_exists ( $destfile )) {  
+			$this->error('找不到文件！'.$destfile); 
+		} else {  
+			//打开文件  
+			$file = fopen ( $destfile, "r" );  
+			//输入文件标签   
+			Header ( "Content-type: application/octet-stream" );  
+			Header ( "Accept-Ranges: bytes" );  
+			Header ( "Accept-Length: " . filesize ( $destfile ) );  
+			Header ( "Content-Disposition: attachment; filename=" . $file_name );  
+			//输出文件内容   
+			//读取文件内容并直接输出到浏览器  
+			echo fread ( $file, filesize ( $destfile ) );  
+			fclose ( $file );    
+		}
 	}
 }
 ?>
