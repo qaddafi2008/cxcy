@@ -91,7 +91,7 @@ class IndexAction extends Action {
 		$this->assign ( 'newslist', $list );
 		$this->display ( "page" );
 	}
-	
+	/*
 	//腾飞创业模块
 	public function tengfei() {
 		unset ( $_GET ['_URL_'] );
@@ -156,7 +156,7 @@ class IndexAction extends Action {
 		$this->assign ( 'maincontent', $maincontent );
 		$this->display ( "page" );
 	}
-	
+	*/
 	public function user() {
 		$demo = M ( 'student' );
 		$list = $demo->select ();

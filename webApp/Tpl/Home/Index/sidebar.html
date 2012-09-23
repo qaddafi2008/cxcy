@@ -1,0 +1,18 @@
+<div id="sidebar">
+	{$modelname}
+	<div class="sidebar_nav">
+		<ul id="list">
+			<volist name='navlist' id='nav'>
+			<li class="hover"><a class="parent" href={$nav.url}>{$nav.title}</a>
+				<dl>
+					<volist name="nav['subnav']" id="subnav">
+
+					<dd class="child">
+						<a href={$subnav.url}>{$subnav.title}</a>
+					</dd>
+					</volist>
+				</dl></li>
+			</volist>
+		</ul>
+	</div>
+</div>

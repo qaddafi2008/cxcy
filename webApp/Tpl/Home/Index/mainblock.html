@@ -1,0 +1,18 @@
+<div id="main_block">
+	<div class="about">
+		<div>
+			<volist name="maincontent" id="maincontent">
+			<p class="title">{$maincontent.title}</p>
+			<p class="content">{$maincontent.content}</p>
+			</volist>
+		</div>
+		<div>
+			<div>
+				<volist name='newslist' id='news'> <a href={$news.url}>
+					<span class="content">{$news.title}</span> <span class="timearea">{$news.time}</span>
+				</a> </volist>
+			</div>
+		</div>
+
+	</div>
+</div>
