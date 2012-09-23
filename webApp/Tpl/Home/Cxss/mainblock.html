@@ -1,0 +1,21 @@
+<div id="main_block">
+	<div class="about">
+		<div>
+			<volist name="maincontent" id="maincontent">
+			<p class="title">{$maincontent.title}</p>
+			<if condition="($maincontent.content neq null)"><p class="releasetime">
+			发布日期：{$maincontent.releasetime}</p></if>
+			<p class="content">{$maincontent.content}</p>
+			<if condition="($maincontent.attachment neq null)">
+			<p class="attachment">附件地址：<a href="{$maincontent.fileurl}">{$maincontent.attachment}</a></p></if>
+			</volist>
+		</div>
+		<div>
+			<div>
+				<volist name='newslist' id='news'> <a href={$news.url}>
+					<span class="content">{$news.title}</span> <span class="timearea">{$news.time}</span>
+				</a> </volist>
+			</div>
+		</div>
+	</div>
+</div>

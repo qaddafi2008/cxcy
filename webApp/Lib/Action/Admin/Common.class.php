@@ -63,6 +63,13 @@ class Common{
 		}
 	}
 	
+	//删除文件名的###后辍
+	public static function removesuffix($filename)
+	{
+		$index = strrpos($filename,"###");
+		return substr($filename,0,$index);
+	}
+	
 	//删除文件名为“$filename###$suffix”的文件
 	public static function removeOneFile($filename,$suffix)
 	{
@@ -87,8 +94,10 @@ class Common{
 		$real_file_name = $file_name."###".$suffix;     //下载文件名  
 		$file_dir = "./Uploads/";        //下载文件存放目录
 		$destfile =  Common::utf82gbk($file_dir . $real_file_name);
+		//$destfile = $file_dir . $real_file_name;
 		//检查文件是否存在  
-		if (! file_exists ( $destfile )) {  
+		if (! file_exists ( $destfile )) {
+			echo $destfile;
 			$this->error('找不到文件！'.$destfile); 
 		} else {  
 			//打开文件  
@@ -97,7 +106,7 @@ class Common{
 			Header ( "Content-type: application/octet-stream" );  
 			Header ( "Accept-Ranges: bytes" );  
 			Header ( "Accept-Length: " . filesize ( $destfile ) );  
-			Header ( "Content-Disposition: attachment; filename=" . $file_name );  
+			Header ( "Content-Disposition: attachment; filename=" . Common::utf82gbk($file_name) );  
 			//输出文件内容   
 			//读取文件内容并直接输出到浏览器  
 			echo fread ( $file, filesize ( $destfile ) );  

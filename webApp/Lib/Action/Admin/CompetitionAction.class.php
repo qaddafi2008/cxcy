@@ -1,5 +1,5 @@
 <?php
-require("Common.php");
+import('webApp.Action.Admin.Common');
 class CompetitionAction extends Action {
 
 	public function detail() {
