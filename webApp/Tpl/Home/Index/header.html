@@ -1,62 +1,56 @@
-<style type="text/css">
-<!--
-.container #container #dialog form label {
-	text-align: center;
-}
--->
-</style>   <div id="header">
-		<div id="header_inside">
-			<img src="__PUBLIC__/css/images/index/header2.png" alt="setalpm"
-				width="999" height="222" border="0" usemap="#Map" /><br />
-			<div class="main_nav">
-				<ul id="menu">
-					<li><a href="__GROUP__/index" class="but_active">Home</a></li>
-					<li><a href="#" class="but">起步创业</a>
-						<dl>
-							<dd>
-								<a href="#">创意库</a>
-							</dd>
-							<dd>
-								<a href="#">创新创业成长<br />计划系列讲座
-								</a>
-							</dd>
-							<dd>
-								<a href="#">创新创业成长<br />计划选修课程
-								</a>
-							</dd>
-						</dl></li>
+<div id="header">
+	<div id="header_inside">
+		<img src="__PUBLIC__/css/images/index/header2.png" alt="setalpm"
+			width="999" height="222" border="0" usemap="#Map" /><br />
+		<div class="main_nav">
+			<ul id="menu">
+				<li><a href="__GROUP__/index" class="but_active">Home</a></li>
+				<li><a href="#" class="but">起步创业</a>
+					<dl>
+						<dd>
+							<a href="#">创意库</a>
+						</dd>
+						<dd>
+							<a href="#">创新创业成长<br />计划系列讲座
+							</a>
+						</dd>
+						<dd>
+							<a href="#">创新创业成长<br />计划选修课程
+							</a>
+						</dd>
+					</dl></li>
 
-					<li><a href="#" class="but">助跑创业</a>
-						<dl>
-							<dd>
-								<a href="__GROUP__/cxss">学生创新创业<br />系列赛事
-								</a>
-							</dd>
-							<dd>
-								<a href="__GROUP__/cyds">创业导师计划</a>
-							</dd>
-						</dl></li>
-					<li><a href="#" class="but">加油创业</a>
-						<dl>
-							<dd>
-								<a href="__GROUP__/gjjl">国际创业<br />交流活动
-								</a>
-							</dd>
-							<dd>
-								<a href="__GROUP__/hhjj">河合创业基金</a>
-							</dd>
-						</dl>
-					</li>
-					<li><a href="#" class="but">腾飞创业</a>
-						<dl>
-							<dd>
-								<a href="__GROUP__/tengfei">创新创业成长计划孵化器</a>
-							</dd>
-						</dl></li>
-				</ul>
-			</div>
-			<div id="welcomeinfo">
-				欢迎您！<?php 
+				<li><a href="#" class="but">助跑创业</a>
+					<dl>
+						<dd>
+							<a href="__GROUP__/cxss">学生创新创业<br />系列赛事
+							</a>
+						</dd>
+						<dd>
+							<a href="__GROUP__/cyds">创业导师计划</a>
+						</dd>
+					</dl></li>
+				<li><a href="#" class="but">加油创业</a>
+					<dl>
+						<dd>
+							<a href="__GROUP__/gjjl">国际创业<br />交流活动
+							</a>
+						</dd>
+						<dd>
+							<a href="__GROUP__/hhjj">河合创业基金</a>
+						</dd>
+					</dl></li>
+				<li><a href="#" class="but">腾飞创业</a>
+					<dl>
+						<dd>
+							<a href="__GROUP__/tengfei">创新创业成长计划孵化器</a>
+						</dd>
+					</dl></li>
+			</ul>
+		</div>
+		<div id="welcomeinfo">
+			欢迎您！
+			<?php 
                  $role = session(C('USER_ROLE'));
                  if(null != $role)
                  {
@@ -66,52 +60,51 @@
                  { 
                  	echo '<a href="#" class="signin"><span>登陆</span></a>';
                  } ?>
-				<fieldset id="signin_menu">
-					<form method="post" id="signin" action="__URL__/login">
-						<p>
-						<label for="username">用户名：</label> <input
-							id="username" name="username" value="" title="username"
-							tabindex="4" type="text">
-						</p>
-						<p>
-							<label for="password">密码：</label> <input id="password"
-								name="password" value="" title="password" tabindex="5"
-								type="password">
-						</p>
-						<p>
-							<label for="usertype">用户类型：</label>
-							<input id="student" name="usertype" value="student" title="student" tabindex="6" type= "radio" checked="checked"/>学生　
-							<input id="teacher" name="usertype" value="teacher" title="teacher" tabindex="7" type= "radio"/>教师
-						</p>
-						<p class="remember">
-							<input id="signin_submit" value="登录" tabindex="6"
-								type="submit"> <input id="remember" name="remember_me"
-								value="1" tabindex="7" type="checkbox"> <label
-								for="remember">记住信息</label>
-						</p>
-						<p class="forgot">
-							<a href="#" id="resend_password_link">忘记密码？</a>
-						</p>
-						<p class="forgot-username">
-							<a id=forgot_username_link
-								title="试试用户名为学号的情况"
-								href="#">忘记用户名？</A>
-						</p>
-					</form>
-				</fieldset>
+			<fieldset id="signin_menu">
+				<form method="post" id="signin" action="__URL__/login">
+					<p>
+						<label for="username">用户名：</label> <input id="username"
+							name="username" value="" title="username" tabindex="4"
+							type="text">
+					</p>
+					<p>
+						<label for="password">密码：</label> <input id="password"
+							name="password" value="" title="password" tabindex="5"
+							type="password">
+					</p>
+					<p>
+						<label for="usertype">用户类型：</label> <input id="student"
+							name="usertype" value="student" title="student" tabindex="6"
+							type="radio" checked="checked" />学生 <input id="teacher"
+							name="usertype" value="teacher" title="teacher" tabindex="7"
+							type="radio" />教师
+					</p>
+					<p class="remember">
+						<input id="signin_submit" value="登录" tabindex="6" type="submit">
+						<input id="remember" name="remember_me" value="1" tabindex="7"
+							type="checkbox"> <label for="remember">记住信息</label>
+					</p>
+					<p class="forgot">
+						<a href="#" id="resend_password_link">忘记密码？</a>
+					</p>
+					<p class="forgot-username">
+						<a id=forgot_username_link title="试试用户名为学号的情况" href="#">忘记用户名？</A>
+					</p>
+				</form>
+			</fieldset>
 
-			</div>
 		</div>
-		
-
 	</div>
-	<map name="Map">
-       <area shape="rect" coords="78,45,312,119" href="index">
-       <area shape="poly" coords="670,87,719,78,727,123,677,130" href="#">
-       <area shape="poly" coords="776,124,818,152,793,189,751,160" href="#">
-       <area shape="poly" coords="834,52,885,61,878,105,828,96" href="#">
-	</map>
-	
+
+
+</div>
+<map name="Map">
+	<area shape="rect" coords="78,45,312,119" href="index">
+	<area shape="poly" coords="670,87,719,78,727,123,677,130" href="#">
+	<area shape="poly" coords="776,124,818,152,793,189,751,160" href="#">
+	<area shape="poly" coords="834,52,885,61,878,105,828,96" href="#">
+</map>
+
 
 
 

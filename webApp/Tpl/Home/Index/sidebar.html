@@ -4,14 +4,14 @@
 		<ul id="list">
 			<volist name='navlist' id='nav'>
 			<li class="hover"><a class="parent" href={$nav.url}>{$nav.title}</a>
-				<dl>
+			<if condition="($nav.subnav neq null)">	<dl>
 					<volist name="nav['subnav']" id="subnav">
-
 					<dd class="child">
 						<a href={$subnav.url}>{$subnav.title}</a>
 					</dd>
 					</volist>
-				</dl></li>
+				</dl></if>
+			</li>
 			</volist>
 		</ul>
 	</div>
