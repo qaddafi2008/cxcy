@@ -55,13 +55,13 @@
                  if(null != $role)
                  {
                  	echo session(C('USER_NAME'));
-                    echo '， <a href="__URL__/logout" target="_top"><span>退出</span></a>';
+                    echo '， <a href="__GROUP__/Index/logout" target="_top"><span>退出</span></a>';
                  }else
                  { 
                  	echo '<a href="#" class="signin"><span>登陆</span></a>';
                  } ?>
 			<fieldset id="signin_menu">
-				<form method="post" id="signin" action="__URL__/login">
+				<form method="post" id="signin" action="__GROUP__/Index/login">
 					<p>
 						<label for="username">用户名：</label> <input id="username"
 							name="username" value="" title="username" tabindex="4"
