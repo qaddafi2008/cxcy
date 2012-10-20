@@ -1,5 +1,5 @@
 <?php
-require("Common.php");
+import('webApp.Action.Admin.Common');
 class OriginalityAction extends Action{
 	//进入创意申请表页面
 	public function odeclareTable(){
@@ -50,6 +50,28 @@ class OriginalityAction extends Action{
 	public function downloadODeclaredTable(){
 		$file_name = $_GET['tname'];
 		Common::downloadFile($file_name,'OriginalityAdmin');
+	}
+	
+	public function reviewrule(){
+		$reviewRule = M('reviewrule');
+		$result = $reviewRule->find(1);
+		if($result){
+			$this->assign('r',$result);
+			$this->display();
+		}else{
+			$this->error('没有初始数据！');
+		}	
+	}
+	
+	public function doUpdateReviewRule(){
+		$data['subject'] = $_POST['subject'];
+		$data['content'] = $_POST['content'];
+		
+		$reviewRule = M('reviewrule');
+		if($reviewRule->where("rrid=".$_POST['rrid'])->save($data))
+			$this->success('修改成功！');
+		else
+			$this->error('修改失败！');
 	}
 }
 ?>
