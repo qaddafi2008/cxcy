@@ -33,11 +33,12 @@ class CxssAction extends Action {
 	{
 		//左侧导航栏
 		$modelname = "创新创业系列赛事："; //本模块名称
-		$navlist [0] = array ("url" => '__URL__/jinzhan', "title" => '当前进展' );
-		$navlist [1] = array ("url" => '__URL__/jieshao', "title" => '赛事介绍' );
-		$navlist [2] = array ("url" => '__URL__/baoming', "title" => '报名参加' );
-		$navlist [3] = array ("url" => '__URL__/zuoping', "title" => '提交作品' );
-		$navlist [4] = array ("url" => '__URL__/xinwen', "title"=>'赛事新闻');
+		$navindex = 0;
+		$navlist [$navindex++] = array ("url" => '__URL__/xinwen', "title"=>'赛事新闻');
+		$navlist [$navindex++] = array ("url" => '__URL__/jinzhan', "title" => '当前进展' );
+		$navlist [$navindex++] = array ("url" => '__URL__/jieshao', "title" => '赛事介绍' );
+		$navlist [$navindex++] = array ("url" => '__URL__/baoming', "title" => '报名参加' );
+		$navlist [$navindex++] = array ("url" => '__URL__/zuoping', "title" => '提交作品' );
 		//从数据库转存信息
 		$maincontent = null;
 
@@ -83,7 +84,6 @@ class CxssAction extends Action {
 	}
 	public function download()
 	{
-
 		$file_name = $_GET['_URL_'][3];
 		$suffix = $_GET['_URL_'][2];
 		Common::downloadFile($file_name, $suffix);

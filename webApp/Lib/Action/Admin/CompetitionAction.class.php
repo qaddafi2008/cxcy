@@ -36,7 +36,6 @@ class CompetitionAction extends Action {
 			}
 			$this->display ("detailproc");
 		}
-
 	}
 	//主赛事设置的提交，不区分创新创业赛事或者河合；由post过来的comid设置
 	public function submit() {
@@ -53,15 +52,20 @@ class CompetitionAction extends Action {
 		$competitions = M ( 'competitions' );
 		$result = $competitions->save ( $competition );
 		/*
-		if ($result) {
-			// 成功后返回客户端新增的用户ID，并返回提示信息和操作状态
-			$this->ajaxReturn ( $result, "(更新成功！)", 1 );
+		 if ($result) {
+		// 成功后返回客户端新增的用户ID，并返回提示信息和操作状态
+		$this->ajaxReturn ( $result, "(更新成功！)", 1 );
 		} else {
-			// 错误后返回错误的操作状态和提示信息
-			$this->ajaxReturn ( 0, "(未更新！)", 0 );
+		// 错误后返回错误的操作状态和提示信息
+		$this->ajaxReturn ( 0, "(未更新！)", 0 );
 		}
 		*/
+		$operation = $_POST['operation'];
+		if($operation==null)
 		$url = "detail/".$module;//更新后的跳转地址
+		else 
+			$url = "__GROUP__/Competition/newslist/".$module;
+		echo $url;
 		if ($result) {
 			$this->success('更新成功', $url);
 		}else{
@@ -102,4 +106,66 @@ class CompetitionAction extends Action {
 			$this->error($msg);
 		}
 	}
+
+
+	public function newslist()
+	{
+		$module = $_GET ['_URL_'] [3];
+		$newslist = null;
+		if($module=="cxss")
+		{
+			$condition['comtype'] = 1;
+
+		}else if($module=="hhss"){
+			$condition['comtype'] = 2;
+		}
+		if($condition){
+			$competitions = M ( 'competitions' );
+			$temp = $competitions->where ( $condition )->select ();
+			//var_dump($temp);
+			$num = 0;
+			foreach($temp as $news=>$value){
+				$newslist[$num++] = array(
+						'id'=>$value['comid'],
+						'title'=>$value['subject'],
+						'releasetime'=>$value['createtime']
+				);
+			}
+			var_dump($newslist);
+			$this->assign("module",$condition['comtype']);
+			$this->assign ( "newslist", $newslist);
+		}
+		$this->display ();
+	}
+
+	public function news()
+	{
+		$operation = $_GET ['_URL_'] [3];
+		if($operation=="add")
+		{
+			$condition['comtype'] = $_GET['_URL_'][4];
+			echo $condition['comtype'];
+			$this->assign('competition',$condition);
+		}
+		else if($operation!=null){
+			$condition['comid'] = $_GET['_URL_'][4];
+			if($condition!=null){
+				$competitions = M ( 'competitions' );
+				if($operation=="viewdetail"){
+					$temp = $competitions->where ( $condition )->find ();
+					$temp['attachmentpath'] = substr($temp['attachmentpath'],0,stripos($temp['attachmentpath'], "###"));
+					$this->assign ( "competition", $temp);
+				}else if($operation=="modify"){
+					$temp = $competitions->where ( $condition )->find ();
+					$temp['attachmentpath'] = substr($temp['attachmentpath'],0,stripos($temp['attachmentpath'], "###"));
+					$this->assign ( "competition", $temp);
+				}else if($operation=="delete"){
+						
+				}
+			}
+		}
+		$this->assign('operation',$operation);
+		$this->display();
+	}
+
 }

@@ -36,6 +36,7 @@
 	<form id="form" ENCTYPE="multipart/form-data" action="__URL__/submit"
 		method="post">
 		<input type="hidden" id="comtype" name="comtype" value={$competition[ "comtype"]} />
+		<input type="hidden" id="operation" name="operation" value={$operation}>
 		<table class="form_table">
 			<tr>
 				<td class="first_td">标题： <input type="hidden" id="comid"
@@ -54,7 +55,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td class="first_td">内容：</td>
+				<td class="first_td">赛事描述：</td>
 				<td class="second_td"><textarea class="ckeditor" cols="100%"
 						id="description" name="description" rows="9">{$competition["description"]}</textarea>
 				</td>
@@ -69,8 +70,8 @@
 			</tr>
 		</table>
 		<center>
-			<input class="my_button" type="submit" value="确 认 ">&nbsp;&nbsp;&nbsp;&nbsp;
-			<input class="my_button" type="reset" value="重 置 ">
+			<input class="my_button" type="submit" value="修改 ">&nbsp;&nbsp;&nbsp;&nbsp;
+			<input class="my_button" type="reset" value="重置">
 		</center>
 	</form>
 </body>
