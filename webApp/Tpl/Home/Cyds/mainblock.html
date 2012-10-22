@@ -1,0 +1,71 @@
+<div id="main_block">
+	<div class="about">
+		<div>
+			<volist name="maincontent" id="maincontent">
+			<p class="title">{$maincontent.title}</p>
+			<if condition="($maincontent.content neq null)">
+			<p class="releasetime">发布日期：{$maincontent.releasetime}</p>
+			</if>
+			<p class="content">{$maincontent.content}</p>
+			<if condition="($maincontent.attachment neq null)">
+			<p class="attachment">
+				附件地址：<a href="{$maincontent.fileurl}">{$maincontent.attachment}</a>
+			</p>
+			</if> </volist>
+		</div>
+		<div>
+			<div>
+				<volist name='newslist' id='news'> <a href={$news.url}>
+					<span class="content">{$news.title}</span> <span class="timearea">{$news.time}</span>
+				</a> </volist>
+			</div>
+		</div>
+		<form>
+			<div>
+				<table>
+					<thead>
+						<tr>
+							<td></td>
+							<td>导师</td>
+							<td>职称:<select id="titleselecter">
+									<option value="alltitle">不限</option>
+									<volist name="titlelist" id="title">
+									<option value="{$title.teachertitle}">{$title.teachertitle}</option>
+									</volist>
+							</select>
+							</td>
+							<td>研究方向:<select id="majorselecter">
+									<option value="allmajor">不限</option>
+									<volist name="majorlist" id="major">
+									<option value="{$major.major}">{$major.major}</option>
+									</volist>
+							</select>
+							</td>
+							<td>专业领域:<select id="areaselecter">
+									<option value="allarea">不限</option>
+									<volist name="arealist" id="area">
+									<option value="{$area.area}">{$area.area}</option>
+									</volist>
+							</select>
+							</td>
+						</tr>
+					</thead>
+					<tbody>
+						<volist name="teacherlist" id="teacherlist">
+						<tr>
+							<td><input type="checkbox" value="{$teacherlist.stuffid}"
+								name="checkteachers"></td>
+							<td><a href="#">{$teacherlist.teachername}</a></td>
+							<td>{$teacherlist.teachertitle}</td>
+							<td>{$teacherlist.major}</td>
+							<td>{$teacherlist.area}</td>
+						</tr>
+						</volist>
+					</tbody>
+				</table>
+				<input type="button" value="提交" id="submit">
+				<input type="reset" value="重置">
+			</div>
+		</form>
+	</div>
+</div>

@@ -3,7 +3,6 @@ var href = window.location.href;
 $(document).ready(function() {
     
     var ishomepage = true;
-
     $.each($("#menu>li>a"), function(j, item) {
             $(this).attr("class", "but");
         });

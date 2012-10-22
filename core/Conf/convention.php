@@ -128,4 +128,8 @@ return  array(
     'VAR_URL_PARAMS'      => '_URL_', // PATHINFO URL参数变量
     'VAR_TEMPLATE'          => 't',		// 默认模板切换变量
 
+	//大哥自定义的
+	'TMPL_CACHE_ON'   => false,  // 默认开启模板编译缓存 false 的话每次都重新编译模板
+	'ACTION_CACHE_ON'  => false,  // 默认关闭Action 缓存
+	'HTML_CACHE_ON'   => false,   // 默认关闭静态缓存
 );
