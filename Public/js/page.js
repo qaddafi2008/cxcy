@@ -1,24 +1,23 @@
 var href = window.location.href;
 //当前url
 $(document).ready(function() {
-    
+
     var ishomepage = true;
     $.each($("#menu>li>a"), function(j, item) {
-            $(this).attr("class", "but");
-        });
-    
+        $(this).attr("class", "but");
+    });
+
     $.each($("#menu>li>dl>dd>a"), function(i, item) {
         if (href.indexOf($(this).attr("href")) != -1) {
             ishomepage = false;
             $(this).parent("dd").parent("dl").parent("li").children("a:first").attr("class", "but_active");
         }
     });
-    
-    if(ishomepage)
-    {
-        $("#menu>li>a:first").attr("class","but_active");
+
+    if (ishomepage) {
+        $("#menu>li>a:first").attr("class", "but_active");
     }
-    
+
     //sidebar一级菜单跟随点击的颜色变化
     $.each($("#list>li>a"), function(i, item) {
         $(this).removeClass("color_active");
@@ -100,6 +99,12 @@ $(document).ready(function() {
         });
     }
 
+    //创业导师部分
+    var titlefilter = "all";
+    var majorfilter = "all";
+    var areafilter = "all";
+    initForCYDS();
+
 });
 $(function() {
     $('#forgot_username_link').tipsy({
@@ -127,6 +132,56 @@ function forwardto(dest) {
             });
         }
     });
+}
+
+function initForCYDS() {
+    //$('table#teacherselectertable').columnFilters({excludeColumns:[0]});
+    $("#titleselecter").change(function() {
+        checkTeacherFilter();
+    });
+    
+    $("#majorselecter").change(function() {
+        checkTeacherFilter();
+    });
+    
+    
+    $("#areaselecter").change(function() {
+        checkTeacherFilter();
+    });
+}
+
+function checkTeacherFilter()
+{
+    titlefilter = $("#titleselecter").children('option:selected').val();
+    majorfilter = $("#majorselecter").children('option:selected').val();
+    areafilter = $("#areaselecter").children('option:selected').val();
+    if(titlefilter=="all"&&areafilter=="all"&&majorfilter=="all"){
+        $("#teacherselectertable tr").show();
+    }
+    else{
+        $("#teacherselectertable tr").show();
+        if(titlefilter!="all"){
+            $.each($(".titlerow:visible"),function(){
+                if($(this).text() != titlefilter){
+                    $(this).parent("tr").hide();
+                }
+            });
+        }
+        if(majorfilter!="all"){
+            $.each($(".majorrow:visible"),function(){
+                if($(this).text() != majorfilter){
+                    $(this).parent("tr").hide();
+                }
+            });
+        }
+        if(areafilter!="all"){
+            $.each($(".arearow:visible"),function(){
+                if($(this).text() != areafilter){
+                    $(this).parent("tr").hide();
+                }
+            });
+        }
+    }
 }
 
 function writeObj(obj) {
