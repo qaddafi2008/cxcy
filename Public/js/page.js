@@ -103,6 +103,7 @@ $(document).ready(function() {
     var titlefilter = "all";
     var majorfilter = "all";
     var areafilter = "all";
+    var teacherselected;
     initForCYDS();
 
 });
@@ -136,47 +137,188 @@ function forwardto(dest) {
 
 function initForCYDS() {
     //$('table#teacherselectertable').columnFilters({excludeColumns:[0]});
+    //tips初始化
+    $("#tips").hide();
+    //选择职称
     $("#titleselecter").change(function() {
         checkTeacherFilter();
     });
-    
+
+    //选择研究方向
     $("#majorselecter").change(function() {
         checkTeacherFilter();
     });
-    
-    
+
+    //选择研究领域
     $("#areaselecter").change(function() {
         checkTeacherFilter();
     });
+
+    //导师选择框动作
+    teacherselected = 0;
+    $("#teacherselectertable input:checkbox").each(function() {
+        $(this).click(function() {
+            if ($(this).attr("checked") == "checked") {
+                teacherselected++;
+                $(this).parent("td").parent("tr").children(".intentionrow").children("[type='text']").removeAttr("disabled");
+                if (teacherselected >= 4) {
+                    $.each($("#teacherselectertable input:checkbox"), function() {
+                        if ($(this).attr("checked") == "checked") {
+                        } else {
+                            $(this).attr("disabled", "disabled");
+                        }
+                    });
+                }
+            } else {
+                $(this).parent("td").parent("tr").children(".intentionrow").children("[type='text']").attr("disabled", "disabled");
+                teacherselected = (teacherselected == 0 ? 0 : teacherselected - 1);
+                if (teacherselected == 3) {
+                    $.each($("#teacherselectertable input:checkbox"), function() {
+                        if ($(this).attr("checked") == "checked") {
+                        } else {
+                            $(this).removeAttr("disabled");
+                        }
+                    });
+                }
+            }
+        });
+    })
+    //reset动作
+    $("#tsreset").click(function() {
+        teacherselected = 0;
+        $.each($("#teacherselectertable input:checkbox"), function() {
+            $(this).removeAttr("disabled", "disabled");
+        });
+        $.each($("#teacherselectertable input:text"), function() {
+            $(this).attr("disabled", "disabled");
+        });
+    });
+
+    //submit动作
+    $("#tssubmit").click(function() {
+        var score = 0;
+        var temp = 0;
+        var ok = true;
+        $.each($("#teacherselectertable input:text:enabled"), function() {
+            temp = parseInt($(this).attr("value"), 10);
+            if (temp <= 0) {
+                ok = false;
+            } else {
+                score += temp;
+            }
+        });
+        //alert(score);
+        if (ok && score == 100) {
+            $("#tsform").submit();
+        } else {
+            $("#tips").html("请将100分值分给你的选项！");
+            $("#tips").show(100);
+        }
+    });
+
+    //导师对话框的设计
+    setTeacherInfoBox();
+    setTeacherNameClick();
 }
 
-function checkTeacherFilter()
-{
+//设置点击导师弹出导师信息
+function setTeacherNameClick() {
+    $.each($(".namerow a"), function() {
+        $(this).click(function() {
+            var tid = $(this).parent("td").parent("tr").children("td").children(":checkbox").val();
+            var tname = $(this).parent("td").parent("tr").children(".namerow").text();
+            var ttitle = $(this).parent("td").parent("tr").children(".titlerow").text();
+            var tmajor = $(this).parent("td").parent("tr").children(".majorrow").text();
+            var tarea = $(this).parent("td").parent("tr").children(".arearow").text();
+
+            $("#teacherinfotabel .namefield").html(tname);
+            $("#teacherinfotabel .titlefield").html(ttitle);
+            $("#teacherinfotabel .majorfield").html(tmajor);
+            $("#teacherinfotabel .areafield").html(tarea);
+
+            getTeacherInfo(tid);
+        });
+    });
+}
+
+//根据导师id获取导师信息
+function getTeacherInfo(id) {
+    $.ajax({
+        method : "get",
+        url : $("#baseurl").val() + "/getDescriptionById/" + id,
+        cache : false,
+        success : function(msg) {
+            //对返回的数据进行处理
+            if (msg == null || msg == "") {
+                msg = "暂无";
+            }
+            setTeacherInfoBox();
+            showTeacherInfo(msg);
+        }
+    });
+
+}
+
+//显示导师信息
+function showTeacherInfo(msg) {
+    $("#teacherinfotabel .descriptionfield").html(msg);
+    $("#teacherinfobox").dialog("open");
+}
+
+//导师信息对话框的设置
+function setTeacherInfoBox() {
+    //设置消息框
+    $("#teacherinfobox").dialog({
+        modal : true,
+        autoOpen : false,
+        height : 480,
+        width : 640,
+        minHeight : 240,
+        minWidth : 320,
+        maxHeight : 800,
+        maxWidth : 1024,
+        show : {
+            effect : 'fade',
+            speed : 250
+        },
+        hide : {
+            effect : 'fade',
+            duration : 250
+        },
+        buttons : {
+            "确定" : function() {
+                $(this).dialog('close');
+            }
+        }
+    });
+}
+
+//创业导师计划用于筛选的下拉列表的检查
+function checkTeacherFilter() {
     titlefilter = $("#titleselecter").children('option:selected').val();
     majorfilter = $("#majorselecter").children('option:selected').val();
     areafilter = $("#areaselecter").children('option:selected').val();
-    if(titlefilter=="all"&&areafilter=="all"&&majorfilter=="all"){
+    if (titlefilter == "all" && areafilter == "all" && majorfilter == "all") {
         $("#teacherselectertable tr").show();
-    }
-    else{
+    } else {
         $("#teacherselectertable tr").show();
-        if(titlefilter!="all"){
-            $.each($(".titlerow:visible"),function(){
-                if($(this).text() != titlefilter){
+        if (titlefilter != "all") {
+            $.each($(".titlerow:visible"), function() {
+                if ($(this).text() != titlefilter) {
                     $(this).parent("tr").hide();
                 }
             });
         }
-        if(majorfilter!="all"){
-            $.each($(".majorrow:visible"),function(){
-                if($(this).text() != majorfilter){
+        if (majorfilter != "all") {
+            $.each($(".majorrow:visible"), function() {
+                if ($(this).text() != majorfilter) {
                     $(this).parent("tr").hide();
                 }
             });
         }
-        if(areafilter!="all"){
-            $.each($(".arearow:visible"),function(){
-                if($(this).text() != areafilter){
+        if (areafilter != "all") {
+            $.each($(".arearow:visible"), function() {
+                if ($(this).text() != areafilter) {
                     $(this).parent("tr").hide();
                 }
             });
