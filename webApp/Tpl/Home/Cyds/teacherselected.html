@@ -1,0 +1,48 @@
+<div>
+		<span id="tips"></span>
+	</div>
+	<table id="teacherselectertable">
+		<thead>
+			<tr>
+				<th></th>
+				<th>导师
+				</th>
+				<th>职称<br /> <select id="titleselecter">
+						<option value="all">不限</option>
+						<volist name="titlelist" id="title">
+						<option value="{$title.teachertitle}">{$title.teachertitle}</option>
+						</volist>
+				</select>
+				</th>
+				<th>研究方向<br /> <select id="majorselecter">
+						<option value="all">不限</option>
+						<volist name="majorlist" id="major">
+						<option value="{$major.major}">{$major.major}</option>
+						</volist>
+				</select>
+				</th>
+				<th>专业领域<br /> <select id="areaselecter">
+						<option value="all">不限</option>
+						<volist name="arealist" id="area">
+						<option value="{$area.area}">{$area.area}</option>
+						</volist>
+				</select>
+				</th>
+				<th>意向值
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<volist name="teacherlist" id="teacherlist">
+			<tr>
+				<td><input name="teacherid[]" type="checkbox"
+					value="{$teacherlist.stuffid}" disabled = "disabled"></td>
+				<td class="namerow"><a>{$teacherlist.teachername}</a></td>
+				<td class="titlerow">{$teacherlist.teachertitle}</td>
+				<td class="majorrow">{$teacherlist.major}</td>
+				<td class="arearow">{$teacherlist.area}</td>
+				<td class="intentionrow">{$teacherlist.intention}</td>
+			</tr>
+			</volist>
+		</tbody>
+	</table>

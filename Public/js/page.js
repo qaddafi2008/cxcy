@@ -249,6 +249,23 @@ function getTeacherInfo(id) {
         cache : false,
         success : function(msg) {
             //对返回的数据进行处理
+            setTeacherInfoBox();
+            var msgtemp = eval('(' + msg + ')');
+            msgtemp = eval(msgtemp.data);
+            $("#teacherinfotabel .descriptionfield").html(msgtemp.teacherdescription==null?"暂无":msgtemp.teacherdescription);
+            $("#teacherinfobox").dialog("open");
+        }
+    });
+}
+
+//根据导师id获取导师信息
+function getTeacherFullInfo(id) {
+    $.ajax({
+        method : "get",
+        url : $("#baseurl").val() + "/getDescriptionById/" + id,
+        cache : false,
+        success : function(msg) {
+            //对返回的数据进行处理
             if (msg == null || msg == "") {
                 msg = "暂无";
             }
@@ -260,8 +277,15 @@ function getTeacherInfo(id) {
 }
 
 //显示导师信息
-function showTeacherInfo(msg) {
-    $("#teacherinfotabel .descriptionfield").html(msg);
+function showTeacherInfo(message) {
+    var msg = eval('(' + message + ')');
+    msg = eval(msg.data);
+
+    $("#teacherinfotabel .namefield").html(msg.teachername);
+    $("#teacherinfotabel .titlefield").html(msg.teachertitle);
+    $("#teacherinfotabel .majorfield").html(msg.major);
+    $("#teacherinfotabel .areafield").html(msg.area);
+    $("#teacherinfotabel .descriptionfield").html(msg.teacherdescription);
     $("#teacherinfobox").dialog("open");
 }
 

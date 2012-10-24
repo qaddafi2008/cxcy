@@ -1,0 +1,54 @@
+
+<form id="tsform" method="post" action="__URL__/submit">
+	<div>
+		<span id="tips"></span>
+	</div>
+	<table id="teacherselectertable">
+		<thead>
+			<tr>
+				<th></th>
+				<th>导师<br />最多4选
+				</th>
+				<th>职称<br /> <select id="titleselecter">
+						<option value="all">不限</option>
+						<volist name="titlelist" id="title">
+						<option value="{$title.teachertitle}">{$title.teachertitle}</option>
+						</volist>
+				</select>
+				</th>
+				<th>研究方向<br /> <select id="majorselecter">
+						<option value="all">不限</option>
+						<volist name="majorlist" id="major">
+						<option value="{$major.major}">{$major.major}</option>
+						</volist>
+				</select>
+				</th>
+				<th>专业领域<br /> <select id="areaselecter">
+						<option value="all">不限</option>
+						<volist name="arealist" id="area">
+						<option value="{$area.area}">{$area.area}</option>
+						</volist>
+				</select>
+				</th>
+				<th>意向值<br />(100分可分配)
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<volist name="teacherlist" id="teacherlist">
+			<tr>
+				<td><input name="teacherid[]" type="checkbox"
+					value="{$teacherlist.stuffid}"></td>
+				<td class="namerow"><a>{$teacherlist.teachername}</a></td>
+				<td class="titlerow">{$teacherlist.teachertitle}</td>
+				<td class="majorrow">{$teacherlist.major}</td>
+				<td class="arearow">{$teacherlist.area}</td>
+				<td class="intentionrow"><input name="intentionscore[]"
+					type="text" disabled="disabled" value="0" /></td>
+			</tr>
+			</volist>
+		</tbody>
+	</table>
+	<input type="button" value="提交" id="tssubmit"> <input
+		type="reset" id="tsreset" value="重置">
+</form>
