@@ -1,5 +1,5 @@
 
-<form id="tsform" method="post" action="__URL__/submit">
+<form id="tsform" method="post" ENCTYPE="multipart/form-data" action="__URL__/submit">
 	<div>
 		<span id="tips"></span>
 	</div>
@@ -49,6 +49,7 @@
 			</volist>
 		</tbody>
 	</table>
+	项目描述文档：<input type="file" name="file"/>
 	<input type="button" value="提交" id="tssubmit"> <input
 		type="reset" id="tsreset" value="重置">
 </form>

@@ -1,5 +1,5 @@
 <?php
-
+import("@.Action.Admin.Common");
 class CydsAction extends Action {
 	public function index() {
 		AuthorityAction::checkLogin();
@@ -23,8 +23,8 @@ class CydsAction extends Action {
 		$navlist [0] = array ("url" => '__URL__/selectstudent',"title" => "审批学生");
 		$navlist [1] = array ("url" => '__URL__/mystudents',"title" => "我的学生");
 		$navlist [2] = array ("url" => '__URL__/myprofile',"title" => "我的资料");
-		
-		
+
+
 		$this->assign('maincontent',$maincontent);//标题
 		$this->assign ( 'modelname', $modelname );
 		$this->assign ( 'navlist', $navlist );
@@ -37,21 +37,21 @@ class CydsAction extends Action {
 	public function selectstudent(){
 		$this->cydsForTeacher();
 	}
-	
+
 	/**
 	 * 教师：查看自己的学生
 	 */
 	public function mystudents(){
 		$this->cydsForTeacher();
 	}
-	
+
 	/**
 	 * 教师：查看更新自己的资料
 	 */
 	public function myprofile(){
 		$this->cydsForTeacher();
 	}
-	
+
 	/**
 	 * 处理学生登陆后所有关于创业导师模块的动作
 	 */
@@ -72,13 +72,13 @@ class CydsAction extends Action {
 		$titlelist = "";
 		$majorlist = "";
 		$arealist = "";
-		
+
 		if($tsresult){//数据库已有提交的结果
 			$navlist [0] = array ("url" => '__URL__/mytutor',"title" => '我的导师');
 			$titlelist = $stuff->query("select distinct teachertitle from __TABLE__ where role='1' and teachername <>'' and teachername <>'null'");
 			$majorlist = $stuff->query("select distinct major from __TABLE__ where role='1' and teachername <>'' and teachername <>'null'");
 			$arealist = $stuff->query("select distinct area from __TABLE__ where role='1' and teachername <>'' and teachername <>'null'");
-				
+
 			$firsttsresult = $tsresult[0];
 			if($firsttsresult['selectionstatus'] == '1')
 			{
@@ -121,13 +121,16 @@ class CydsAction extends Action {
 			$majorlist = $stuff->query("select distinct major from __TABLE__ where role='1' and teachername <>'' and teachername <>'null'");
 			$arealist = $stuff->query("select distinct area from __TABLE__ where role='1' and teachername <>'' and teachername <>'null'");
 		}
-		
+
 		$this->assign('maincontent',$maincontent);//我的导师标题
 		$this->assign('selectmode',$selectmode);//1代表正在选择导师，其它值未定义
 		$this->assign('cydsmode',1);//创业导师模式，1表示学生模式
 		$this->assign('teacherlist',$teacherlist);//要显示的老师列表
+		sort($titlelist);
 		$this->assign('titlelist',$titlelist);//可选择的职称列表
+		sort($majorlist);
 		$this->assign('majorlist',$majorlist);//可选择的研究方向列表
+		sort($arealist);
 		$this->assign('arealist',$arealist);//可选择的研究领域列表
 		$this->assign ( 'modelname', $modelname );
 		$this->assign ( 'navlist', $navlist );
@@ -140,14 +143,14 @@ class CydsAction extends Action {
 	public function mytutor(){
 		$this->cydsForStudent();
 	}
-	
+
 	/**
 	 * 选择导师页面
 	 */
 	public function selecttutor(){
 		$this->cydsForStudent();
 	}
-	
+
 	/**
 	 * 学生提交所选择的老师ID号及意向值
 	 */
@@ -200,15 +203,24 @@ class CydsAction extends Action {
 		}else if($ok){
 			$studentid = $_SESSION['uid'];
 			$tsmodel = M('teacherselection');
-			for($i=0;$i<count($teacherids);$i++)
-			{
-				$data['studentid'] = $studentid;
-				$data['teacherid'] = $teacherids[$i];
-				$data['Intention'] = $scores[$i];
-				$data['selectionstatus'] = 1;
-				$tsmodel->add($data);
+			$suffix = $studentid.".cyds".".student";
+			$uploadsuccess = Common::upload($suffix);
+			if($uploadsuccess==SUCCESS||$uploadsuccess=="nofile"){
+				for($i=0;$i<count($teacherids);$i++)
+				{
+					$data['studentid'] = $studentid;
+					$data['teacherid'] = $teacherids[$i];
+					$data['Intention'] = $scores[$i];
+					$data['selectionstatus'] = 1;
+					if($uploadsuccess==SUCCESS){
+						$data['projectoutline']=$_FILES['file']['name']."###".$suffix;
+					}
+					$tsmodel->add($data);	
+				}
+				$this->success("提交成功！","index");
+			}else{
+				$this->error("信息提交失败，请修改重试！","index");
 			}
-			$this->success("提交成功！","index");
 		}
 	}
 
