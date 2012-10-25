@@ -1,0 +1,27 @@
+<form id="teacherprofileform" method="post" action="__URL__/submitprofile">
+<input name="stuffid" value="{$teacher.stuffid}" type="hidden"/>
+<div><span id="tips"></span></div>
+<table id="teacherinfotabel">
+	<tr>
+		<td class="namelabel">姓名：</td>
+		<td class="namefield"><input type="text" name="teachername" id="teachername" value="{$teacher.teachername}"/></td>
+		<td class="titlelabel">职称：</td>
+		<td class="titlefield"><input type="text" name="teachertitle" id="teachertitle" value="{$teacher.teachertitle}"/></td>
+	</tr>
+	<tr>
+		<td class="majorlabel">研究方向：</td>
+		<td class="majorfield"><input type="text" name="major" id="major" value="{$teacher.major}"/></td>
+		<td class="arealabel">专业领域：</td>
+		<td class="areafield"><input type="text" name="area" id="area" value="{$teacher.area}"/></td>
+	</tr>
+	<tr>
+		<td class="descriptionlabel">详细信息:</td>
+		<td colspan="3" class="descriptionfield">
+		<textarea class="ckeditor" cols="90%"
+						id="teacherdescription" name="teacherdescription" rows="15">{$teacher.teacherdescription}</textarea>
+		</td>
+	</tr>
+</table>
+<input type="button" value="提交" id="epsubmit"> <input
+		type="reset" id="epreset" value="重置">
+</form>

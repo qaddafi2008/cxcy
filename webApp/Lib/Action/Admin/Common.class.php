@@ -97,8 +97,9 @@ class Common{
 		//$destfile = $file_dir . $real_file_name;
 		//检查文件是否存在  
 		if (! file_exists ( $destfile )) {
-			echo $destfile;
-			$this->error('找不到文件！'.$destfile); 
+			//echo $file_name;
+			return "nofile";
+			//$this->error('找不到文件！'.$destfile); 
 		} else {  
 			//打开文件  
 			$file = fopen ( $destfile, "r" );  

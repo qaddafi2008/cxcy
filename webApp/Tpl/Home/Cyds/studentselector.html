@@ -1,0 +1,33 @@
+<form id="ssform" method="post" ENCTYPE="multipart/form-data" action="__URL__/sssubmit">
+	<div>
+		<span id="tips"></span>
+	</div>
+	<table id="studentselectertable">
+		<thead>
+			<tr>
+				<th></th>
+				<th>学号</th>
+				<th>学生
+				</th>
+				<th>意向值
+				</th>
+				<th>项目描述文档
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<volist name="studentlist" id="student">
+			<tr>
+				<td><input name="studentid[]" type="checkbox"
+					value="{$student.studentid}"></td>
+					<td class="namerow"><a>{$student.stuno}</a></td>
+				<td class="namerow"><a>{$student.name}</a></td>
+				<td class="intentionrow">{$student.Intention}</td>
+				<td class="attachmentrow"><a href="__URL__/downfile/{$student.studentid}/{$student.filename}">{$student.filename}</a></td>
+			</tr>
+			</volist>
+		</tbody>
+	</table>
+	<input type="button" value="提交" id="sssubmit"> <input
+		type="reset" id="ssreset" value="重置">
+</form>

@@ -21,7 +21,7 @@
 			</div>
 		</div>
 
-		<if condition="($cydsmode eq '1')">
+		<if condition="($cydsmode eq 'student')">
 		<div id="teacherinfobox">
 			<input type="hidden" id="baseurl" value="__URL__" />
 			<include file="Cyds:teacherinfo" />
@@ -32,7 +32,18 @@
 				file="Cyds:teacherselected" /></if>
 		</div>
 		<else />
-		<div> hello</div>
+		<div id="studentinfobox">
+			<input type="hidden" id="baseurl" value="__URL__" />
+			<include file="Cyds:studentinfo" />
+		</div>
+		<div>
+			<if condition="($selectmode eq 1)"> <include
+				file="Cyds:studentselector" /> </if>
+			<if condition="($selectmode eq 2)"> <include
+				file="Cyds:studentselected" /> </if>
+			<if condition="($selectmode eq 3)"> <include
+				file="Cyds:teacherprofile" /> </if>
+		</div>
 		</if>
 	</div>
 </div>

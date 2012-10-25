@@ -1,6 +1,7 @@
 <?php
 import("@.Action.Admin.Common");
 class CydsAction extends Action {
+	private $selectmode = 1;//用于表示前端页面的选择模式，对于学生为1（选择导师模式）和非1；对于教师1（选择学生）,2(自己的学生),3（编辑个人教师信息）
 	public function index() {
 		AuthorityAction::checkLogin();
 		if($_SESSION['urole'] == 2)
@@ -10,13 +11,12 @@ class CydsAction extends Action {
 		{
 			$this->cydsForTeacher();
 		}
-
 	}
 
 	/**
 	 * 处理导师登陆后所有关于创业导师模块的动作
 	 */
-	public function cydsForTeacher(){
+	public function cydsForTeacher($selectmode){
 		AuthorityAction::checkTeacherLogin();
 		//左侧导航栏
 		$modelname = "创业导师："; //本模块名称
@@ -24,7 +24,46 @@ class CydsAction extends Action {
 		$navlist [1] = array ("url" => '__URL__/mystudents',"title" => "我的学生");
 		$navlist [2] = array ("url" => '__URL__/myprofile',"title" => "我的资料");
 
+		$tsmodel = M('teacherselection');
+		$stuff = M('stuff');
+		$studentmodel = M('student');
+		if($selectmode == 2){
+			$maincontent[0]['title'] = "我的学生";
+			$condition = "";
+			$condition['teacherid'] = $_SESSION['uid'];
+			$condition['selectionstatus'] = 2;
+			$studentlist = $tsmodel->where($condition)->order("Intention desc")->select();
+			for($i=0;$i<count($studentlist);$i++)
+			{
+				$tempstudent = $studentmodel->field('stuno,sname')->where("sid =' ".$studentlist[$i]['studentid']."'")->find();
+				$studentlist[$i]['name'] = $tempstudent['sname'];
+				$studentlist[$i]['stuno'] = $tempstudent['stuno'];
+				$studentlist[$i]['filename'] = Common::removesuffix($studentlist[$i]['projectoutline']);
+			}
+			$this->assign("studentlist",$studentlist);
+		}elseif($selectmode == 3){
+			$maincontent[0]['title'] = "我的资料";
+			$condition = "";
+			$condition['stuffid'] = $_SESSION['uid'];
+			$teacher = $stuff->where($condition)->find();
+			$this->assign("teacher",$teacher);
+		}else{
+			$maincontent[0]['title'] = "选择学生";
+			$condition = "";
+			$condition['teacherid'] = $_SESSION['uid'];
+			$condition['selectionstatus'] = 1;
+			$studentlist = $tsmodel->where($condition)->order("Intention desc")->select();
+			for($i=0;$i<count($studentlist);$i++)
+			{
+				$tempstudent = $studentmodel->field('stuno,sname')->where("sid =' ".$studentlist[$i]['studentid']."'")->find();
+				$studentlist[$i]['name'] = $tempstudent['sname'];
+				$studentlist[$i]['stuno'] = $tempstudent['stuno'];
+				$studentlist[$i]['filename'] = Common::removesuffix($studentlist[$i]['projectoutline']);
+			}
+			$this->assign("studentlist",$studentlist);
+		}
 
+		$this->assign('selectmode',$selectmode);
 		$this->assign('maincontent',$maincontent);//标题
 		$this->assign ( 'modelname', $modelname );
 		$this->assign ( 'navlist', $navlist );
@@ -35,21 +74,88 @@ class CydsAction extends Action {
 	 * 教师：审批学生的申请
 	 */
 	public function selectstudent(){
-		$this->cydsForTeacher();
+		$this->cydsForTeacher(1);
 	}
 
 	/**
 	 * 教师：查看自己的学生
 	 */
 	public function mystudents(){
-		$this->cydsForTeacher();
+		$this->cydsForTeacher(2);
 	}
 
 	/**
 	 * 教师：查看更新自己的资料
 	 */
 	public function myprofile(){
-		$this->cydsForTeacher();
+		$this->cydsForTeacher(3);
+	}
+
+	/**
+	 * 教师：提交修改的个人资料
+	 */
+	public function submitprofile()
+	{
+		var_dump($_POST);
+		$stuffid = $_POST['stuffid'];
+		if($stuffid == $_SESSION['uid'])
+		{
+			$condition = "";
+			$condition['stuffid'] = $stuffid;
+			$stuff = M('stuff');
+			$data = "";
+			$data['teachername'] = $_POST['teachername'];
+			if($data['teachername']){
+				$data['teachertitle'] = $_POST['teachertitle'];
+				$data['major'] = $_POST['major'];
+				$data['area'] = $_POST['area'];
+				$data['teacherdescription'] = $_POST['teacherdescription'];
+				$result = $stuff->where($condition)->save($data);
+			}
+			if($result){
+				$this->success("更新成功！","myprofile");
+			}else{
+				$this->success("未更新！","myprofile");
+			}
+		}else{
+			$this->error("更新错误！","myprofile");
+		}
+	}
+	
+	/**
+	 * 老师：提交其选定的学生
+	 */
+	public function sssubmit()
+	{
+		AuthorityAction::checkTeacherLogin();
+		$teacherid = $_SESSION['uid'];
+		$studentid = $_POST['studentid'];
+		if(count($studentid)>0){
+			$tsmodel = M('teacherselection');
+			$studentmodel = M('student');
+			$condition = "";
+			$condition['selectionstatus'] = 1;
+			for($i=0;$i<count($studentid);$i++){
+				$condition['studentid'] = $studentid[$i];
+				$tsrecords = $tsmodel->where($condition)->select();
+				for($j=0;$j<count($tsrecords);$j++)
+				{
+					$tempcon = "";
+					$tempcon['studentid'] = $tsrecords[$j]['studentid'];
+					$tempcon['teacherid'] = $tsrecords[$j]['teacherid'];
+					if($tempcon['teacherid'] == $teacherid){
+						$tsrecords[$j]['selectionstatus'] = 2;
+						$tsmodel->where($tempcon)->save($tsrecords[$j]);
+					}else{
+						$tsmodel->where($tempcon)->delete();
+					}
+				}
+			}
+			$this->success("提交成功","mystudents");
+		}
+		else{
+			$this->error("请选择学生","selectstudent");
+		}
 	}
 
 	/**
@@ -58,6 +164,7 @@ class CydsAction extends Action {
 	public function cydsForStudent(){
 		AuthorityAction::checkStudentLogin();
 		//左侧导航栏
+		$selectmode = 0;//对于学生预置为非选择模式
 		$modelname = "创业导师："; //本模块名称
 		$studentid = $_SESSION['uid'];
 
@@ -124,7 +231,7 @@ class CydsAction extends Action {
 
 		$this->assign('maincontent',$maincontent);//我的导师标题
 		$this->assign('selectmode',$selectmode);//1代表正在选择导师，其它值未定义
-		$this->assign('cydsmode',1);//创业导师模式，1表示学生模式
+		$this->assign('cydsmode','student');//创业导师模式，1表示学生模式
 		$this->assign('teacherlist',$teacherlist);//要显示的老师列表
 		sort($titlelist);
 		$this->assign('titlelist',$titlelist);//可选择的职称列表
@@ -215,7 +322,7 @@ class CydsAction extends Action {
 					if($uploadsuccess==SUCCESS){
 						$data['projectoutline']=$_FILES['file']['name']."###".$suffix;
 					}
-					$tsmodel->add($data);	
+					$tsmodel->add($data);
 				}
 				$this->success("提交成功！","index");
 			}else{
@@ -234,6 +341,22 @@ class CydsAction extends Action {
 		$teacher = $stuff->where($condition)->field('teachername,teachertitle,major,area,teacherdescription')->find();
 		//print $teacher['teacherdescription'];
 		$this->ajaxReturn($teacher,"Success",1);
+	}
+
+	/**
+	 * 下载本模块文件
+	 */
+	public function downfile()
+	{
+		try{
+			$sid = $_GET['_URL_'][2];
+			$filename = $_GET['_URL_'][3];
+			$success = Common::downloadFile($filename,$sid.".cyds.student");
+			if($success == "nofile")
+				$this->error("找不到文件...");
+		}catch(Exception $e){
+			$this->error("未知错误");
+		}
 	}
 }
 ?>

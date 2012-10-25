@@ -105,6 +105,7 @@ $(document).ready(function() {
     var areafilter = "all";
     var teacherselected;
     initForCYDS();
+    initForCYDSTeacher();
 
 });
 $(function() {
@@ -135,6 +136,37 @@ function forwardto(dest) {
     });
 }
 
+function initForCYDSTeacher(){
+    //tips初始化
+    $("#tips").hide();
+    
+    $("#sssubmit").click(function(){
+        var selected = 0;
+        $.each($("#studentselectertable tbody :checked"),function(){
+            selected++;
+        });
+        if(selected>0)
+        {
+            $("#ssform").submit();
+        }
+        else {
+            $("#tips").html("请选择学生！");
+            $("#tips").show();
+        }
+    });
+    
+    $("#epsubmit").click(function(){
+        if($("teachername").val()!=""){
+            $("#teacherprofileform").submit();
+        }else{
+            $("#tips").html("姓名不能为空！");
+            $("#tips").show();
+        }
+    });
+}
+
+
+//创业导师部分学生页面的初始化
 function initForCYDS() {
     //$('table#teacherselectertable').columnFilters({excludeColumns:[0]});
     //tips初始化
@@ -216,7 +248,7 @@ function initForCYDS() {
         }
     });
 
-    //导师对话框的设计
+    //导师信息对话框的设计
     setTeacherInfoBox();
     setTeacherNameClick();
 }
