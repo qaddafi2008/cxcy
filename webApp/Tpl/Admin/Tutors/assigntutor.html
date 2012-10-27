@@ -1,0 +1,375 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>{$htmltitle}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css"
+	href="__PUBLIC__/css/jquery-ui-1.8.21.custom.css" media="all" />
+
+<link rel="stylesheet" href="__PUBLIC__/css/admin/common.css"
+	type="text/css" />
+<link rel="stylesheet" href="__PUBLIC__/css/admin/main.css"
+	type="text/css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript"
+	src="__PUBLIC__/js/jquery-ui-1.8.21.custom.min.js"></script>
+<script type="text/javascript"
+	src="__PUBLIC__/js/jquery.columnfilters.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/Admin/tutors.js"></script>
+<style type="text/css">
+td{
+	align:center;
+}
+</style>
+<script>
+var  highlightcolor='#eafcd5';
+//此处clickcolor只能用win系统颜色代码才能成功,如果用#xxxxxx的代码就不行,还没搞清楚为什么:(
+var  clickcolor='#51b2f6';
+function  changeto(){
+source=event.srcElement;
+if  (source.tagName=="TR"||source.tagName=="TABLE")
+return;
+while(source.tagName!="TD")
+source=source.parentElement;
+source=source.parentElement;
+cs  =  source.children;
+//alert(cs.length);
+if  (cs[1].style.backgroundColor!=highlightcolor&&source.id!="nc"&&cs[1].style.backgroundColor!=clickcolor)
+for(i=0;i<cs.length;i++){
+	cs[i].style.backgroundColor=highlightcolor;
+}
+}
+
+function  changeback(){
+if  (event.fromElement.contains(event.toElement)||source.contains(event.toElement)||source.id=="nc")
+return
+if  (event.toElement!=source&&cs[1].style.backgroundColor!=clickcolor)
+//source.style.backgroundColor=originalcolor
+for(i=0;i<cs.length;i++){
+	cs[i].style.backgroundColor="";
+}
+}
+
+function  clickto(){
+source=event.srcElement;
+if  (source.tagName=="TR"||source.tagName=="TABLE")
+return;
+while(source.tagName!="TD")
+source=source.parentElement;
+source=source.parentElement;
+cs  =  source.children;
+//alert(cs.length);
+if  (cs[1].style.backgroundColor!=clickcolor&&source.id!="nc")
+for(i=0;i<cs.length;i++){
+	cs[i].style.backgroundColor=clickcolor;
+}
+else
+for(i=0;i<cs.length;i++){
+	cs[i].style.backgroundColor="";
+}
+}
+
+function confirmDel(){
+	if(confirm("确定要删除该管理员账号吗？")){
+		return true;
+	}else{
+		return false;
+	}
+}
+</script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		//$('table#assigntutortable').columnFilters({excludeColumns:[0,5]});
+		setTeacherInfoBox();
+		setSearchArea();
+		setActionArea();
+		setCheckBox()
+		
+	});
+	
+	function setCheckBox(){
+		$("#assigntutortable :checkbox").click(function(){
+			//alert($(this).attr("group"));
+			var thegroup = $(this).attr("group");
+			if($(this).attr("checked") == "checked"){
+				$.each($("#assigntutortable :checkbox"),function(){
+					if($(this).attr("group") == thegroup && $(this).attr("checked") != "checked"){
+						$(this).attr("disabled","disabled");
+						$(this).parent("td").parent("tr").hide();
+					}
+				});
+			}
+			else{
+				$.each($("#assigntutortable :checkbox"),function(){
+					if($(this).attr("group") == thegroup){
+						$(this).removeAttr("disabled");
+						$(this).parent("td").parent("tr").show();
+					}
+				});
+			}
+		});
+	}
+	
+	function setActionArea(){
+		//批量批准
+		$("#bat_approve").click(function(){
+			var selectedbox = 0;
+			$.each($("#assigntutortable :checked"),function(){
+				selectedbox++;
+			});
+			if(selectedbox>0){
+			var comfirmed = confirm("确认批准？");
+			if(comfirmed){
+			$.each($("#assigntutortable :checked"),function(){
+				//alert($(this).val());
+				var studentid = $(this).parent("td").children(":hidden:first").attr("value");
+				var teacherid = $(this).parent("td").children(":hidden:last").attr("value");
+				ajaxApprove(studentid,teacherid);
+			});}}else{
+				alert("未选择记录!");
+			}
+		});
+		
+		//批准
+		$.each($(".approve"), function() {
+			$(this).click(function(){
+				var studentid = $(this).parent("td").parent("tr").children("td:first").children(":hidden:first").attr("value");
+				var teacherid = $(this).parent("td").parent("tr").children("td:first").children(":hidden:last").attr("value");
+				var comfirmed = confirm("确认批准？");
+				if(comfirmed){
+					ajaxApprove(studentid,teacherid);
+				}
+			});
+			
+		});
+		
+		
+		
+		//删除
+		$.each($(".delete"), function() {
+			$(this).click(function(){
+				var studentid = $(this).parent("td").parent("tr").children("td:first").children(":hidden:first").attr("value");
+				var teacherid = $(this).parent("td").parent("tr").children("td:first").children(":hidden:last").attr("value");
+				var comfirmed = confirm("确认删除？");
+				if(comfirmed){
+					ajaxDelete(studentid,teacherid);
+				}
+			});
+			
+		});
+	}
+	
+	//异步提交批准信息
+	function ajaxApprove(studentid,teacherid)
+	{
+		$.ajax({
+			type : "post",
+			url : $("#baseurl").val() + "/approveById",
+			data:{sid:studentid,tid:teacherid},
+			cache : false,
+			success : function(msg) {
+			//对返回的数据进行处理
+				var msgtemp = eval('(' + msg + ')');
+				if(msgtemp.data == 1){
+					deleteRowBySid(studentid);
+				}
+			}	
+		});
+	}
+	
+	function ajaxDelete(studentid,teacherid)
+	{
+		$.ajax({
+			type : "post",
+			url : $("#baseurl").val() + "/deleteById",
+			data:{sid:studentid,tid:teacherid},
+			cache : false,
+			success : function(msg) {
+			//对返回的数据进行处理
+				var msgtemp = eval('(' + msg + ')');
+				if(msgtemp.data == 1){
+					deleteRowBySidAndTid(studentid,teacherid);
+				}
+			}	
+		});
+	}
+	
+	//设置搜索区域
+	function setSearchArea(){
+		$("#searchbutton").click(function(){
+			filterFields();
+			});
+		$("#searchfield").keypress(function (e) { 
+		    var key = e.which; //e.which是按键的值
+		    if (key == 13) {
+		    	filterFields();
+		    }
+		});
+		$("#searchfield").change(function () { 
+		    	filterFields();
+		});
+		
+	}
+	//按要求过滤内容
+	function filterFields()
+	{
+		var type = $("#searchselector").val();
+		var content = $("#searchfield").val();
+		//alert(type+ " " + content);
+		$("#assigntutortable ."+type).parent("tr").hide();
+		$("#assigntutortable ."+type).filter(":contains('"+content+"')").parent("tr").show();
+	
+	}
+	
+	//按学号删除相关的学生
+	function deleteRowBySid(studentid)
+	{
+		$.each($("[name='studentid']"),function(){
+			if($(this).val() == studentid){
+				$(this).parent("td").parent("tr").remove();
+				minusRecordCounts();
+			}
+		})
+	}
+	//按学号和教师号删除相关学生
+	function deleteRowBySidAndTid(studentid,teacherid)
+	{
+		$.each($("[name='studentid']"),function(){
+			if($(this).val() == studentid){
+				var tid = $(this).parent("td").children("[name='teacherid']").val();
+				if(tid == teacherid){
+					$(this).parent("td").parent("tr").remove();
+					minusRecordCounts();
+				}
+			}
+		})
+	}
+	
+	//减记录数
+	function minusRecordCounts()
+	{
+		var recordcounts = new Number($("#recordcounts").text());
+		if(recordcounts>0)
+		{
+			$("#recordcounts").html(--recordcounts);
+		}
+	}
+	
+	//根据导师id获取导师信息
+	function getTeacherFullInfo(id) {
+		$.ajax({
+			type : "get",
+			url : $("#baseurl").val() + "/getTecherInfoById/" + id,
+			cache : false,
+			success : function(msg) {
+				//对返回的数据进行处理
+				if (msg == null || msg == "") {
+					msg = "暂无";
+				}
+				setTeacherInfoBox();
+				showTeacherInfo(msg);
+			}
+		});
+
+	}
+
+	//显示导师信息
+	function showTeacherInfo(message) {
+		var msg = eval('(' + message + ')');
+		msg = eval(msg.data);
+
+		$("#teacherinfotabel .namefield").html(msg.teachername);
+		$("#teacherinfotabel .titlefield").html(msg.teachertitle);
+		$("#teacherinfotabel .majorfield").html(msg.major);
+		$("#teacherinfotabel .areafield").html(msg.area);
+		$("#teacherinfotabel .descriptionfield").html(msg.teacherdescription);
+		$("#teacherinfobox").dialog("open");
+	}
+
+	//导师信息对话框的设置
+	function setTeacherInfoBox() {
+		//设置消息框
+		$("#teacherinfobox").dialog({
+			title : "导师信息",
+			modal : true,
+			autoOpen : false,
+			height : 480,
+			width : 640,
+			minHeight : 240,
+			minWidth : 320,
+			maxHeight : 800,
+			maxWidth : 1024,
+			show : {
+				effect : 'fade',
+				speed : 250
+			},
+			hide : {
+				effect : 'fade',
+				duration : 250
+			},
+			buttons : {
+				"确定" : function() {
+					$(this).dialog('close');
+				}
+			}
+		});
+	}
+</script>
+<body>
+	<div id="teacherinfobox">
+		<input type="hidden" id="baseurl" value="__URL__" />
+		<include file="Tutors:teacherinfo" />
+	</div>
+	<div class="main_zone">
+	<div  style="height: 20px"><span><input class="my_button"
+				type="button" id="bat_approve" value="批量批准" /></span>
+		
+			<span id="searcharea" style="float:right" > 搜索： <select name="sort"
+				id="searchselector">
+					<option value="stunorow">学号</option>
+					<option value="snamerow">学生姓名</option>
+					<option value="tutorrow">导师姓名</option>
+					<option value="outlinerow">项目概述</option>
+			</select> <input type="text" id="searchfield" name="search" value=""> <input
+				class="my_button" type="button" id="searchbutton" value="搜索">
+			</span>
+		</div>
+
+
+		<table id="assigntutortable" class="list_table" cellpadding="0" cellspacing="1" bgcolor="#c0de98" onMouseOver="changeto()"  onmouseout="changeback()">
+			 <thead>
+				<tr>
+					<th background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">选择</th>
+					<th background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">学号</th>
+					<th background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">学生</th>
+					<th background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">导师</th>
+					<th background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">项目简介</th>
+					<th background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">操作</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				<volist name="tslist" id="info">
+				<tr>
+					<td height="26" bgcolor="#FFFFFF" align="center"><input group="{$info.stuno}" type="checkbox" name="checkbox[]"
+						value={$i} /> <input name="studentid" type="hidden"
+						value="{$info.studentid}"> <input name="teacherid"
+						type="hidden" value="{$info.teacherid}"></td>
+					<td height="26" bgcolor="#FFFFFF" align="center" class="stunorow">{$info.stuno}</td>
+					<td height="26" bgcolor="#FFFFFF" align="center" class="snamerow">{$info.sname}</td>
+					<td height="26" bgcolor="#FFFFFF" align="center" class="tutorrow"><a href="javascript:getTeacherFullInfo({$info.teacherid})">{$info.teachername}</a></td>
+					<td height="26" bgcolor="#FFFFFF" align="center" class="outlinerow"><a
+						href="__URL__/downfile/{$info.studentid}/{$info.filename}">{$info.filename}</a></td>
+					<td height="26" bgcolor="#FFFFFF" align="center" class="actionrow"><a class="approve">[批准]</a>　<a
+						class="delete">[删除]</a></td>
+				</tr>
+				</volist>
+			</tbody>
+		</table>
+		<div style="height: 30px; width: 99%; position: relative; top: 15px">
+			<span style="float: left">共<span id="recordcounts">{$recordcounts}</span>条纪录</span>
+		</div>
+
+	</div>
+</body>
+</html>

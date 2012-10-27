@@ -96,7 +96,6 @@ class CydsAction extends Action {
 	 */
 	public function submitprofile()
 	{
-		var_dump($_POST);
 		$stuffid = $_POST['stuffid'];
 		if($stuffid == $_SESSION['uid'])
 		{
@@ -114,11 +113,13 @@ class CydsAction extends Action {
 			}
 			if($result){
 				$this->success("更新成功！","myprofile");
+				//$this->ajaxReturn($result,"更新成功！",1);
 			}else{
 				$this->success("未更新！","myprofile");
 			}
 		}else{
 			$this->error("更新错误！","myprofile");
+			//$this->ajaxReturn(0,"更新错误！",0);
 		}
 	}
 	
@@ -205,7 +206,7 @@ class CydsAction extends Action {
 				$teacherlist[0] = $stuff->field('stuffid,teachername,teachertitle,major,area')->where("stuffid='".$firsttsresult['teacherid']."'")->find();
 				$teacherlist[0]['intention'] = $firsttsresult['Intention'];
 			}
-			else if($firsttsresult['selectionstatus'] == '0')
+			else if($firsttsresult['selectionstatus'] == '3')//此处暂不取用
 			{
 				$maincontent[0] = array('title'=>"我的导师",'content'=>'已由管理员分配');
 				$teacherlist = null;

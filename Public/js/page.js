@@ -156,7 +156,7 @@ function initForCYDSTeacher(){
     });
     
     $("#epsubmit").click(function(){
-        if($("teachername").val()!=""){
+        if($("#teachername").val()!=""){
             $("#teacherprofileform").submit();
         }else{
             $("#tips").html("姓名不能为空！");
