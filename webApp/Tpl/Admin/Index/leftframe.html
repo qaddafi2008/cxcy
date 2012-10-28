@@ -194,11 +194,15 @@ var preClassName = "";
 	outlookbar.additem('分配导师',t,'__GROUP__/Tutors/assigntutor')
 	//outlookbar.additem('更改导师',t,'__GROUP__/Tutors/changetutor')
 	outlookbar.additem('双选结果',t,'__GROUP__/Tutors/tsresults')
+	outlookbar.additem('导师管理',t,'__GROUP__/user/teacherList')
+	outlookbar.additem('创建导师',t,'__GROUP__/user/createTeacher')
 	
 	
 	t=outlookbar.addtitle('国际交流活动','加油创业',1)
-	outlookbar.additem('填报验收完成信息',t,'initFillAcceptanceResultAction.action')
-	outlookbar.additem('查看验收信息',t,'acceptance/checkAcceptance.jsp')
+	outlookbar.additem('活动列表',t,'__GROUP__/Activity/activity')
+	outlookbar.additem('添加活动',t,'__GROUP__/Activity/detail/add')
+	outlookbar.additem('新闻通知',t,'__GROUP__/Activity/newslist')
+	outlookbar.additem('发布信息',t,'__GROUP__/Activity/news/add')
 	
 	t=outlookbar.addtitle('河合创业基金','加油创业',1)
 	outlookbar.additem('赛事设置',t,'__GROUP__/Competition/detail/hhss')

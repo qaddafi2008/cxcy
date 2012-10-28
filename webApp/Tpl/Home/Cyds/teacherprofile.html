@@ -19,6 +19,12 @@
 		<td colspan="3" class="descriptionfield">
 		<textarea class="ckeditor" cols="90%"
 						id="teacherdescription" name="teacherdescription" rows="15">{$teacher.teacherdescription}</textarea>
+						<script type="text/javascript">
+  CKEDITOR.replace( 'teacherdescription' );
+ function getContenet(){
+      return CKEDITOR.instances.content.getData();    //获取textarea的值
+  }
+</script>
 		</td>
 	</tr>
 </table>

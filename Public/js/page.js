@@ -325,6 +325,7 @@ function showTeacherInfo(message) {
 function setTeacherInfoBox() {
     //设置消息框
     $("#teacherinfobox").dialog({
+        title:"导师信息",
         modal : true,
         autoOpen : false,
         height : 480,

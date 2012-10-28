@@ -33,7 +33,7 @@ class TutorsAction extends Action{
 	public function changetutor(){
 		var_dump($_GET);
 	}
-	public function tsresults(){		
+	public function tsresults(){
 		$htmltitle = "分配导师";
 		$tsmodel = M('teacherselection');
 		$stuff = M('stuff');
@@ -111,7 +111,7 @@ class TutorsAction extends Action{
 			$this->ajaxReturn(0,ERROR,0);
 		}
 	}
-	
+
 	/**
 	 * 通过id获取教师信息
 	 */
@@ -129,9 +129,15 @@ class TutorsAction extends Action{
 	//通过文件和文件名获取文件
 	public function downfile(){
 		//var_dump($_GET['_URL_']);
-		$sid = $_GET['_URL_'][3];
-		$filename = $_GET['_URL_'][4];
-		Common::downloadFile($filename, $sid.".cyds.student");
+		try{
+			$sid = $_GET['_URL_'][3];
+			$filename = $_GET['_URL_'][4];
+			$success = Common::downloadFile($filename, $sid.".cyds.student");
+			if($success == "nofile")
+				$this->error("找不到文件...");
+		}catch(Exception $e){
+			$this->error("未知错误");
+		}
 	}
 }
 ?>
