@@ -33,8 +33,31 @@ class TutorsAction extends Action{
 	public function changetutor(){
 		var_dump($_GET);
 	}
-	public function results(){
-		var_dump($_GET);
+	public function tsresults(){		
+		$htmltitle = "分配导师";
+		$tsmodel = M('teacherselection');
+		$stuff = M('stuff');
+		$studentmodel = M('student');
+		$tslist = "";
+		$condition = "";
+		$condition['selectionstatus'] = 2;
+		$tslist = $tsmodel->where($condition)->order('studentid')->select();
+		$studentlist = $studentmodel->select();
+		$teacherlist = $stuff->where("role='1'")->select();
+
+		for($i=0;$i<count($tslist);$i++){
+			$tempstudent = $studentmodel->field("stuno,sname")->where("sid ='".$tslist[$i]['studentid']."'")->find();
+			$tslist[$i]['stuno'] = $tempstudent['stuno'];
+			$tslist[$i]['sname'] = $tempstudent['sname'];
+			$tempteacher = $stuff->field("teachername")->where("stuffid ='".$tslist[$i]['teacherid']."'")->find();
+			$tslist[$i]['teachername'] = $tempteacher['teachername'];
+			$tslist[$i]['filename'] = Common::removesuffix($tslist[$i]['projectoutline']);
+		}
+		$this->assign("recordcounts",count($tslist));
+		$this->assign("htmltitle",$htmltitle);
+		//$tslist = array_merge($tslist,$tslist);
+		$this->assign("tslist",$tslist);
+		$this->display();
 	}
 
 	/**
@@ -74,7 +97,7 @@ class TutorsAction extends Action{
 		if(isset($_POST['sid'])&&isset($_POST['tid'])){
 			$condition = "";
 			$condition['studentid'] = $_POST['sid'];
-			$condition['selectionstatus'] = 1;
+			//$condition['selectionstatus'] = 1;
 			$condition['teacherid'] = $_POST['tid'];
 			$tsmodel = M('teacherselection');
 			$result = $tsmodel->where($condition)->delete();

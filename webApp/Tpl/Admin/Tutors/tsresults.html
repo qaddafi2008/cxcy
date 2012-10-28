@@ -114,6 +114,25 @@ function confirmDel(){
 	}
 	
 	function setActionArea(){
+		//批量删除
+		$("#bat_delete").click(function(){
+			var selectedbox = 0;
+			$.each($("#assigntutortable :checked"),function(){
+				selectedbox++;
+			});
+			if(selectedbox>0){
+			var comfirmed = confirm("确认删除？");
+			if(comfirmed){
+			$.each($("#assigntutortable :checked"),function(){
+				//alert($(this).val());
+				var studentid = $(this).parent("td").children(":hidden:first").attr("value");
+				var teacherid = $(this).parent("td").children(":hidden:last").attr("value");
+				ajaxDelete(studentid,teacherid);
+			});}}else{
+				alert("未选择记录!");
+			}
+		});
+		
 		//批量批准
 		$("#bat_approve").click(function(){
 			var selectedbox = 0;
@@ -351,7 +370,7 @@ function confirmDel(){
 	<div  style="height: 30px">
 	<span style="margin-right:10px;">共选择<span id="recordselected">0</span>条记录</span>
 	<span><input class="my_button"
-				type="button" id="bat_approve" value="批量批准" /></span>
+				type="button" id="bat_delete" value="批量删除" /></span>
 						
 			<span id="searcharea" style="margin-right:20px;margin-left:45%;" > 搜索： <select name="sort"
 				id="searchselector">
@@ -390,7 +409,7 @@ function confirmDel(){
 					<td height="26" bgcolor="#FFFFFF" align="center" class="tutorrow"><a href="javascript:getTeacherFullInfo({$info.teacherid})">{$info.teachername}</a></td>
 					<td height="26" bgcolor="#FFFFFF" align="center" class="outlinerow"><a
 						href="__URL__/downfile/{$info.studentid}/{$info.filename}">{$info.filename}</a></td>
-					<td height="26" bgcolor="#FFFFFF" align="center" class="actionrow"><a class="approve">[批准]</a>　<a
+					<td height="26" bgcolor="#FFFFFF" align="center" class="actionrow"><!-- <a class="approve">[批准]</a> -->　<a
 						class="delete">[删除]</a></td>
 				</tr>
 				</volist>
