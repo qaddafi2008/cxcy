@@ -106,6 +106,9 @@ $(document).ready(function() {
     var teacherselected;
     initForCYDS();
     initForCYDSTeacher();
+    
+    //国际交流活动
+    initForGJJL();
 
 });
 $(function() {
@@ -402,4 +405,52 @@ function ShowObjProperty(Obj) {
             PropertyList = PropertyList + i + '方法\r\n';
     }
     alert(PropertyList);
+}
+
+function initForGJJL(){
+    setBaomingBox();
+    $("#baomingpage").hide();
+}
+
+//报名
+function baoming(id){
+    $("#baomingpage #actid").attr("value",id);
+    $("#baomingpage").dialog("open");
+}
+
+//导师信息对话框的设置
+function setBaomingBox() {
+    //设置消息框
+    $("#baomingpage").dialog({
+        title:"我要报名",
+        modal : true,
+        autoOpen : false,
+        height : 320,
+        width : 480,
+        minHeight : 240,
+        minWidth : 320,
+        maxHeight : 800,
+        maxWidth : 1024,
+        show : {
+            effect : 'fade',
+            speed : 250
+        },
+        hide : {
+            effect : 'fade',
+            duration : 250
+        },
+        buttons : {
+            "提交" : function() {
+                if($("#baomingfile").attr("value")!=""&&$("#baomingfile").attr("value")!=null){
+                $("#baomingform").submit();
+                }
+                else{
+                    alert("请选择上传的文件！");
+                }
+            },
+            "取消":function(){
+                $(this).dialog('close');
+            }
+        }
+    });
 }

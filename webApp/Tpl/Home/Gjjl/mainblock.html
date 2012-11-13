@@ -1,0 +1,97 @@
+<div id="main_block">
+	<div class="about">
+		<div>
+			<volist name="maincontent" id="maincontent">
+			<p class="title">{$maincontent.title}</p>
+			<if condition="($maincontent.content neq null)">
+			<p class="timerow">
+			<if condition="($maincontent.createtime neq null)">
+			<span class="createtime">
+			发布时间：{$maincontent.createtime}
+			</span>
+			</if>
+			
+			<if condition="($maincontent.applydeadline neq null)">
+			<span class="applydeadline">
+			报名截止：{$maincontent.applydeadline}
+			</span>
+			</if>
+			</p>
+			<p class="timerow">
+			<if condition="($maincontent.starttime neq null)">
+			<span class="starttime">
+			开始时间：{$maincontent.starttime}
+			</span>
+			</if>
+			
+			<if condition="($maincontent.endtime neq null)">
+			<span class="endtime">
+			结束时间：{$maincontent.endtime}
+			</span>
+			</if>
+			</p>
+			
+			</if>
+			<p class="content">{$maincontent.content}</p>
+			<if condition="($maincontent.filename neq null)">
+			<p class="attachment">附件地址：<a href="__URL__/downfile/{$maincontent.id}/{$maincontent.filename}">{$maincontent.filename}</a></p></if>
+			</volist>
+		</div>
+		<div>
+			<div>
+				<volist name='newslist' id='news'> <a href={$news.url}>
+					<span class="content">{$news.title}</span> <span class="timearea">{$news.time}</span>
+				</a> </volist>
+			</div>
+		</div>
+<if condition="($mode eq 'activity' or $mode eq 'news')">
+<include file="Gjjl:baomingpage"/>
+		<div>
+			<table id="newstable">
+				<thead>
+					<tr>
+						<th>标题</th>
+						<th>发布时间</th>
+						<if condition="($mode eq 'activity')">
+						<!-- 
+						<th>开始时间</th>
+						<th>结束时间</th>
+						<th>报名截止时间</th>
+						 -->
+						<th>报名</th>
+						</if>
+					</tr>
+				</thead>
+				<tbody>
+					<volist name='tablenewslist' id='news'> 
+					<tr>
+						<td><a href={$news.url}>{$news.title}</a></td>
+						<td>{$news.createtime}</td>
+						<if condition="($mode eq 'activity')">
+						<!-- 
+						<td>{$news.starttime}</td>
+						<td>{$news.endtime}</td>
+						<td>{$news.applydeadline}</td>
+						 -->
+						<td>
+						
+						<if condition="($news.applyurl eq 'notstarted')">
+						未开始
+						<elseif condition="($news.applyurl eq 'over')"/>
+						已结束
+						<elseif condition="($news.applyurl eq 'outofapply')"/>
+						已过报名期
+						<elseif condition="($news.applyurl eq 'applied')"/>
+						<a href="__URL__/baoming">已报名</a>
+						<elseif condition="($news.applyurl neq null)"/>
+						<a href="javascript:baoming({$news.applyurl})">我要报名</a>
+						</if>
+						</td>
+						</if>
+					</tr>
+					</volist>
+				</tbody>
+			</table>
+		</div></if>
+	</div>
+</div>

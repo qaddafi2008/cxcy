@@ -147,7 +147,6 @@
     		$.each($(".delete"),function(){
     			$(this).click(function(){
     				var id= $(this).parent("td").parent("tr").children("td:first").children(":checkbox").val();
-    				//alert(id);
     				deleteRowByID(id);
     			});
     		});
@@ -168,7 +167,7 @@
     	function deleteRowByID(id){
     		$.ajax({
     			type : "get",
-    			url : $("#baseurl").val() + "/deleteByID/" + id,
+    			url : $("#baseurl").val() + "/deleteApplyByID/" + id,
     			cache : false,
     			success : function(msg) {
     				//对返回的数据进行处理
@@ -195,12 +194,13 @@
 		<input type="checkbox" id="checkall" value="checkall" />全选
 		<input type="checkbox" id="checkreverse" value="checkreverse" />反选
 				<span style="width:100px;margin-left:20px;margin-right:10px;">共选择<span id="recordselected" style="width:10px;">0</span>条记录</span>
-			<a href="__URL__/{$mode}/add"><input id="bnew_button" class="my_button" type="button" name="bnew_button" value="添加记录"/></a>
 			<input class="my_button" type="button" id="bat_delete" value="批量删除" />
 		</span>
 			<span id="searcharea" style="margin-right:20px;margin-left:30%;" > 搜索： <select name="sort"
 				id="searchselector">
-					<option value="subjectrow">标题</option>
+					<option value="subjectrow">活动名</option>
+					<option value="sidrow">学号</option>
+					<option value="snamerow">学生姓名</option>
 					<option value="filenamerow">附件名</option>
 			</select> <input type="text" id="searchfield" name="search" value=""> <input
 				class="my_button" type="button" id="searchbutton" value="搜索">
@@ -213,13 +213,11 @@
 			bgcolor="#c0de98" onMouseOver="changeto()" onmouseout="changeback()">
 			<tr>
 				<td background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">选择</td>
-				<td background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">标题</td>
-				<td background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">发布时间</td>
-				<if condition="($pagetype eq 1)">
-				<td background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">开始时间</td>
-				<td background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">结束时间</td>
-				<td background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">报名截止时间</td>
-				</if>
+				<td background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">活动名称</td>
+				<td background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">学号</td>
+				<td background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">姓名</td>
+				<td background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">报名时间</td>
+				
 				<td background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">附件地址</td>
 				<td background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">操作</td>
 			</tr>
@@ -227,22 +225,14 @@
 				<volist name="newslist" id="news">
 				<tr>
 				<td height="26" bgcolor="#FFFFFF" align="center"><input
-					name="checkbox" type="checkbox" class="STYLE2" value="{$news.activityid}" />
+					name="checkbox" type="checkbox" class="STYLE2" value="{$news.id}" />
 				</td>
-				<td class="subjectrow" height="26" bgcolor="#FFFFFF" align="center">{$news.activitysubject}</td>
-				<td height="26" bgcolor="#FFFFFF" align="center">{$news.createtime}</td>
-				<if condition="($pagetype eq 1)">
-				<td height="26" bgcolor="#FFFFFF" align="center">{$news.starttime}</td>
-				<td height="26" bgcolor="#FFFFFF" align="center">{$news.endtime}</td>
-				<td height="26" bgcolor="#FFFFFF" align="center">{$news.applydeadline}</td>
-				</if>
-				<td class="filenamerow" height="26" bgcolor="#FFFFFF" align="center"><a href="__URL__/downfile/{$news.activityid}/{$news.filename}">{$news.filename}</a></td>
+				<td class="subjectrow" height="26" bgcolor="#FFFFFF" align="center">{$news.actname}</td>
+				<td class="sidrow" height="26" bgcolor="#FFFFFF" align="center">{$news.studentid}</td>
+				<td class="snamerow" height="26" bgcolor="#FFFFFF" align="center">{$news.studentname}</td>
+				<td height="26" bgcolor="#FFFFFF" align="center">{$news.submittime}</td>
+				<td class="filenamerow" height="26" bgcolor="#FFFFFF" align="center"><a href="__URL__/downattachment/{$news.id}/{$news.filename}">{$news.filename}</a></td>
 				<td height="26" bgcolor="#FFFFFF" align="center">
-				<if condition="($pagetype eq 1)">
-				<a href="__URL__/apply/{$news.activityid}">[报名情况]</a>
-				</if>
-				<a href="__URL__/{$mode}/modify/{$news.activityid}">[详细信息]</a>
-            	<a href="__URL__/{$mode}/modify/{$news.activityid}">[修改]</a>
             	<a class="delete">[删除]</a>
             	</td>
             	</tr>

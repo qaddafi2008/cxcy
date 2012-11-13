@@ -77,6 +77,12 @@ class Common{
 		$destfile = Common::utf82gbk($destfile);
 		return unlink($destfile);
 	}
+	
+	public static function removeFileDirectly($file){
+		$destfile = "./Uploads/".$file;
+		return unlink($destfile);
+	}
+	
 	//utf-8转gbk
 	public static function utf82gbk($name)
 	{
