@@ -1,6 +1,11 @@
 <div id="baomingpage">
+ <if condition="($comacttype eq 60) or ($comacttype eq 80) or ($comacttype eq null)">
 	<form id="baomingform" ENCTYPE="multipart/form-data" method="post" action="__URL__/baoming">
+	<elseif condition="($comacttype eq 63) or ($comacttype eq 83)" />
+	<form id="baomingform" ENCTYPE="multipart/form-data" method="post" action="__URL__/zuoping">
+	</if>
 	<input id="actid" type="hidden" name="actid" value="">
+	<input id="comacttype" type="hidden" name="comacttype" value="{$comacttype}">
 	<label>请选择附件：</label>
 	<input type="file" name="file" id="baomingfile">
 	</form>

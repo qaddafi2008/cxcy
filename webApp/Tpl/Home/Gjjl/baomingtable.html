@@ -23,7 +23,13 @@
 				<td><a href={$act.url}>{$act.title}</a></td>
 				<td><a href="__URL__/downattachment/{$act.id}/{$act.attachmentpath}">{$act.attachmentpath}</a></td>
 				<td>{$act.submittime}</td>
-				<td><a href="javascript:baoming({$act.actid})">更新材料</a></td>
+				<td>
+				<if condition="($act.content neq null)">
+				{$act.content}
+				<elseif condition="($act.content eq null)"/>
+				<a href="javascript:baoming({$act.actid})">更新材料</a>
+				</if>
+				</td>
 			</tr>
 		</volist>
 		</tbody>

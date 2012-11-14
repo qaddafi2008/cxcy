@@ -5,9 +5,10 @@ class TengfeiAction extends Action {
 	{
 		//左侧导航栏
 		$modelname = "腾飞创业："; //本模块名称
-		$navlist [0] = array ("url" => '__URL__/ruhe', "title" => '如何腾飞' );
-		$navlist [1] = array ("url" => '__URL__/zhanwang', "title" => '腾飞展望' );
-		$navlist [1] ['subnav'] = array (
+		$navlist [0] = array ("url" => '__URL__/pingtai', "title" => '平台介绍' );
+		$navlist [1] = array ("url" => '__URL__/ruhe', "title" => '如何腾飞' );
+		$navlist [2] = array ("url" => '__URL__/zhanwang', "title" => '腾飞展望' );
+		$navlist [2] ['subnav'] = array (
 				"0" => array (
 						"url" => 'javascript:forwardto(\'推介交流\')',
 						"title" => '推介交流'
@@ -56,9 +57,12 @@ class TengfeiAction extends Action {
 	}
 	protected function _empty()
 	{
-		$this->index();
+		$this->redirect("index");
 	}
 	public function index() {
+		$this->redirect("pingtai");
+	}
+	public function pingtai(){
 		$this->showpage(3);
 	}
 	public function ruhe()

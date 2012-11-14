@@ -422,7 +422,7 @@ function baoming(id){
 function setBaomingBox() {
     //设置消息框
     $("#baomingpage").dialog({
-        title:"我要报名",
+        title:"提交材料",
         modal : true,
         autoOpen : false,
         height : 320,

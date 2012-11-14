@@ -3,6 +3,9 @@ import("webApp.Action.Admin.Common");
 class ActivityAction extends Action{
 	/**
 	 * 对Activities表中的字段activitytype的说明：
+	 * 60：表示学生创新创业系列赛事
+	 * 61：表示学生创新创业系列赛事的阶段
+	 * 63：表示学生创新创业系列赛事的新闻通知
 	 * 90：表示国际交流活动
 	 * 91：表示国际交流活动下的新闻列表
 	 */
@@ -14,6 +17,7 @@ class ActivityAction extends Action{
 	 * 活动列表
 	 */
 	public function activity(){
+		AuthorityAction::checkAdminLogin();
 		$pagetype = 1;
 		$activitymodel = M("Activities");
 		$condition = "";
@@ -37,6 +41,7 @@ class ActivityAction extends Action{
 	 */
 	public function detail(){
 		//var_dump($_GET);
+		AuthorityAction::checkAdminLogin();
 		$activitymodel = M("Activities");
 		$pagetype = 1;
 		$operation = $_GET['_URL_'][3];
@@ -65,6 +70,7 @@ class ActivityAction extends Action{
 	 * 处理提交的内容
 	 */
 	public function submit(){
+		AuthorityAction::checkAdminLogin();
 		$operation = $_POST['operation'];
 		$activitymodel = M("Activities");
 		if($operation == "add")
@@ -86,10 +92,12 @@ class ActivityAction extends Action{
 			}
 			if($fileresult!=ERROR&&$activityid){
 				if($_POST['acttype'] == "90"){
-					$this->activity();
+					$this->success("添加成功！","activity");
+					//$this->activity();
 				}
 				elseif($_POST['acttype']=="91"){
-					$this->newslist();
+					$this->success("添加成功！","newslist");
+					//$this->newslist();
 				}
 			}
 		}else if($operation == "modify"){
@@ -101,7 +109,11 @@ class ActivityAction extends Action{
 			$data['starttime'] = $_POST['starttime'];
 			$data['endtime'] = $_POST['endtime'];
 			$data['activitycontent'] = $_POST['activitycontent'];
-
+			if($_POST['alreadyfile']==""||$_POST['alreadyfile']==null){
+				$suffix = $data['activityid'].".activity";
+				Common::removefile($suffix);
+				$data['attachmentpath'] = "";
+			}
 			if($_FILES['file']){
 				$suffix = $data['activityid'].".activity";
 				$fileresult = Common::upload($suffix);
@@ -112,10 +124,12 @@ class ActivityAction extends Action{
 			$result = $activitymodel->save($data);;
 			if($result){
 				if($_POST['acttype'] == "90"){
-					$this->activity();
+					$this->success("更新成功！","activity");
+					//$this->activity();
 				}
 				elseif($_POST['acttype']=="91"){
-					$this->newslist();
+					$this->success("更新成功！","newslist");
+					//$this->newslist();
 				}
 			}
 		}
@@ -127,6 +141,7 @@ class ActivityAction extends Action{
 	 * 国际交流活动新闻列表
 	 */
 	public function newslist(){
+		AuthorityAction::checkAdminLogin();
 		$pagetype = 2;
 		$activitymodel = M("Activities");
 		$condition = "";
@@ -149,6 +164,7 @@ class ActivityAction extends Action{
 	 * 国际活动新闻详情（增、改）
 	 */
 	public function news(){
+		AuthorityAction::checkAdminLogin();
 		$pagetype = 2;
 		$operation = $_GET['_URL_'][3];
 		$acttype = "";
@@ -176,6 +192,7 @@ class ActivityAction extends Action{
 	 * 下载文件
 	 */
 	public function downfile(){
+		AuthorityAction::checkAdminLogin();
 		try{
 			$suffix = $_GET['_URL_'][3].".activity";
 			$filename = $_GET['_URL_'][4];
@@ -188,6 +205,7 @@ class ActivityAction extends Action{
 	}
 	
 	public function downattachment(){
+		AuthorityAction::checkAdminLogin();
 		try{
 			$suffix = $_GET['_URL_'][3].".actapp";
 			$filename = $_GET['_URL_'][4];
@@ -233,16 +251,17 @@ class ActivityAction extends Action{
 	 * 报名列表
 	 */
 	public function apply(){
+		AuthorityAction::checkAdminLogin();
 		$actapp = M("activityapplication");
 		$activity = M("activities");
 		$actid = $_GET['_URL_'][3];
 		$newslist = "";
+		$condition = "";
+		$condition['acttype'] = 90;
 		if($actid){
 			$condition['actid'] = $actid;
-			$newslist = $actapp->where($condition)->select();
-		}else{
-			$newslist = $actapp->select();
 		}
+		$newslist = $actapp->where($condition)->select();
 		$condition = null;
 		for($i=0;$i<count($newslist);$i++){
 			$newslist[$i]['filename'] = Common::removesuffix($newslist[$i]['attachmentpath']);

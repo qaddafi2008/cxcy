@@ -3,13 +3,14 @@ import("webApp.Action.Admin.Common");
 class GjjlAction extends Action {
 	public function index() {
 		$this->setSidebar();
-		$this->display ("Gjjl:page");
+		//$this->display ("Gjjl:page");
+		$this->redirect("huodong");
 	}
 
 	public function setSidebar(){
 		$modelname = "国际交流活动";
 		$navlist = "";
-		$navlist[0] = array('url'=>'__URL__/index','title'=>'首页');
+		//$navlist[0] = array('url'=>'__URL__/index','title'=>'首页');
 		$navlist[1] = array('url'=>'__URL__/huodong','title'=>'活动列表');
 		$navlist[2] = array('url'=>'__URL__/xinwen','title'=>'新闻通知');
 		if($_SESSION['urole'] == 2)
@@ -84,6 +85,7 @@ class GjjlAction extends Action {
 			$data['actid'] = $_POST["actid"];
 			$data['studentid'] = $_SESSION['uid'];
 			$data['studentname'] = $_SESSION['uname'];
+			$data['acttype'] = 90;
 			$existeddata = $activityapplication->where($data)->find();
 			if($existeddata){
 				$actappid = $existeddata['actapplicationid'];
@@ -120,6 +122,7 @@ class GjjlAction extends Action {
 		}
 		$condition = "";
 		$condition['studentid'] = $_SESSION['uid'];
+		$condition['acttype'] = 90;
 		$myacts = $activityapplication->where($condition)->field("actapplicationid as id,actid,submittime,attachmentpath")->order('submittime')->select();
 		$now = date("Y-m-d H:i:s");
 		for($i=0;$i<count($myacts);$i++){
