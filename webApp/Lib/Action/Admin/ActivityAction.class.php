@@ -99,6 +99,8 @@ class ActivityAction extends Action{
 					$this->success("添加成功！","newslist");
 					//$this->newslist();
 				}
+			}else{
+				$this->error("未知错误");
 			}
 		}else if($operation == "modify"){
 			$data['activityid'] = $_POST['activityid'];
@@ -131,9 +133,13 @@ class ActivityAction extends Action{
 					$this->success("更新成功！","newslist");
 					//$this->newslist();
 				}
+			}else{
+				$this->error("未知错误");
 			}
+		}else{
+			$this->error("未知错误");
 		}
-		$this->error("未知错误");
+		
 	}
 
 

@@ -211,7 +211,7 @@
 
 		<table id="activitytable" class="list_table" cellpadding="0" cellspacing="1"
 			bgcolor="#c0de98" onMouseOver="changeto()" onmouseout="changeback()">
-			<tr>
+			<tr height="26">
 				<td background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">选择</td>
 				<td background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">活动名称</td>
 				<td background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">学号</td>
@@ -223,16 +223,16 @@
 			</tr>
 			
 				<volist name="newslist" id="news">
-				<tr>
-				<td height="26" bgcolor="#FFFFFF" align="center"><input
+				<tr height="26">
+				<td width="3%" bgcolor="#FFFFFF" align="center"><input
 					name="checkbox" type="checkbox" class="STYLE2" value="{$news.id}" />
 				</td>
-				<td class="subjectrow" height="26" bgcolor="#FFFFFF" align="center">{$news.actname}</td>
-				<td class="sidrow" height="26" bgcolor="#FFFFFF" align="center">{$news.studentid}</td>
-				<td class="snamerow" height="26" bgcolor="#FFFFFF" align="center">{$news.studentname}</td>
-				<td height="26" bgcolor="#FFFFFF" align="center">{$news.submittime}</td>
-				<td class="filenamerow" height="26" bgcolor="#FFFFFF" align="center"><a href="__URL__/downattachment/{$news.id}/{$news.filename}">{$news.filename}</a></td>
-				<td height="26" bgcolor="#FFFFFF" align="center">
+				<td width="31%" class="subjectrow" bgcolor="#FFFFFF" align="center">{$news.actname}</td>
+				<td width="10%" class="sidrow"  bgcolor="#FFFFFF" align="center">{$news.studentid}</td>
+				<td width="10%" class="snamerow"  bgcolor="#FFFFFF" align="center">{$news.studentname}</td>
+				<td width="10%" bgcolor="#FFFFFF" align="center">{$news.submittime}</td>
+				<td width="31%" class="filenamerow" height="26" bgcolor="#FFFFFF" align="center"><a href="__URL__/downattachment/{$news.id}/{$news.filename}">{$news.filename}</a></td>
+				<td width="5%" bgcolor="#FFFFFF" align="center">
             	<a class="delete">[删除]</a>
             	</td>
             	</tr>

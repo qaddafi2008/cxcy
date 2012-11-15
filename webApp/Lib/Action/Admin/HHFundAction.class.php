@@ -1,6 +1,6 @@
 <?php
 import('webApp.Action.Admin.Common');
-class CompetitionAction extends Action{
+class HHFundAction extends Action{
 
 	/**
 	 * 对Activities表中的字段activitytype的说明：
@@ -9,17 +9,17 @@ class CompetitionAction extends Action{
 	 * 62：表示学生创新创业系列赛事的新闻通知
 	 * 90：表示国际交流活动
 	 * 91：表示国际交流活动下的新闻列表
-	 *
-	 *
+	 * 
+	 * 
 	 * 对activityapplication表中的字段acttype的说明：
 	 * 60：学生创新创业系列赛事的报名
 	 * 63：学生创新创业系列赛事的作品
 	 * 90：国际交流活动的报名表
-	 *
+	 * 
 	 * 对appraisal表的字段comtype说明（该表的类型与activity和activityapplication中的acttype一致）
 	 * 64：学生创新创业系列赛事中管理员分配给老师的附件
 	 * 65：学生创新创业系列赛事中老师上传的评审附件
-	 *
+	 * 
 	 */
 	public function index(){
 		$this->activity();
@@ -28,7 +28,7 @@ class CompetitionAction extends Action{
 	public function comdetail(){
 		$activitymodel = M("Activities");
 		$condition = "";
-		$condition['activitytype'] = 60;
+		$condition['activitytype'] = 80;
 		$temp = $activitymodel->where($condition)->field("activityid as id")->find();
 		if($temp){
 			$this->redirect("detail",array('modify'=>$temp['id']));
@@ -41,7 +41,7 @@ class CompetitionAction extends Action{
 	public function agenda(){
 		$activitymodel = M("Activities");
 		$condition = "";
-		$condition['activitytype'] = 61;
+		$condition['activitytype'] = 81;
 		$temp = $activitymodel->where($condition)->field("activityid as id")->find();
 		if($temp){
 			$this->redirect("agendadetail",array('modify'=>$temp['id']));
@@ -62,7 +62,7 @@ class CompetitionAction extends Action{
 		$operation = $_GET['_URL_'][3];
 		$acttype = "";
 		if($operation == "add"){
-			$acttype = 60;
+			$acttype = 80;
 			$htmltitle = "添加赛事";
 			$this->assign("htmltitle",$htmltitle);
 		}
@@ -105,14 +105,14 @@ class CompetitionAction extends Action{
 				$activitymodel->save($datatemp);
 			}
 			if($fileresult!=ERROR&&$activityid){
-				if($_POST['acttype'] == "60"){
+				if($_POST['acttype'] == "80"){
 					$this->success("添加成功！","comdetail");
 					//$this->comdetail();
-				}elseif($_POST['acttype']=="61"){
+				}elseif($_POST['acttype']=="81"){
 					$this->success("添加成功！","agenda");
 					//$this->agendadetail();
 				}
-				elseif($_POST['acttype']=="62"){
+				elseif($_POST['acttype']=="82"){
 					$this->success("添加成功！","newslist");
 					//$this->newslist();
 				}else{
@@ -142,14 +142,14 @@ class CompetitionAction extends Action{
 			}
 			$result = $activitymodel->save($data);;
 			if($result){
-				if($_POST['acttype'] == "60"){
+				if($_POST['acttype'] == "80"){
 					$this->success("更新成功！","comdetail");
 					//$this->comdetail();
-				}elseif($_POST['acttype']=="61"){
+				}elseif($_POST['acttype']=="81"){
 					$this->success("更新成功！","agenda");
 					//$this->agendadetail();
 				}
-				elseif($_POST['acttype']=="62"){
+				elseif($_POST['acttype']=="82"){
 					$this->success("更新成功！","newslist");
 					//$this->newslist();
 				}
@@ -171,7 +171,7 @@ class CompetitionAction extends Action{
 		$activitymodel = M("Activities");
 		$condition = "";
 		$mode = "news";
-		$condition['activitytype'] = 62;
+		$condition['activitytype'] = 82;
 		$newslist = $activitymodel->where($condition)->order("createtime desc")->select();
 		for($i=0;$i<count($newslist);$i++){
 			if($newslist[$i]['attachmentpath'])
@@ -194,7 +194,7 @@ class CompetitionAction extends Action{
 		$operation = $_GET['_URL_'][3];
 		$acttype = "";
 		if($operation == "add"){
-			$acttype = 62;
+			$acttype = 82;
 			$htmltitle = "添加新闻";
 			$this->assign("htmltitle",$htmltitle);
 		}else if($operation == "modify"){
@@ -218,7 +218,7 @@ class CompetitionAction extends Action{
 		$operation = $_GET['_URL_'][3];
 		$acttype = "";
 		if($operation == "add"){
-			$acttype = 61;
+			$acttype = 81;
 			$htmltitle = "添加赛程";
 			$this->assign("htmltitle",$htmltitle);
 		}else if($operation == "modify"){
@@ -305,10 +305,10 @@ class CompetitionAction extends Action{
 		$activity = M("activities");
 		$actid = $_GET['_URL_'][3];
 		$newslist = "";
-		$condition['acttype'] = 60;
+		$condition['acttype'] = 80;
 		if($actid){
 			$condition['actid'] = $actid;
-
+				
 		}
 		$newslist = $actapp->where($condition)->select();
 		$condition = null;
@@ -333,7 +333,7 @@ class CompetitionAction extends Action{
 		$activity = M("activities");
 		$actid = $_GET['_URL_'][3];
 		$newslist = "";
-		$condition['acttype'] = 63;
+		$condition['acttype'] = 83;
 		if($actid){
 			$condition['actid'] = $actid;
 
@@ -358,19 +358,19 @@ class CompetitionAction extends Action{
 		AuthorityAction::checkAdminLogin();
 		$stuff = M('stuff');
 		$list = $stuff->where('role=1')->order('stuffid')->select();
-
+		
 		$appraisal = M('appraisal');
 		$condition = "";
 		for($i=0;$i<count($list);$i++){
-			$condition['comtype'] = 64;
+			$condition['comtype'] = 84;
 			$condition['teacherid'] = $list[$i]['stuffid'];
 			$results = $appraisal->where($condition)->find();
 			if($results){
 				$list[$i]['filename'] = $results['attachmentpath'];
 				$list[$i]['assignid'] = $results['appraisalid'];
 			}
-				
-			$condition['comtype'] = 65;
+			
+			$condition['comtype'] = 85;
 			$results = $appraisal->where($condition)->find();
 			if($results){
 				$list[$i]['backfilename'] = $results['attachmentpath'];
@@ -388,14 +388,13 @@ class CompetitionAction extends Action{
 	public function getbackwork(){
 		$this->assignwork();
 	}
-
+	
 	/**
 	 * 上传给老师的评审附件
 	 */
 	public function uploadassign(){
 		AuthorityAction::checkAdminLogin();
 		$appraisal = M('appraisal');
-		
 		if($_POST['comtype'] == 99){
 			$teacherids = split(",", $_POST['teacherid']);
 			$fileuploaded = false;
@@ -403,7 +402,7 @@ class CompetitionAction extends Action{
 			$sourcesuffix = "";
 			for($j=0;$j<count($teacherids);$j++){
 				$data = "";
-				$data['comtype'] = 64;
+				$data['comtype'] = 84;
 				$data['teacherid'] = $teacherids[$j];
 				$results = $appraisal->where($data)->find();
 				if(!$results){
@@ -436,9 +435,9 @@ class CompetitionAction extends Action{
 		elseif($_POST['teacherid']&&$_POST['comtype']){
 			$data = "";
 			if($_POST['comtype'] == 4){
-				$data['comtype'] = 64;
+				$data['comtype'] = 84;
 			}elseif($_POST['comtype']==5){
-				$data['comtype'] = 65;
+				$data['comtype'] = 85;
 			}else{
 				$this->error("类型有误");
 			}
@@ -462,7 +461,7 @@ class CompetitionAction extends Action{
 		}
 		$this->assignwork();
 	}
-
+	
 	/**
 	 * 删除给老师的评审
 	 */
@@ -471,7 +470,7 @@ class CompetitionAction extends Action{
 		$appraisal = M('appraisal');
 		if($_POST['teacherid']){
 			$condition['teacherid'] = $_POST['teacherid'];
-			$condition['comtype'] = 64;
+			$condition['comtype'] = 84;
 			$results = $appraisal->where($condition)->find();
 			if($results){
 				if($results['attachmentpath']){
@@ -488,7 +487,7 @@ class CompetitionAction extends Action{
 			$this->ajaxReturn(0,"失败",0);
 		}
 	}
-
+	
 	/**
 	 * 删除老师上传的评审
 	 */
@@ -497,7 +496,7 @@ class CompetitionAction extends Action{
 		$appraisal = M('appraisal');
 		if($_POST['teacherid']){
 			$condition['teacherid'] = $_POST['teacherid'];
-			$condition['comtype'] = 65;
+			$condition['comtype'] = 85;
 			$results = $appraisal->where($condition)->find();
 			if($results){
 				if($results['attachmentpath']){
@@ -514,7 +513,7 @@ class CompetitionAction extends Action{
 			$this->ajaxReturn(0,"失败",0);
 		}
 	}
-
+	
 	/**
 	 * 下载给老师的评审文件
 	 */
@@ -530,7 +529,7 @@ class CompetitionAction extends Action{
 			$this->error("未知错误");
 		}
 	}
-
+	
 	/**
 	 * 下载老师上传的评审文件
 	 */

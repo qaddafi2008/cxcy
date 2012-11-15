@@ -6,11 +6,16 @@
  * 62：表示学生创新创业系列赛事的新闻通知
  * 90：表示国际交流活动
  * 91：表示国际交流活动下的新闻列表
- * 
+ *
  * 对activityapplication表中的字段acttype的说明：
  * 60：学生创新创业系列赛事的报名
- * 63：学生创新创业系统赛事的作品
+ * 63：学生创新创业系列赛事的作品
  * 90：国际交流活动的报名表
+ *
+ *
+ * 对appraisal表的字段comtype说明（该表的类型与activity和activityapplication中的acttype一致）
+ * 64：学生创新创业系列赛事中管理员分配给老师的附件
+ * 65：学生创新创业系列赛事中老师上传的评审附件
  */
 import('webApp.Action.Admin.Common');
 class CxssAction extends Action{
@@ -60,17 +65,80 @@ class CxssAction extends Action{
 	public function xinwen(){//新闻
 		$this->newslist();
 	}
+	public function shenpi(){
+		AuthorityAction::checkTeacherLogin();
+		$appraisal = M('appraisal');
+		$condition = "";
+		$condition['comtype'] = 64;
+		$condition['teacherid'] = $_SESSION['uid'];
+		$result = $appraisal->where($condition)->find();
+		$maincontent[0]['title'] = "作品审批下载";
+		$maincontent[0]['fileurl'] = "__URL__/downAssign/".$result['appraisalid']."/".$result['attachmentpath'];
+		$maincontent[0]['attachment'] = $result['attachmentpath'];
+		$this->setSidebar();
+		$this->assign("maincontent",$maincontent);
+		$this->display ("Cxss:page");
+	}
+	public function tijiao(){
+		AuthorityAction::checkTeacherLogin();
+		$appraisal = M('appraisal');
+		
+		if($_POST['comtype'] == 65){
+			$data = "";
+			$data['comtype'] = 65;
+			$data['teacherid'] = $_SESSION['uid'];
+			$result = $appraisal->where($data)->find();
+			if(!$result){
+				$id = $appraisal->add($data);
+				$data['appraisalid'] = id;
+			}else{
+				$data['appraisalid'] = $result['appraisalid'];
+			}
+			$data['attachmentpath'] = "";
+			$suffix = $data['appraisalid'].".appraisal";
+			$temp = Common::uploadFile($suffix);
+			if($temp == "success"){
+				$data['attachmentpath'] = $_FILES['file']['name'];
+				$appraisal->save($data);
+			}
+		}
+		
+		$condition = "";
+		$condition['comtype'] = 65;
+		$condition['teacherid'] = $_SESSION['uid'];
+		$result = $appraisal->where($condition)->find();
+		$maincontent[0]['title'] = "作品审批提交";
+		$maincontent[0]['fileurl'] = "__URL__/downAppraisal/".$result['appraisalid']."/".$result['attachmentpath'];
+		$maincontent[0]['attachment'] = $result['attachmentpath'];
+		$this->setSidebar();
+		$this->assign("comtype",65);
+		$this->assign("maincontent",$maincontent);
+		$this->display ("Cxss:page");
+	}
 
 	public function setSidebar(){
 		//左侧导航栏
 		$modelname = "创新创业系列赛事："; //本模块名称
 		$navindex = 0;
-		$navlist [$navindex++] = array ("url" => '__URL__/xinwen', "title"=>'赛事新闻');
-		$navlist [$navindex++] = array ("url" => '__URL__/jinzhan', "title" => '当前进展' );
-		$navlist [$navindex++] = array ("url" => '__URL__/jieshao', "title" => '赛事介绍' );
-		$navlist [$navindex++] = array ("url" => '__URL__/baoming', "title" => '报名参加' );
-		$navlist [$navindex++] = array ("url" => '__URL__/zuoping', "title" => '提交作品' );
-
+		if($_SESSION['urole']==2){
+			$navlist [$navindex++] = array ("url" => '__URL__/xinwen', "title"=>'赛事新闻');
+			$navlist [$navindex++] = array ("url" => '__URL__/jinzhan', "title" => '当前进展' );
+			$navlist [$navindex++] = array ("url" => '__URL__/jieshao', "title" => '赛事介绍' );
+			$navlist [$navindex++] = array ("url" => '__URL__/baoming', "title" => '报名参加' );
+			$navlist [$navindex++] = array ("url" => '__URL__/zuoping', "title" => '提交作品' );
+		}elseif($_SESSION['urole']==1){
+			$navlist [$navindex++] = array ("url" => '__URL__/xinwen', "title"=>'赛事新闻');
+			$navlist [$navindex++] = array ("url" => '__URL__/jinzhan', "title" => '当前进展' );
+			$navlist [$navindex++] = array ("url" => '__URL__/jieshao', "title" => '赛事介绍' );
+			$navlist [$navindex++] = array ("url" => '__URL__/shenpi', "title" => '下载审批' );
+			$navlist [$navindex++] = array ("url" => '__URL__/tijiao', "title" => '提交审批' );	
+		}else{
+			$navlist [$navindex++] = array ("url" => '__URL__/xinwen', "title"=>'赛事新闻');
+			$navlist [$navindex++] = array ("url" => '__URL__/jinzhan', "title" => '当前进展' );
+			$navlist [$navindex++] = array ("url" => '__URL__/jieshao', "title" => '赛事介绍' );
+			$navlist [$navindex++] = array ("url" => '__URL__/baoming', "title" => '报名参加' );
+		}
+		
 		$this->assign("navlist",$navlist);
 		$this->assign("modelname",$modelname);
 	}
@@ -214,7 +282,7 @@ class CxssAction extends Action{
 			$condition = "";
 			$condition['activitytype'] = 60;
 			$temp = $activitymodel->field("activityid as id,activitysubject as title,starttime,endtime,applydeadline as applytime")->where($condition)->find();
-			
+				
 			$myacts[0]['url'] = "__URL__/jieshao";
 			$myacts[0]['title'] = $temp['title'];
 			$myacts[0]['actid'] = $temp['id'];
@@ -234,8 +302,7 @@ class CxssAction extends Action{
 			}
 			$myacts[0]['content'] = "";
 		}
-		
-		$studentid = $_SESSION['uid'];
+
 		$this->assign("comacttype",$type);
 		$this->assign("mode",$mode);
 		$this->assign("maincontent",$maincontent);
@@ -296,95 +363,27 @@ class CxssAction extends Action{
 			$this->error("未知错误");
 		}
 	}
-}
-?>
-<?php
-class CxssAction2 extends Action {
-	protected function _empty()
-	{
-		$this->index();
-	}
-	public function index() {//首页
-		$this->showpage(1,0);
-	}
-	public function jinzhan(){//进展
-		$this->showpage(1,0);
-	}
-	public function jieshao(){//介绍
-		$this->showpage(1, 1);
-	}
-	public function baoming(){//报名页面
-		$this->showpage(1,2);
-	}
-	public function zuoping(){//作品
-		$this->showpage(1,3);
-	}
-	public function xinwen(){//新闻
-		$this->showpage(1,4);
-	}
-	/**
-	 * 显示创新创业的页面
-	 * @param  $moduleid 模块id，1代表创新创业，2代表河合
-	 * @param  $type 0表示首页和进展、1表示介绍、2表示报名、3表示作品、4表示新闻
-	 */
-	protected function showpage($moduleid,$type)
-	{
-		//左侧导航栏
-		$modelname = "创新创业系列赛事："; //本模块名称
-		$navindex = 0;
-		$navlist [$navindex++] = array ("url" => '__URL__/xinwen', "title"=>'赛事新闻');
-		$navlist [$navindex++] = array ("url" => '__URL__/jinzhan', "title" => '当前进展' );
-		$navlist [$navindex++] = array ("url" => '__URL__/jieshao', "title" => '赛事介绍' );
-		$navlist [$navindex++] = array ("url" => '__URL__/baoming', "title" => '报名参加' );
-		$navlist [$navindex++] = array ("url" => '__URL__/zuoping', "title" => '提交作品' );
-		//从数据库转存信息
-		$maincontent = null;
-
-		//数据库
-		$competitions = M ( 'competitions' );
-		$comagenda = M ( 'comagenda' );
-
-		if($type==1)
-		{
-			//查询competitions表
-			$condition1 ['comid'] = $moduleid;
-			$temp = $competitions->where ( $condition1 )->select ();
-
-			foreach ( $temp as $one => $value ) {
-				$maincontent [$num ++] = array (
-						'title' => $value ['subject'],
-						'releasetime' => $value['createtime'],
-						'content' => $value ['description'],
-						'fileurl'=>'__URL__'."/download/"."cxss/".Common::removesuffix($value['attachmentpath']),
-						'attachment'=>Common::removesuffix($value['attachmentpath'])
-				);
-			}
+	public function downAssign(){
+		try{
+			$suffix = $_GET['_URL_'][2].".assign";
+			$filename = $_GET['_URL_'][3];
+			$success = Common::downloadFile($filename, $suffix);
+			if($success == "nofile")
+				$this->error("找不到文件...");
+		}catch(Exception $e){
+			$this->error("未知错误");
 		}
-		else if($type==0)
-		{
-			//查询comagenda表
-			$condition2 ['compid'] = $moduleid;
-			$temp = $comagenda->where ( $condition2 )->select ();
-			foreach ( $temp as $one => $value ) {
-				$maincontent [$num ++] = array (
-						'title' => $value ['status'],
-						'releasetime'=>$value['endtime'],
-						'content' => $value ['description'],
-						'fileurl'=>'__URL__'."/download/"."cxssproc/".Common::removesuffix($value['attachmentpath']),
-						'attachment'=>Common::removesuffix($value['attachmentpath'])
-				);
-			}
-		}
-		$this->assign ( 'modelname', $modelname );
-		$this->assign ( 'navlist', $navlist );
-		$this->assign ( 'maincontent', $maincontent );
-		$this->display("index");
 	}
-	public function download()
-	{
-		$file_name = $_GET['_URL_'][3];
-		$suffix = $_GET['_URL_'][2];
-		Common::downloadFile($file_name, $suffix);
+	public function downAppraisal(){
+		try{
+			$suffix = $_GET['_URL_'][2].".appraisal";
+			$filename = $_GET['_URL_'][3];
+			$success = Common::downloadFile($filename, $suffix);
+			if($success == "nofile")
+				$this->error("找不到文件...");
+		}catch(Exception $e){
+			$this->error("未知错误");
+		}
 	}
 }
 ?>

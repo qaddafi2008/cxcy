@@ -2,9 +2,10 @@
 import('webApp.Action.Admin.Common');
 class TutorsAction extends Action{
 	public function index(){
-		var_dump($_GET);
+		//var_dump($_GET);
 	}
 	public function assigntutor(){
+		AuthorityAction::checkAdminLogin();
 		$htmltitle = "分配导师";
 		$tsmodel = M('teacherselection');
 		$stuff = M('stuff');
@@ -34,6 +35,7 @@ class TutorsAction extends Action{
 		var_dump($_GET);
 	}
 	public function tsresults(){
+		AuthorityAction::checkAdminLogin();
 		$htmltitle = "分配导师";
 		$tsmodel = M('teacherselection');
 		$stuff = M('stuff');
@@ -64,6 +66,7 @@ class TutorsAction extends Action{
 	 * 按学生id和教师id批准选择
 	 */
 	public function approveById(){
+		AuthorityAction::checkAdminLogin();
 		if(isset($_POST['sid'])&&isset($_POST['tid'])){
 			$condition = "";
 			$condition['studentid'] = $_POST['sid'];
@@ -94,6 +97,7 @@ class TutorsAction extends Action{
 	 * 按学生和教师id删除记录
 	 */
 	public function deleteById(){
+		AuthorityAction::checkAdminLogin();
 		if(isset($_POST['sid'])&&isset($_POST['tid'])){
 			$condition = "";
 			$condition['studentid'] = $_POST['sid'];
@@ -119,6 +123,7 @@ class TutorsAction extends Action{
 	{
 		//var_dump($_GET);
 		//echo $_GET['_URL_'][2];
+		AuthorityAction::checkAdminLogin();
 		$condition['stuffid'] = $_GET['_URL_'][3];
 		$stuff = M('stuff');
 		$teacher = $stuff->where($condition)->field('teachername,teachertitle,major,area,teacherdescription')->find();
@@ -129,6 +134,7 @@ class TutorsAction extends Action{
 	//通过文件和文件名获取文件
 	public function downfile(){
 		//var_dump($_GET['_URL_']);
+		AuthorityAction::checkAdminLogin();
 		try{
 			$sid = $_GET['_URL_'][3];
 			$filename = $_GET['_URL_'][4];

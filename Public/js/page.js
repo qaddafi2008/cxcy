@@ -109,6 +109,7 @@ $(document).ready(function() {
     
     //国际交流活动
     initForGJJL();
+    initForCXSS();
 
 });
 $(function() {
@@ -418,7 +419,7 @@ function baoming(id){
     $("#baomingpage").dialog("open");
 }
 
-//导师信息对话框的设置
+//报名信息对话框的设置
 function setBaomingBox() {
     //设置消息框
     $("#baomingpage").dialog({
@@ -443,6 +444,51 @@ function setBaomingBox() {
             "提交" : function() {
                 if($("#baomingfile").attr("value")!=""&&$("#baomingfile").attr("value")!=null){
                 $("#baomingform").submit();
+                }
+                else{
+                    alert("请选择上传的文件！");
+                }
+            },
+            "取消":function(){
+                $(this).dialog('close');
+            }
+        }
+    });
+}
+
+function initForCXSS(){
+    setTijiaoBox();
+    
+}
+function tijiao(){
+    setTijiaoBox();
+     $("#tijiaopage").dialog("open");
+}
+//报名信息对话框的设置
+function setTijiaoBox() {
+    //设置消息框
+    $("#tijiaopage").dialog({
+        title:"提交材料",
+        modal : true,
+        autoOpen : false,
+        height : 320,
+        width : 480,
+        minHeight : 240,
+        minWidth : 320,
+        maxHeight : 800,
+        maxWidth : 1024,
+        show : {
+            effect : 'fade',
+            speed : 250
+        },
+        hide : {
+            effect : 'fade',
+            duration : 250
+        },
+        buttons : {
+            "提交" : function() {
+                if($("#tijiaofile").attr("value")!=""&&$("#tijiaofile").attr("value")!=null){
+                $("#tijiaoform").submit();
                 }
                 else{
                     alert("请选择上传的文件！");

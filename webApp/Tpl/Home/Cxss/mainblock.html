@@ -7,9 +7,20 @@
 			发布日期：{$maincontent.releasetime}</p></if>
 			<p class="content">{$maincontent.content}</p>
 			<if condition="($maincontent.attachment neq null)">
-			<p class="attachment">附件地址：<a href="{$maincontent.fileurl}">{$maincontent.attachment}</a></p></if>
+			<p class="attachment">附件地址：<a href="{$maincontent.fileurl}">{$maincontent.attachment}</a>
+			
+			<if condition="($comtype eq 65) or ($comtype eq 85)">
+			<input type="button" value="更新审批" onclick="tijiao()">
+			</if>
+			</p></if>
+			<if condition="($maincontent.attachment eq null)">
+				<if condition="($comtype eq 65) or ($comtype eq 85)">
+			<input type="button" value="提交审批" onclick="tijiao()">
+			</if>
+			</if>
 			</volist>
 		</div>
+		<include file="Cxss:tijiaopage"/>
 		<div>
 			<div>
 				<volist name='newslist' id='news'> <a href={$news.url}>

@@ -50,6 +50,12 @@ class Common{
 		}
 	}
 	
+	public static function copyfile($source,$dest){
+		$sfile = Common::utf82gbk("./Uploads/".$source);
+		$dfile = Common::utf82gbk("./Uploads/".$dest);
+		return copy($sfile,$dfile);
+	}
+	
 	//删除以suffix为后缀产文件
 	public static function removefile($suffix)
 	{
