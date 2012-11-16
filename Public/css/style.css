@@ -102,10 +102,9 @@ html > body {
     overflow: hidden
 }
 #sidebar {
+    width: 215px;
     font-family: '微软雅黑', Arial, Helvetica, sans-serif;
-    width: 160px;
     float: left;
-    padding: 13px 32px 0 23px;
     position: absolute;
 }
 
@@ -130,7 +129,12 @@ html > body {
     padding: 0 0 0 10px;
 }
 
+.sidebar_nav{
+    
+}
+
 .sidebar_nav ul li a {
+    width:80%;
     display: block;
     text-decoration: none;
 }
@@ -154,7 +158,7 @@ html > body {
     min-height: 300px;
 }
 .about {
-    padding: 13px 0 0 0;
+    padding: 10px 0 0 0;
     width: 100%;
     float: left;
     word-break: normal;
@@ -183,6 +187,112 @@ html > body {
 }
 .about a:hover {
     text-decoration: none
+}
+
+.about .timerow{
+    margin-top:2px;
+    align:center;
+    text-align:center;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.about .timerow .applydeadline{
+    margin-left:50px;
+}
+.about .timerow .endtime{
+    margin-left:50px;
+}
+.about .attachment{
+    position:relative;top:20px;
+}
+.about #newstable{
+    width:100%;
+}
+.about #newstable thead{
+    display:none;
+}
+.about #newstable .newstimearea{
+    align:center;
+    width:25%;
+}
+.about #newstable .newsstatus{
+    align:center;
+    width:15%;
+}
+.about #newstable .newstitle{
+    text-align:left;
+    width:auto;
+}
+
+.about #baomingtable{
+    width:100%;
+}
+.about #baomingtable td{
+    align:center;
+}
+
+.about #baomingtable .newsattachment{
+    align:center;
+    text-align:center;
+    width:30%;
+}
+
+.about #baomingtable .newstime{
+    align:center;
+    text-align:center;
+    width:25%;
+}
+
+.about #baomingtable .newsoperation{
+    align:center;
+    text-align:center;
+    width:15%;
+}
+
+.about #baomingtable .newstitle{
+    width:30%;
+}
+
+.about #teacherselectertable td{
+    align:center;
+    text-align:center;
+}
+.about #teacherselectortable td{
+    align:center;
+    text-align:center;
+}
+.about #studentselectertable td{
+    align:center;
+    text-align:center;
+}
+.about #studentselectortable td{
+    align:center;
+    text-align:center;
+}
+
+.uploadfile{
+    margin-top:20px;
+    
+}
+.uploadfile input{
+    align:center;
+    text-align:center;
+}
+
+.operationarea{
+    margin-top:10px;
+    width:100%;
+    align:center;
+    text-align:center;
+}
+
+.operationarea input{
+    width:80px;
+    align:center;
+    text-align:center;
+    height:30px;
+    margin-left:20px;
 }
 
 #footer {
@@ -282,4 +392,72 @@ html > body {
 
 .releasetime {
     text-align: center;
+}
+
+.box { background:white url(boxes/box-bg.png) left top repeat-x; width:100%;}
+.box .border-top {background:url(boxes/border.png) repeat-x top;}
+.box .border-bot {background:url(boxes/border.png) repeat-x bottom;}
+.box .border-left {background:url(boxes/border.png) repeat-y left;}
+.box .border-right {background:url(boxes/border.png) repeat-y right;}
+.box .left-top-corner {background:url(boxes/left-top-corner.png) no-repeat left top;}
+.box .right-top-corner {background:url(boxes/right-top-corner.png) no-repeat right top;}
+.box .left-bot-corner {background:url(boxes/left-bot-corner.png) no-repeat left bottom; width:100%;}
+.box .right-bot-corner {background:url(boxes/right-bot-corner.png) no-repeat right bottom; }
+.box .inner { padding:20px 35px 30px 34px;}
+
+table{
+    width:100%;
+}
+
+table td{
+    padding:5px 5px 5px 5px;
+}
+table th{
+    padding:5px 5px 5px 5px;
+}
+
+#teacherinfotabel .namelabel{
+    width:120px;
+}
+
+#teacherinfotabel .namefield{
+    width:230px;
+}
+#teacherinfotabel .titlelabel{
+    width:120px;
+}
+#teacherinfotabel .titlefield{
+    width:230px;
+}
+#teacherinfotabel .descriptionlabel{
+    width:120px;
+}
+#teacherinfotabel .descriptionfield{
+    width:580px;
+    overflow: hidden;
+}
+#teacherinfotabel{
+     border-collapse:collapse;
+}
+#teacherinfotabel td{
+    border:solid 1px;
+}
+
+#teacherprofileform #teacherinfotabel{
+    width:700px;
+}
+
+#teacherprofileform{
+    height:580px;
+}
+
+#teacherprofileform #cke_teacherdescription{
+    width:580px;
+}
+#teacherprofileform input[type="text"]{
+    width:90%;
+    font-size:18px;
+}
+#teacherprofileform .cke_resizer{
+    display:none;
 }

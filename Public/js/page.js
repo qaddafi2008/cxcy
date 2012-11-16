@@ -73,6 +73,8 @@ $(document).ready(function() {
         $(this).children("dl").slideUp(100)
     });
 
+    $(".maxheight").css("height",$("#main_block").height()+30);
+
     //sidebar跟随滚动条滚动
     var offset = $("#main_block").offset();
     if (offset != null) {
@@ -218,7 +220,7 @@ function initForCYDS() {
                 }
             }
         });
-    })
+    });
     //reset动作
     $("#tsreset").click(function() {
         teacherselected = 0;

@@ -1,7 +1,7 @@
 <form id="teacherprofileform" method="post" action="__URL__/submitprofile">
 <input name="stuffid" value="{$teacher.stuffid}" type="hidden"/>
 <div><span id="tips"></span></div>
-<table id="teacherinfotabel">
+<table id="teacherinfotabel" class="teacherprofile">
 	<tr>
 		<td class="namelabel">姓名：</td>
 		<td class="namefield"><input type="text" name="teachername" id="teachername" value="{$teacher.teachername}"/></td>
@@ -28,6 +28,7 @@
 		</td>
 	</tr>
 </table>
+<div class="operationarea">
 <input type="button" value="提交" id="epsubmit"> <input
-		type="reset" id="epreset" value="重置">
+		type="reset" id="epreset" value="重置"></div>
 </form>

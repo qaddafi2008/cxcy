@@ -1,4 +1,16 @@
 <div id="main_block">
+
+<div class="box maxheight">
+                  <div class="border-top maxheight">
+                     <div class="border-right maxheight">
+                        <div class="border-bot maxheight">
+                           <div class="border-left maxheight">
+                              <div class="left-top-corner maxheight">
+                                 <div class="right-top-corner maxheight">
+                                    <div class="right-bot-corner maxheight">
+                                       <div class="left-bot-corner maxheight">
+                                          <div class="inner">
+
 	<div class="about">
 		<div>
 			<volist name="maincontent" id="maincontent">
@@ -8,7 +20,7 @@
 		</div>
 		<div>
 		<include file="Gjjl:baomingpage"/>
-		<table id="baomingtable">
+		<table class="commontable" id="baomingtable">
 		<thead>
 			<tr>
 				<th>活动标题</th>
@@ -20,10 +32,10 @@
 		<tbody>
 		<volist name="myacts" id="act">
 			<tr>
-				<td><a href={$act.url}>{$act.title}</a></td>
-				<td><a href="__URL__/downattachment/{$act.id}/{$act.attachmentpath}">{$act.attachmentpath}</a></td>
-				<td>{$act.submittime}</td>
-				<td>
+				<td class="newstitle"><a href={$act.url}>{$act.title}</a></td>
+				<td class="newsattachment"><a href="__URL__/downattachment/{$act.id}/{$act.attachmentpath}">{$act.attachmentpath}</a></td>
+				<td class="newstime">{$act.submittime}</td>
+				<td class="newsoperation">
 				<if condition="($act.content neq null)">
 				{$act.content}
 				<elseif condition="($act.content eq null)"/>
@@ -37,4 +49,17 @@
 		</div>
 		
 	</div>
+	
+	</div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+	
+	
 </div>

@@ -11,6 +11,9 @@ class CydsAction extends Action {
 		{
 			$this->cydsForTeacher();
 		}
+		else{
+			$this->error("请以学生或老师身份登陆！");
+		}
 	}
 
 	/**

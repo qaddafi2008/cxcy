@@ -364,7 +364,7 @@ function confirmDel(){
 
 		<table id="assigntutortable" class="list_table" cellpadding="0" cellspacing="1" bgcolor="#c0de98" onMouseOver="changeto()"  onmouseout="changeback()">
 			 <thead>
-				<tr>
+				<tr height="26">
 					<th background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">选择</th>
 					<th background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">学号</th>
 					<th background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">学生</th>
@@ -376,7 +376,7 @@ function confirmDel(){
 			
 			<tbody>
 				<volist name="tslist" id="info">
-				<tr>
+				<tr height="26">
 					<td height="26" bgcolor="#FFFFFF" align="center"><input group="{$info.stuno}" type="checkbox" name="checkbox[]"
 						value={$i} /> <input name="studentid" type="hidden"
 						value="{$info.studentid}"> <input name="teacherid"
