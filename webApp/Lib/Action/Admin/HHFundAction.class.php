@@ -104,7 +104,7 @@ class HHFundAction extends Action{
 				$datatemp['activityid'] = $activityid;
 				$activitymodel->save($datatemp);
 			}
-			if($fileresult!=ERROR&&$activityid){
+			if($activityid){
 				if($_POST['acttype'] == "80"){
 					$this->success("添加成功！","comdetail");
 					//$this->comdetail();

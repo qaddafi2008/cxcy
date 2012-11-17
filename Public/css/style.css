@@ -102,10 +102,14 @@ html > body {
     overflow: hidden
 }
 #sidebar {
-    width: 215px;
+    width: 160px;
     font-family: '微软雅黑', Arial, Helvetica, sans-serif;
     float: left;
     position: absolute;
+    padding:10px 10px 10px 10px;
+    border-radius:10px;
+    border:1px solid #9BDF70;
+    background-color: #F0FBEB;
 }
 
 #list {
@@ -125,16 +129,15 @@ html > body {
     text-decoration: underline
 }
 #list li {
-    width: 165px;
-    padding: 0 0 0 10px;
+    width: 162px;
+    margin-left:15px;
 }
 
 .sidebar_nav{
-    
 }
 
 .sidebar_nav ul li a {
-    width:80%;
+    width:125px;
     display: block;
     text-decoration: none;
 }
@@ -142,6 +145,8 @@ html > body {
     display: none;
 }
 .sidebar_nav ul li dl dd a {
+    margin-left:10px;
+    width:105px;
     text-decoration: none;
 }
 .sidebar_nav ul li dl dd a:hover {
@@ -154,17 +159,35 @@ html > body {
     color: #464646;
     overflow: hidden;
     float: right;
-    width: 780px;
+    width: 800px;
     min-height: 300px;
+    display:block;
+    border-radius:10px;
+    border:1px solid #CCEFF5;
+    background-color: #FAFCFD;
+    border:1px solid #9BDF70;
+    background-color: #F0FBEB;
 }
+/*
+.box { background:white url(boxes/box-bg.png) left top repeat-x; width:100%;}
+.box .border-top {background:url(boxes/border.png) repeat-x top;}
+.box .border-bot {background:url(boxes/border.png) repeat-x bottom;}
+.box .border-left {background:url(boxes/border.png) repeat-y left;}
+.box .border-right {background:url(boxes/border.png) repeat-y right;}
+.box .left-top-corner {background:url(boxes/left-top-corner.png) no-repeat left top;}
+.box .right-top-corner {background:url(boxes/right-top-corner.png) no-repeat right top;}
+.box .left-bot-corner {background:url(boxes/left-bot-corner.png) no-repeat left bottom; width:100%;}
+.box .right-bot-corner {background:url(boxes/right-bot-corner.png) no-repeat right bottom; }
+.box .inner { padding:20px 35px 30px 34px;}
+*/
 .about {
-    padding: 10px 0 0 0;
-    width: 100%;
     float: left;
     word-break: normal;
+    width:780px;
+    padding:20px 10px 20px 10px;
 }
 .about p {
-    padding: 5px 0 0 12px;
+    padding: 5px 0 0 0px;
     word-break: normal;
 }
 .about .title {
@@ -177,10 +200,10 @@ html > body {
     float: right;
 }
 .about a {
-    display: block;
     color: #547223;
     text-decoration: underline;
-    margin: 5px 0 0 12px;
+    margin: 5px 0 10px 5px;
+    
 }
 .about a:visited {
     text-decoration: underline
@@ -204,7 +227,7 @@ html > body {
     margin-left:50px;
 }
 .about .attachment{
-    position:relative;top:20px;
+    margin-top:20px;
 }
 .about #newstable{
     width:100%;
@@ -394,16 +417,7 @@ html > body {
     text-align: center;
 }
 
-.box { background:white url(boxes/box-bg.png) left top repeat-x; width:100%;}
-.box .border-top {background:url(boxes/border.png) repeat-x top;}
-.box .border-bot {background:url(boxes/border.png) repeat-x bottom;}
-.box .border-left {background:url(boxes/border.png) repeat-y left;}
-.box .border-right {background:url(boxes/border.png) repeat-y right;}
-.box .left-top-corner {background:url(boxes/left-top-corner.png) no-repeat left top;}
-.box .right-top-corner {background:url(boxes/right-top-corner.png) no-repeat right top;}
-.box .left-bot-corner {background:url(boxes/left-bot-corner.png) no-repeat left bottom; width:100%;}
-.box .right-bot-corner {background:url(boxes/right-bot-corner.png) no-repeat right bottom; }
-.box .inner { padding:20px 35px 30px 34px;}
+
 
 table{
     width:100%;

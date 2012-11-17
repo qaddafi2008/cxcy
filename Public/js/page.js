@@ -73,8 +73,7 @@ $(document).ready(function() {
         $(this).children("dl").slideUp(100)
     });
 
-    $(".maxheight").css("height",$("#main_block").height()+30);
-
+    
     //sidebar跟随滚动条滚动
     var offset = $("#main_block").offset();
     if (offset != null) {
@@ -108,12 +107,13 @@ $(document).ready(function() {
     var teacherselected;
     initForCYDS();
     initForCYDSTeacher();
-    
+
     //国际交流活动
     initForGJJL();
     initForCXSS();
-
+    
 });
+
 $(function() {
     $('#forgot_username_link').tipsy({
         gravity : 'w'
@@ -142,35 +142,32 @@ function forwardto(dest) {
     });
 }
 
-function initForCYDSTeacher(){
+function initForCYDSTeacher() {
     //tips初始化
     $("#tips").hide();
-    
-    $("#sssubmit").click(function(){
+
+    $("#sssubmit").click(function() {
         var selected = 0;
-        $.each($("#studentselectertable tbody :checked"),function(){
+        $.each($("#studentselectertable tbody :checked"), function() {
             selected++;
         });
-        if(selected>0)
-        {
+        if (selected > 0) {
             $("#ssform").submit();
-        }
-        else {
+        } else {
             $("#tips").html("请选择学生！");
             $("#tips").show();
         }
     });
-    
-    $("#epsubmit").click(function(){
-        if($("#teachername").val()!=""){
+
+    $("#epsubmit").click(function() {
+        if ($("#teachername").val() != "") {
             $("#teacherprofileform").submit();
-        }else{
+        } else {
             $("#tips").html("姓名不能为空！");
             $("#tips").show();
         }
     });
 }
-
 
 //创业导师部分学生页面的初始化
 function initForCYDS() {
@@ -290,7 +287,7 @@ function getTeacherInfo(id) {
             setTeacherInfoBox();
             var msgtemp = eval('(' + msg + ')');
             msgtemp = eval(msgtemp.data);
-            $("#teacherinfotabel .descriptionfield").html(msgtemp.teacherdescription==null?"暂无":msgtemp.teacherdescription);
+            $("#teacherinfotabel .descriptionfield").html(msgtemp.teacherdescription == null ? "暂无" : msgtemp.teacherdescription);
             $("#teacherinfobox").dialog("open");
         }
     });
@@ -331,7 +328,7 @@ function showTeacherInfo(message) {
 function setTeacherInfoBox() {
     //设置消息框
     $("#teacherinfobox").dialog({
-        title:"导师信息",
+        title : "导师信息",
         modal : true,
         autoOpen : false,
         height : 480,
@@ -410,14 +407,14 @@ function ShowObjProperty(Obj) {
     alert(PropertyList);
 }
 
-function initForGJJL(){
+function initForGJJL() {
     setBaomingBox();
     $("#baomingpage").hide();
 }
 
 //报名
-function baoming(id){
-    $("#baomingpage #actid").attr("value",id);
+function baoming(id) {
+    $("#baomingpage #actid").attr("value", id);
     $("#baomingpage").dialog("open");
 }
 
@@ -425,7 +422,7 @@ function baoming(id){
 function setBaomingBox() {
     //设置消息框
     $("#baomingpage").dialog({
-        title:"提交材料",
+        title : "提交材料",
         modal : true,
         autoOpen : false,
         height : 320,
@@ -444,33 +441,34 @@ function setBaomingBox() {
         },
         buttons : {
             "提交" : function() {
-                if($("#baomingfile").attr("value")!=""&&$("#baomingfile").attr("value")!=null){
-                $("#baomingform").submit();
-                }
-                else{
+                if ($("#baomingfile").attr("value") != "" && $("#baomingfile").attr("value") != null) {
+                    $("#baomingform").submit();
+                } else {
                     alert("请选择上传的文件！");
                 }
             },
-            "取消":function(){
+            "取消" : function() {
                 $(this).dialog('close');
             }
         }
     });
 }
 
-function initForCXSS(){
+function initForCXSS() {
     setTijiaoBox();
-    
+
 }
-function tijiao(){
+
+function tijiao() {
     setTijiaoBox();
-     $("#tijiaopage").dialog("open");
+    $("#tijiaopage").dialog("open");
 }
+
 //报名信息对话框的设置
 function setTijiaoBox() {
     //设置消息框
     $("#tijiaopage").dialog({
-        title:"提交材料",
+        title : "提交材料",
         modal : true,
         autoOpen : false,
         height : 320,
@@ -489,14 +487,13 @@ function setTijiaoBox() {
         },
         buttons : {
             "提交" : function() {
-                if($("#tijiaofile").attr("value")!=""&&$("#tijiaofile").attr("value")!=null){
-                $("#tijiaoform").submit();
-                }
-                else{
+                if ($("#tijiaofile").attr("value") != "" && $("#tijiaofile").attr("value") != null) {
+                    $("#tijiaoform").submit();
+                } else {
                     alert("请选择上传的文件！");
                 }
             },
-            "取消":function(){
+            "取消" : function() {
                 $(this).dialog('close');
             }
         }

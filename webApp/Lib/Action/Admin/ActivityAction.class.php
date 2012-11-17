@@ -83,6 +83,7 @@ class ActivityAction extends Action{
 			$data['endtime'] = $_POST['endtime'];
 			$data['activitycontent'] = $_POST['activitycontent'];
 			$activityid = $activitymodel->add($data);
+			$fileresult = "nofile";
 			if($activityid&&$_FILES['file']){
 				$suffix = $activityid.".activity";
 				$fileresult = Common::upload($suffix);
@@ -90,7 +91,7 @@ class ActivityAction extends Action{
 				$datatemp['activityid'] = $activityid;
 				$activitymodel->save($datatemp);
 			}
-			if($fileresult!=ERROR&&$activityid){
+			if($activityid){
 				if($_POST['acttype'] == "90"){
 					$this->success("添加成功！","activity");
 					//$this->activity();
