@@ -1,0 +1,31 @@
+<?php
+if($originalityList != null){
+?>
+
+<div align="center">
+标题：<input type="text" id="keywords_stu" width="200"/><input type="button" value="搜 索" id="searchOriginality">
+</div>
+<table id="originalityListTable" width="90%" border="0">
+  <thead>
+  <tr>
+    <th scope="col">标题</th>
+    <th scope="col">作者</th>
+    <th scope="col">提交时间</th>
+    <th scope="col">收藏次数</th>
+  </tr>
+  </thead>
+  <tbody>
+  <volist name="originalityList" id="originality">
+			<tr align="center">
+				<td class="subjectrow"><a href="__URL__/getOriginalityDetail/oid/{$originality.oid}">{$originality.subject}</a></td>
+				<td>{$originality.author}</td>
+				<td >{$originality.submittime}</td>
+				<td >{$originality.collectiontimes}</td>
+			</tr>
+  </volist>
+  </tbody>
+</table>
+<?php
+	}else
+		echo '<div align="center">暂无信息</div>';
+?>

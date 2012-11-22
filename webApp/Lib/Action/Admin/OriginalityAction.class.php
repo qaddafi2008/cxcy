@@ -49,7 +49,9 @@ class OriginalityAction extends Action{
 	//下载创意申请表
 	public function downloadODeclaredTable(){
 		$file_name = $_GET['tname'];
-		Common::downloadFile($file_name,'OriginalityAdmin');
+		$success = Common::downloadFile($file_name,'OriginalityAdmin');
+		if($success == "nofile")
+				$this->error("找不到文件...");
 	}
 	
 	public function reviewrule(){

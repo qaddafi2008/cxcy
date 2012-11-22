@@ -1,0 +1,38 @@
+<table id="stuodetailtable" width="100%" border="0">
+    <tr>
+      <th scope="row" class="tdtitle">创意名称</th>
+      <td>{$myOriginality.subject}</td>
+    </tr>
+    <tr>
+      <th scope="row" class="tdtitle">提交者</th>
+      <td>{$myOriginality.sname}</td>
+    </tr>
+    <tr>
+      <th scope="row" class="tdtitle">小组成员</th>
+      <td>{$myOriginality.author}</td>
+    </tr>
+    <tr>
+      <th scope="row" class="tdtitle">创意背景说明</th>
+      <td>
+      {$myOriginality.background}</td>
+    </tr>
+    <tr>
+      <th scope="row" class="tdtitle">创意概述</th>
+      <td>
+      {$myOriginality.abstract}</td>
+    </tr>
+    <tr>
+      <th scope="row" class="tdtitle">创意功能说明</th>
+      <td>
+      {$myOriginality.functiondescription} </td>
+    </tr>
+    <tr>
+      <th scope="row" class="tdtitle">创建时间</th>
+      <td>{$myOriginality.submittime} </td>
+    </tr>
+    <tr>
+      <th scope="row" class="tdtitle">创意申报表</th>
+      <td><a id="existedFile" name="existedFile" href="__URL__/downloadStuDeclaredTable/tname/{$myOriginality.filepath}/tid/{$myOriginality.stuid}" >{$myOriginality.filepath}</a>
+       </td>
+    </tr>
+</table>

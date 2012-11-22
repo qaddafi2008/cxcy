@@ -1,0 +1,53 @@
+<script type="text/javascript" src="__PUBLIC__/js/originality-home-stuopage.js"></script>
+<form id="stuOForm" name="stuOForm" action="__URL__/updateOriginality" enctype="multipart/form-data" method="post">
+ <input type="hidden" id="stuOriginalityID" name="stuOriginalityID" value="{$myOriginality.oid}"/>
+  <table id="stuopagetable" width="100%" border="0">
+    <tr>
+      <th scope="row">创意名称</th>
+      <td><input type="text" name="subject" id="subject" value="{$myOriginality.subject}"/></td>
+    </tr>
+    <tr>
+      <th scope="row">小组成员</th>
+      <td><input type="text" name="authors" id="authors" value="{$myOriginality.author}"/></td>
+    </tr>
+    <tr>
+      <th scope="row">创意背景说明</th>
+      <td>
+      <textarea class="ckeditor" id="obackground" name="obackground" cols="20" rows="10">{$myOriginality.background}</textarea>      </td>
+    </tr>
+    <tr>
+      <th scope="row">创意概述</th>
+      <td>
+      <textarea class="ckeditor" id="abstract" name="abstract" rows="10">{$myOriginality.abstract}</textarea>      </td>
+    </tr>
+    <tr>
+      <th scope="row">创意功能说明</th>
+      <td>
+      <textarea class="ckeditor" id="functiondescription" name="functiondescription" rows="10">{$myOriginality.functiondescription}</textarea>      </td>
+    </tr>
+    <tr>
+      <th scope="row">是否公开</th>
+      <td>
+      	<label>是<input name="isopen" type="radio" value="1"/></label>
+		&nbsp;&nbsp;
+		<label>否<input name="isopen" type="radio" value="0"/></label>
+        <input type="hidden" id="h_isopen" name="h_isopen" value="{$myOriginality.isopen}"/>      </td>
+    </tr>
+    <tr>
+      <th scope="row">选择申报表</th>
+      <td><?php if(null != $myOriginality['filepath']){ ?><a id="existedFile" name="existedFile" href="__URL__/downloadStuDeclaredTable/tname/{$myOriginality.filepath}/tid/{$myOriginality.stuid}" >{$myOriginality.filepath}</a>&nbsp;&nbsp;
+      <input type="button" id="delFile" name="delFile" value="删除" style="width:80px;"/>
+      <input type="hidden" id="oldFile" name="oldFile" value="{$myOriginality.filepath}" />
+      <?php }?><input name="file" type="file" id="file" style="width:300px;"/><input type="hidden" id="fileStatus" name="fileStatus" value="0" /><!--0表示尚无文件；1表示有文件，但不做修改；2表示有文件，并且做修改 -->
+       </td>
+    </tr>
+  </table>
+  <div class="operationarea">
+  <input type="button" id="updateSObtn" name="updateSObtn" value="提交" />&nbsp;&nbsp;&nbsp;&nbsp;<input type="reset" value="重置"/>
+  </div>
+</form>
+<script type="text/javascript">
+  CKEDITOR.replace( 'obackground' );
+  CKEDITOR.replace( 'abstract' );
+  CKEDITOR.replace( 'functiondescription' );
+</script>

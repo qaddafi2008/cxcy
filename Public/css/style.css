@@ -475,3 +475,35 @@ table th{
 #teacherprofileform .cke_resizer{
     display:none;
 }
+
+
+#stuOForm #stuopagetable{
+	 width:800px;
+}
+#stuOForm #cke_obackground{
+    width:590px;
+}
+#stuOForm #cke_abstract{
+    width:590px;
+}
+#stuOForm #cke_functiondescription{
+    width:590px;
+}
+#stuOForm .cke_resizer{
+    display:none;
+}
+#stuOForm input[type="text"]{
+    width:90%;
+    font-size:18px;
+}
+
+
+#stuodetailtable{
+     border-collapse:collapse;
+}
+#stuodetailtable td{
+    border:solid 1px;
+}
+#stuodetailtable th{
+    border:solid 1px;
+}
