@@ -447,7 +447,7 @@ table th{
     width:120px;
 }
 #teacherinfotabel .descriptionfield{
-    width:580px;
+    width:660px;
     overflow: hidden;
 }
 #teacherinfotabel{
@@ -458,7 +458,7 @@ table th{
 }
 
 #teacherprofileform #teacherinfotabel{
-    width:700px;
+    width:780px;
 }
 
 #teacherprofileform{
@@ -466,7 +466,7 @@ table th{
 }
 
 #teacherprofileform #cke_teacherdescription{
-    width:580px;
+    width:640px;
 }
 #teacherprofileform input[type="text"]{
     width:90%;
