@@ -84,8 +84,10 @@
 						已过报名期
 						<elseif condition="($news.applyurl eq 'applied')"/>
 						<a href="__URL__/baoming">已报名</a>
-						<elseif condition="($news.applyurl neq null)"/>
+						<elseif condition="($news.applyurl neq null and $_SESSION['urole'] eq 2)"/>
 						<a href="javascript:baoming({$news.applyurl})">我要报名</a>
+						<elseif condition="($news.applyurl neq null and $_SESSION['urole'] neq 2)"/>
+						<a href="#" class="signin">登陆报名</a>
 						</if>
 						</td>
 						</if>

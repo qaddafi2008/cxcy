@@ -14,6 +14,7 @@ body {
     background-color: #F3F1E9;
     position: relative;
     font-family: Arial, Helvetica, sans-serif;
+    font-family: '微软雅黑', Arial, Helvetica, sans-serif;
 }
 html > body {
     min-height: 100%;
@@ -37,14 +38,14 @@ html > body {
     top: 156px;
     left: 26px;
     font-size: 16px;
-    z-index: 1;
+    z-index: 99;
 }
 #menu li {
     display: inline;
+    z-index: 99;
 }
 #menu a {
     margin: 0 1px 0 0;
-    width: 110px;
     text-align: center;
     text-decoration: none;
     padding: 8px 0 18px 0;
@@ -53,17 +54,20 @@ html > body {
     color: #0D0D0D;
     background-position: top left;
     background-repeat: no-repeat;
+    z-index: 99;
 }
 #menu .but_active, #menu .but:hover {
     background-image: url(images/index/but.png);
     text-decoration: none;
     color: #FFFFFF;
+    z-index: 99;
 }
 
 .main_nav ul li {
     float: left;
     position: relative;
     text-align: center;
+    z-index: 99;
 }
 .main_nav ul li a {
     background-image: none;
@@ -71,19 +75,22 @@ html > body {
     text-align: center;
     text-decoration: none;
     width: 110px;
+    z-index: 99;
 }
 .main_nav ul li dl {
     position: absolute;
     left: 0;
     top: 40px;
-    width: 190px;
+    margin-left:-50px;
     display: none;
+    z-index: 99;
 }
 .main_nav ul li dl dd a {
     text-align: center;
     border-bottom: 1px solid #666;
-    width: 110px;
+    width: 220px;
     background-color: #a3bd38;
+    border-radius:3px;
 }
 .main_nav ul li dl dd a:hover {
     text-decoration: none;
@@ -103,13 +110,15 @@ html > body {
 }
 #sidebar {
     width: 160px;
+    min-height: 300px;
     font-family: '微软雅黑', Arial, Helvetica, sans-serif;
     float: left;
     position: absolute;
-    padding:10px 10px 10px 10px;
+    padding:30px 10px 10px 10px;
     border-radius:10px;
     border:1px solid #9BDF70;
     background-color: #F0FBEB;
+    z-index: 1;
 }
 
 #list {
@@ -138,6 +147,7 @@ html > body {
 
 .sidebar_nav ul li a {
     width:125px;
+    margin-top:20px;
     display: block;
     text-decoration: none;
 }
@@ -146,6 +156,7 @@ html > body {
 }
 .sidebar_nav ul li dl dd a {
     margin-left:10px;
+    margin-top:15px;
     width:105px;
     text-decoration: none;
 }
@@ -160,7 +171,7 @@ html > body {
     overflow: hidden;
     float: right;
     width: 800px;
-    min-height: 300px;
+    min-height: 500px;
     display:block;
     border-radius:10px;
     border:1px solid #CCEFF5;
@@ -237,11 +248,13 @@ html > body {
 }
 .about #newstable .newstimearea{
     align:center;
-    width:25%;
+    width:20%;
+    text-align:center;
 }
 .about #newstable .newsstatus{
     align:center;
     width:15%;
+    text-align:center;
 }
 .about #newstable .newstitle{
     text-align:left;

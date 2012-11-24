@@ -36,7 +36,75 @@ class HhjjAction extends Action {
 		$this->index();
 	}
 	public function index() {//首页
-		$this->redirect("jinzhan");
+		$this->setSidebar();
+		$activitymodel = M("Activities");
+		$condition = "";
+		$condition['activitytype'] = 81;
+		$maincontent[0]['name'] = "当前进展：";
+		$maincontent[0]['type'] = "jinzhan";
+		$maincontent[0]['content'] = $activitymodel->field("activitycontent as content")->where($condition)->find();
+		if(strlen($maincontent[0]['content']['content'])>280*3){
+			$maincontent[0]['content']['content'] =  iconv_substr($maincontent[0]['content']['content'],0,280*3,'utf-8')."...";
+		}
+		
+		
+		$condition['activitytype'] = 82;
+		$maincontent[1]['name'] = "新闻通知：";
+		$maincontent[1]['type'] = "xinwen";
+		$maincontent[1]['newslist'] = $activitymodel->field("activityid as id,activitysubject as title,createtime as time")->where($condition)->order("createtime desc")->limit(10)->select();
+		
+		$baomingMsg = "";
+		$baomingDay = "";
+		$condition = "";
+		$condition['activitytype'] =80;
+		$act = $activitymodel->field("activityid as id,activitysubject as title,starttime as st, endtime as et,applydeadline as at")->where($condition)->order("createtime desc")->find();
+		$now = date("Y-m-d H:i:s");
+		if(strtotime($now)<strtotime($act['st'])){
+			$baomingMsg = "敬请期待赛事来临~";
+			$baomingDay = 0;
+		}elseif(strtotime($now)>strtotime($act['st'])&&strtotime($now)<strtotime($act['at'])){
+			$baomingMsg = "baoming";
+			$baomingDay = date("d",strtotime($act['at'])-strtotime($now)); 
+		}elseif(strtotime($now)>strtotime($act['at'])){
+			$baomingMsg = "报名已截止！";
+			$baomingDay = 0;
+		}
+		
+		$columncount = 3;
+		if($columncount == 2){
+			$wordcountmax = 25;
+		}elseif($columncount == 3){
+			$wordcountmax = 15;
+		}
+		
+		for($i=0;$i<count($maincontent);$i++){
+			for($j=0;$j<count($maincontent[$i]['newslist']);$j++){
+				if($wordcountmax){
+					$wordcounts = strlen($maincontent[$i]['newslist'][$j]['title']);
+					if($wordcounts > $wordcountmax*3){
+						$maincontent[$i]['newslist'][$j]['title'] = iconv_substr($maincontent[$i]['newslist'][$j]['title'],0,$wordcountmax*3,'utf-8')."...";
+					}
+				}
+		
+				if(strtotime($maincontent[$i]['newslist'][$j]['time'])==0){
+					$maincontent[$i]['newslist'][$j]['time']="";
+				}else{
+					$maincontent[$i]['newslist'][$j]['time'] = date("Y-m-d",strtotime($maincontent[$i]['newslist'][$j]['time']));
+				}
+			}
+		}
+		
+		$imgsrc = "__PUBLIC__/images/home/hhjj.png";
+		$baomingbg = "__PUBLIC__/images/home/hhjjbm.png";
+		$baomingButton = "__PUBLIC__/images/home/baoming.png";
+		$this->assign("columncount",$columncount);
+		$this->assign("maincontent",$maincontent);
+		$this->assign("imgsrc",$imgsrc);
+		$this->assign("baomingbg",$baomingbg);
+		$this->assign("baomingMsg",$baomingMsg);
+		$this->assign("baomingDay",$baomingDay);
+		$this->assign("baomingButton",$baomingButton);
+		$this->display ("Gjjl:mainpage");
 	}
 	public function jinzhan(){//进展
 		$activitymodel = M("Activities");
@@ -46,7 +114,11 @@ class HhjjAction extends Action {
 		$condition['activitytype'] = 81;
 		$maincontent = $activitymodel->field("activityid as id,activitysubject as title,createtime,activitycontent as content,attachmentpath")->where($condition)->select();
 		$maincontent[0]['filename'] = Common::removesuffix($maincontent[0]['attachmentpath']);
-
+		if(strtotime($maincontent[0]['createtime'])==0){
+			$maincontent[0]['createtime'] = null;
+		}else{
+			$maincontent[0]['createtime'] = date("Y-m-d",strtotime($maincontent[0]['createtime']));
+		}
 		$this->assign("mode",$mode);
 		$this->assign("maincontent",$maincontent);
 		$this->assign("tablenewslist",$newslist);
@@ -59,6 +131,11 @@ class HhjjAction extends Action {
 		$condition['activitytype'] = 80;
 		$maincontent = $activitymodel->field("activityid as id,activitysubject as title,createtime,starttime,endtime,applydeadline,activitycontent as content,attachmentpath")->where($condition)->select();
 		$maincontent[0]['filename'] = Common::removesuffix($maincontent[0]['attachmentpath']);
+		$maincontent[0]['createtime'] = date("Y-m-d",strtotime($maincontent[0]['createtime']));
+		$maincontent[0]['starttime'] = date("Y-m-d",strtotime($maincontent[0]['starttime']));
+		$maincontent[0]['endtime'] = date("Y-m-d",strtotime($maincontent[0]['endtime']));
+		$maincontent[0]['applydeadline'] = date("Y-m-d",strtotime($maincontent[0]['applydeadline']));
+		
 		$this->setSidebar();
 		$this->assign("mode",$mode);
 		$this->assign("maincontent",$maincontent);
@@ -132,18 +209,21 @@ class HhjjAction extends Action {
 		$modelname = "河合创业基金："; //本模块名称
 		$navindex = 0;
 		if($_SESSION['urole']==2){
+			$navlist [$navindex++] = array ("url" => '__URL__/index', "title"=>'首页');
 			$navlist [$navindex++] = array ("url" => '__URL__/xinwen', "title"=>'新闻通知');
 			$navlist [$navindex++] = array ("url" => '__URL__/jinzhan', "title" => '当前进展' );
 			$navlist [$navindex++] = array ("url" => '__URL__/jieshao', "title" => '河合介绍' );
 			$navlist [$navindex++] = array ("url" => '__URL__/baoming', "title" => '报名参加' );
 			$navlist [$navindex++] = array ("url" => '__URL__/zuoping', "title" => '提交作品' );
 		}elseif($_SESSION['urole']==1){
+			$navlist [$navindex++] = array ("url" => '__URL__/index', "title"=>'首页');
 			$navlist [$navindex++] = array ("url" => '__URL__/xinwen', "title"=>'新闻通知');
 			$navlist [$navindex++] = array ("url" => '__URL__/jinzhan', "title" => '当前进展' );
 			$navlist [$navindex++] = array ("url" => '__URL__/jieshao', "title" => '河合介绍' );
 			$navlist [$navindex++] = array ("url" => '__URL__/shenpi', "title" => '下载审批' );
 			$navlist [$navindex++] = array ("url" => '__URL__/tijiao', "title" => '提交审批' );	
 		}else{
+			$navlist [$navindex++] = array ("url" => '__URL__/index', "title"=>'首页');
 			$navlist [$navindex++] = array ("url" => '__URL__/xinwen', "title"=>'新闻通知');
 			$navlist [$navindex++] = array ("url" => '__URL__/jinzhan', "title" => '当前进展' );
 			$navlist [$navindex++] = array ("url" => '__URL__/jieshao', "title" => '河合介绍' );
@@ -268,17 +348,17 @@ class HhjjAction extends Action {
 			$myacts[$i]['url'] = "__URL__/jieshao";
 			if($type%10==0){
 				if(strtotime($now)<strtotime($temp['applytime'])){
-					$myacts[$i]['modify'] = "allowmodify";
+					$myacts[$i]['modify'] = "";
 				}
 				else{
-					$myacts[$i]['modify'] = "over";
+					$myacts[$i]['modify'] = "已结束";
 				}
 			}else{
 				if(strtotime($now)<strtotime($temp['endtime'])){
-					$myacts[$i]['modify'] = "allowmodify";
+					$myacts[$i]['modify'] = "";
 				}
 				else{
-					$myacts[$i]['modify'] = "over";
+					$myacts[$i]['modify'] = "已结束";
 				}
 			}
 			$myacts[$i]['title'] = $temp['title'];
@@ -333,6 +413,11 @@ class HhjjAction extends Action {
 			$condition['activitytype'] = 82;
 			$maincontent = $activitymodel->field("activityid as id,activitysubject as title,createtime,activitycontent as content,attachmentpath")->where($condition)->select();
 			$maincontent[0]['filename'] = Common::removesuffix($maincontent[0]['attachmentpath']);
+			if(strtotime($maincontent[0]['createtime'])==0){
+				$maincontent[0]['createtime'] = null;
+			}else{
+				$maincontent[0]['createtime'] = date("Y-m-d",strtotime($maincontent[0]['createtime']));
+			}
 		}else{
 			$pagetype = 2;
 			$condition = "";
@@ -342,6 +427,11 @@ class HhjjAction extends Action {
 			//var_dump($newslist);
 			for($i=0;$i<count($newslist);$i++){
 				$newslist[$i]['url'] = "__URL__/xinwen/id/".$newslist[$i]['id'];
+				if(strtotime($newslist[$i]['createtime'])==0){
+					$newslist[$i]['createtime'] = "";
+				}else {
+					$newslist[$i]['createtime'] = date("Y-m-d",strtotime($newslist[$i]['createtime']));
+				}
 			}
 			$maincontent[0]['title'] = "新闻通知";
 		}
