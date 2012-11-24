@@ -18,6 +18,31 @@
 	src="__PUBLIC__/js/jquery-ui-1.8.21.custom.min.js"></script>
 <script type="text/javascript" src="__PUBLIC__/js/jquery.tipsy.js"></script>
 <script type="text/javascript" src="__PUBLIC__/js/page.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	initForIndex();
+});
+function initForIndex(){
+    var version = parseFloat($.browser.version);
+    if ($.browser.msie && version<=8.0) { //IE浏览器
+        $.each($(".columnheader .columnright"),function(){
+            var top1 = $(this).offset().top;
+            var top2 = $(this).parent("span").parent("div").children(".columnleft:first").offset().top;
+            if(top1!=top2){
+                $(this).css("margin-top","-"+(top1-top2)+"px");
+            }
+        });
+        $.each($(".columncontent .columnright"),function(){
+            var top1 = $(this).offset().top;
+            var top2 = $(this).parent("div").children(".columnleft:first").offset().top;
+            if(top1!=top2){
+                $(this).css("margin-top","-"+(top1-top2)+"px");
+            }
+        });
+        alert("推荐您升级浏览器！\n使用Internet Explorer 9.0以上版本或Google Chrome,Mozilla Firefox以获取更高体验");
+    }
+}
+</script>
 </head>
 <body>
 	<include file="Index:header" />
@@ -45,8 +70,8 @@
 					<volist name="maincontent" id="mc">
 					<div class="column">
 						<div class="columnheader">
-							<span class="columnleft">{$mc.name} </span><span
-								class="columnright"><a href="__URL__/{$mc.type}">更多>>></a></span>
+							<span class="columnleft">{$mc.name} <span
+								class="columnright"><a href="__URL__/{$mc.type}">更多>>></a></span></span>
 						</div>
 						<volist name='mc[content]' id="mcc">
 							<div class="columncontent">
