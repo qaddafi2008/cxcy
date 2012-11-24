@@ -68,8 +68,6 @@
     margin-right:5px;
 }
 #comMsgbox{
-    text-align:center;
-    align:center;
     display:block;
 }
 #comMsgbox .msgbutton{
@@ -88,14 +86,14 @@
 #comMsgbox #baomintbt{
     border-radius:10px;
     position:absolute;
-    margin-left:-55px;
+    left:90px;
     margin-top:20px;
 }
 #comMsgbox .msg{
     margin-bottom:20px;
     margin-top:10px;
     font-size:20px;
-    margin-left:5px;
+    margin-left:35px;
     margin-right:5px;
     padding:10 10 10 10;
 }
