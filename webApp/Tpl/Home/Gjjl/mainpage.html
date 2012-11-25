@@ -39,7 +39,9 @@ function initForIndex(){
                 $(this).css("margin-top","-"+(top1-top2)+"px");
             }
         });
-        alert("推荐您升级浏览器！\n使用Internet Explorer 9.0以上版本或Google Chrome,Mozilla Firefox以获取更高体验");
+        //alert("推荐您升级浏览器！\n使用Internet Explorer 9.0以上版本或Google Chrome,Mozilla Firefox以获取更高体验");
+    	var tips = "<div style='text-align:center;font-size:11px;background:#a2c02a;'>推荐您升级浏览器！使用Internet Explorer 9.0以上版本或Google Chrome,Mozilla Firefox以获取更高体验</div>";
+    	$("#header").before(tips);
     }
 }
 </script>
