@@ -25,9 +25,9 @@
 				<td class="newsattachment"><a href="__URL__/downattachment/{$act.id}/{$act.attachmentpath}">{$act.attachmentpath}</a></td>
 				<td class="newstime">{$act.submittime}</td>
 				<td class="newsoperation">
-				<if condition="($act.content neq null)">
-				{$act.content}
-				<elseif condition="($act.content eq null)"/>
+				<if condition="($act.modify neq null)">
+				{$act.modify}
+				<elseif condition="($act.modify eq null)"/>
 				<a href="javascript:baoming({$act.actid})">更新材料</a>
 				</if>
 				</td>

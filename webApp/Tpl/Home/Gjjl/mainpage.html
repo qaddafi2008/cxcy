@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>北大创新创业成长计划平台</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="shortcut icon" type="image/x-icon"
+	href="__PUBLIC__/css/images/index/pku.ico" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/style.css" />
+<link rel="stylesheet" type="text/css"
+	href="__PUBLIC__/css/home/front.css" />
+
+<link rel="stylesheet" type="text/css"
+	href="__PUBLIC__/css/jquery-ui-1.8.21.custom.css" media="all" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/index.css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript"
+	src="__PUBLIC__/js/jquery-ui-1.8.21.custom.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.tipsy.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/page.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	initForIndex();
+});
+function initForIndex(){
+    var version = parseFloat($.browser.version);
+    if ($.browser.msie && version<=8.0) { //IE浏览器
+        $.each($(".columnheader .columnright"),function(){
+            var top1 = $(this).offset().top;
+            var top2 = $(this).parent("span").parent("div").children(".columnleft:first").offset().top;
+            if(top1!=top2){
+                $(this).css("margin-top","-"+(top1-top2)+"px");
+            }
+        });
+        $.each($(".columncontent .columnright"),function(){
+            var top1 = $(this).offset().top;
+            var top2 = $(this).parent("div").children(".columnleft:first").offset().top;
+            if(top1!=top2){
+                $(this).css("margin-top","-"+(top1-top2)+"px");
+            }
+        });
+        //alert("推荐您升级浏览器！\n使用Internet Explorer 9.0以上版本或Google Chrome,Mozilla Firefox以获取更高体验");
+    	var tips = "<div style='text-align:center;font-size:11px;background:#a2c02a;'>推荐您升级浏览器！使用Internet Explorer 9.0以上版本或Google Chrome,Mozilla Firefox以获取更高体验</div>";
+    	$("#header").before(tips);
+    }
+}
+</script>
+</head>
+<body>
+	<include file="Index:header" />
+	<div id="wrapper">
+		<div id="content_inside">
+			<div id="index_main_block">
+				<div id="bannerimg">
+					<img src="{$imgsrc}" />
+				</div>
+				<div id="columns" class="column{$columncount}">
+					<if condition="($baomingMsg neq null)">
+					<div id="comMsgbox" class="column">
+						<img id="comMsgboxbg" src="{$baomingbg}" />
+						<div class="msgbutton">
+							<if condition="($baomingMsg eq 'baoming')"> <span class="msg">距离报名截止还有<span
+								class="highlight">{$baomingDay}</span>天 </span><elseif
+								condition="($baomingMsg neq 'baoming')" /> <div style="font-size:20px;align:center;text-align:center;">{$baomingMsg}</div> </if>
+							<div>
+								<a href="__URL__/baoming"><img id="baomintbt"
+									src="{$baomingButton}" /></a>
+							</div>
+						</div>
+					</div>
+					</if>
+					<volist name="maincontent" id="mc">
+					<div class="column">
+						<div class="columnheader">
+							<span class="columnleft">{$mc.name} <span
+								class="columnright"><a href="__URL__/{$mc.type}">更多>>></a></span></span>
+						</div>
+						<volist name='mc[content]' id="mcc">
+							<div class="columncontent">
+							{$mcc}
+							</div>
+						</volist>
+						<volist name='mc[newslist]' id='mcc'>
+						<div class="columncontent">
+							<span class="columnleft"><a
+								href="__URL__/{$mc.type}/id/{$mcc.id}">{$mcc.title}</a></span> <span
+								class="columnright">{$mcc.time}</span>
+						</div>
+						</volist>
+					</div>
+					</volist>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<include file="Index:footer" />
+</body>
+</html>

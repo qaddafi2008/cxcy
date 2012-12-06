@@ -1,0 +1,123 @@
+@CHARSET "UTF-8";
+#index_main_block{
+    font-family: '微软雅黑', Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    color: #464646;
+    overflow: hidden;
+    width:100%;
+    min-height: 500px;
+    display:block;
+    border-radius:10px;
+    border:1px solid #9BDF70;
+    background-color: #F0FBEB;
+}
+#bannerimg{
+    padding:10px 10px 10px 10px;
+    border-radius:5px;
+}
+#bannerimg img{
+    width:980px;
+    height:250px;
+    border-radius:5px;
+}
+#columns{
+    padding:10px 10px 10px 10px;
+    min-height:200px;
+    width:980px;
+}
+#columns span{
+    padding:0;margin:0;
+    display:inline;
+}
+#columns span a{
+    padding:0;margin:0;
+    display:inline;
+}
+.column2 .column{
+    width:450px;
+    margin-left:10px;
+    padding:10px 10px 10px 10px;
+    float:left;
+    border:solid 1px #CCEFF5;
+    border-radius:5px;
+    min-height: 150px;
+    display:inline; 
+}
+.column3 .column{
+    width:290px;
+    margin-left:10px;
+    padding:10px 10px 10px 10px;
+    float:left;
+    border:solid 1px #CCEFF5;
+    border-radius:5px;
+    min-height: 150px;
+    display:inline; 
+}
+.column .columncontent{
+    display:inline;
+}
+.column .columnheader{
+    margin-bottom:10px;
+    display:inline; 
+}
+.column .columnleft{
+    margin-left:0px;
+    display:inline; 
+    margin:0;
+}
+.column .columnright{
+    float:right;
+    position:relative; 
+    margin-right:1px;    
+    display:inline; 
+    margin:0;
+    
+}
+.column .columncontent{
+    display:block;
+    margin-top:5px;
+}
+.column .columnheader .columnleft{
+    display:inline;
+    width:100px;
+}
+#comMsgbox .highlight{
+    color:red;
+    font-size:22px;
+    margin-left:5px;
+    margin-right:5px;
+}
+#comMsgbox{
+    display:block;
+}
+#comMsgbox .msgbutton{
+   position:absolute;
+   margin-top:-160px;
+   width:285px;
+   z-index: 99;
+}
+#comMsgbox #comMsgboxbg{
+    display:block;
+    border-radius:5px;
+    position:relative;
+    width:285px;
+    z-index: 1;
+}
+#comMsgbox #baomintbt{
+    border-radius:10px;
+    position:absolute;
+    left:85px;
+    margin-top:20px;
+}
+#comMsgbox .msg{
+    margin-bottom:20px;
+    margin-top:10px;
+    font-size:20px;
+    margin-left:35px;
+    margin-right:5px;
+    padding:10 10 10 10;
+}
+.column ul li{
+list-style-type:square;
+display:inline;
+}
