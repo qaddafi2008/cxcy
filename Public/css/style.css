@@ -507,3 +507,14 @@ table th{
 #stuodetailtable th{
     border:solid 1px;
 }
+
+
+#ocommenttable .timetb{
+	width:200px;
+	/*text-align:right;*/
+	font-size:28px;
+}
+#ocommenttable .replytb{
+	text-align:right;
+	font-size:12px;
+}
