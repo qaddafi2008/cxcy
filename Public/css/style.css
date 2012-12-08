@@ -96,7 +96,6 @@ html > body {
     text-decoration: none;
     background-color: #537224;
 }
-
 #wrapper {
     padding: 0 0 10px 0
 }
@@ -195,7 +194,8 @@ html > body {
     float: left;
     word-break: normal;
     width:780px;
-    padding:20px 10px 20px 10px;
+    padding:10px 10px 10px 10px;
+    font-family: '微软雅黑', Arial, Helvetica, sans-serif;
 }
 .about p {
     padding: 5px 0 0 0px;
@@ -242,7 +242,9 @@ html > body {
 }
 .about #newstable{
     width:100%;
+    font-size:13px;
 }
+
 .about #newstable thead{
     display:none;
 }
@@ -519,4 +521,9 @@ table th{
 }
 #stuodetailtable th{
     border:solid 1px;
+}
+
+.about #newstable td{
+    padding:1px 0 0 0;
+    font-size:14px;
 }
