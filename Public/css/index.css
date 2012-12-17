@@ -75,7 +75,9 @@
 }
 .column .columncontent{
     display:block;
-    margin-top:5px;
+    margin-top:1px;
+    font-size:13px;
+    padding:0 0 0 0;
 }
 .column .columnheader .columnleft{
     display:inline;
