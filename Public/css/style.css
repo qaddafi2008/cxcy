@@ -531,3 +531,22 @@ table th{
 	text-align:right;
 	font-size:12px;
 }
+
+#ocollection #doCollect{
+	width:80px;
+    align:center;
+    text-align:center;
+	text-shadow:#00C;
+    height:40px;
+    margin-left:20px;
+}
+
+#reviewruletable{
+     border-collapse:collapse;
+}
+#reviewruletable td{
+    border:solid 1px;
+}
+#reviewruletable th{
+    border:solid 1px;
+}

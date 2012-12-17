@@ -8,9 +8,26 @@ $(function () {
   	$("input[name=isopen][value="+isopen+"]").attr("checked",'checked');
   
   //判断是首次创建还是修改
-  if('' != oid){
+  if('' != oid){//为修改
     $('#file').hide();
 	$('#fileStatus').attr('value','1');
+  }
+  
+  //判断是否已经分发给老师修改
+  if(1 == $('#isAssigned').val()){//已分发给老师
+  	var fmark = $('#finalMark').val();
+  	if('' == fmark)//还没给出最终成绩
+  		$('#stuotips').html("当前状态：已分发到评委老师，待审核...");
+	else
+		$('#stuotips').html("最终成绩："+fmark+" 分");
+	//$('#tips').show();
+		
+	//将按钮和输入框disalbe掉
+	$('#updateSObtn').attr('disabled','disabled');
+	$('#resetSObtn').attr('disabled','disabled');
+	$('#delFile').attr('disabled','disabled');
+	$('#subject').attr('disabled','disabled');
+	$('#authors').attr('disabled','disabled');
   }
 	
   //删除文件按钮的事件
@@ -25,6 +42,7 @@ $(function () {
 	}
   });
 
+  //提交按钮的事件
   $('#updateSObtn').click(function(){
 	   var obgContent=CKEDITOR.instances.obackground.getData(); //ckeditor的内容验证比较特殊，必须得这样转化，obackground为id/name
 	   var abstractContent=CKEDITOR.instances.abstract.getData();

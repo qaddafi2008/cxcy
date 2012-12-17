@@ -1,7 +1,14 @@
 <script type="text/javascript" src="__PUBLIC__/js/originality-home-stuopage.js"></script>
 <form id="stuOForm" name="stuOForm" action="__URL__/updateOriginality" enctype="multipart/form-data" method="post">
  <input type="hidden" id="stuOriginalityID" name="stuOriginalityID" value="{$myOriginality.oid}"/>
+ <input type="hidden" id="isAssigned" name="isAssigned" value="{$myOriginality.asignment}"/>
+ <input type="hidden" id="finalMark" name="finalMark" value="{$myOriginality.finalmark}"/>
   <table id="stuopagetable" width="100%" border="0">
+  	<tr><th colspan="2" align="center">
+    <span style="color:#F00">申报表模板下载：</span>
+    &nbsp;<a href="__URL__/downloadODeclaredTableTmpl/tname/{$myOriginality.odtTemplate}">{$myOriginality.odtTemplate}</a><br/>
+    <div><span id="stuotips" style="color:#093"></span></div>
+    </th></tr>
     <tr>
       <th scope="row">创意名称</th>
       <td><input type="text" name="subject" id="subject" value="{$myOriginality.subject}"/></td>
@@ -43,7 +50,8 @@
     </tr>
   </table>
   <div class="operationarea">
-  <input type="button" id="updateSObtn" name="updateSObtn" value="提交" />&nbsp;&nbsp;&nbsp;&nbsp;<input type="reset" value="重置"/>
+  <input type="button" id="updateSObtn" name="updateSObtn" value="提交" />&nbsp;&nbsp;&nbsp;&nbsp;
+  <input type="reset" id="resetSObtn" name="resetSObtn" value="重置"/>
   </div>
 </form>
 <script type="text/javascript">

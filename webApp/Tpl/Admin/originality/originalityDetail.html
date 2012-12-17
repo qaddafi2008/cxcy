@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" href="__PUBLIC__/css/admin/common.css" type="text/css" />
+	<link rel="stylesheet" href="__PUBLIC__/css/admin/main.css" type="text/css" />
+    <script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/originality-admin-teacherAssignment.js"></script>
+</head>
+<script type="text/javascript">
+var  highlightcolor='#eafcd5';
+//此处clickcolor只能用win系统颜色代码才能成功,如果用#xxxxxx的代码就不行,还没搞清楚为什么:(
+var  clickcolor='#51b2f6';
+function  changeto(){
+source=event.srcElement;
+if  (source.tagName=="TR"||source.tagName=="TABLE")
+return;
+while(source.tagName!="TD")
+source=source.parentElement;
+source=source.parentElement;
+cs  =  source.children;
+//alert(cs.length);
+if  (cs[1].style.backgroundColor!=highlightcolor&&source.id!="nc"&&cs[1].style.backgroundColor!=clickcolor)
+for(i=0;i<cs.length;i++){
+	cs[i].style.backgroundColor=highlightcolor;
+}
+}
+
+function  changeback(){
+if  (event.fromElement.contains(event.toElement)||source.contains(event.toElement)||source.id=="nc")
+return
+if  (event.toElement!=source&&cs[1].style.backgroundColor!=clickcolor)
+//source.style.backgroundColor=originalcolor
+for(i=0;i<cs.length;i++){
+	cs[i].style.backgroundColor="";
+}
+}
+</script>
+  
+  <body>
+  <div class="main_zone">    
+<div style="height:50px"></div>
+		<input type="hidden" id="isAssigned" name="isAssigned" value="{$myOriginality.asignment}"/>
+        <input type="hidden" id="ispublic" name="ispublic" value="{$myOriginality.ispublic}"/>
+		<table class="form_table">
+			<tr>
+			<td class="first_td">创意名称:</td>
+			<td class="second_td">{$myOriginality.subject}
+			</td>
+			</tr>
+			<tr>
+			<td class="first_td">提交者:</td>
+			<td class="second_td">{$myOriginality.sname}
+			</td>
+			</tr>
+            <td class="first_td">小组成员:</td>
+			<td class="second_td">{$myOriginality.author}
+			</td>
+			</tr>
+            <td class="first_td">创意背景说明:</td>
+			<td class="second_td">
+			&nbsp;{$myOriginality.background}&nbsp;
+			</td>
+			</tr>
+            <td class="first_td">创意概述:</td>
+			<td class="second_td">&nbsp;{$myOriginality.abstract}&nbsp;
+			
+			</td>
+			</tr>
+			<tr>
+			<td class="first_td">创意功能说明:</td>
+			<td class="second_td">
+			&nbsp;{$myOriginality.functiondescription}&nbsp;
+			</td>
+			</tr>
+			<tr>
+			<td class="first_td">创建时间:</td>
+			<td class="second_td">
+			{$myOriginality.submittime}
+			</td>
+			</tr>
+            <tr>
+			<td class="first_td">创意申报表:</td>
+			<td class="second_td">
+			<a href="__APP__/Home/originality/downloadStuDeclaredTable/tname/{$myOriginality.filepath}/tid/{$myOriginality.stuid}" >{$myOriginality.filepath}</a>
+			</td>
+			</tr>
+			</table>
+        <div style="height:50px;">
+		<span id="assignStatustip" style=" position:relative; top:15px;font-size:25px; font-weight:bold;">
+        【分配评委老师-请选择3个】</span>
+        </div>
+        <form id="teacherAssignForm" name="teacherAssignForm" action="__URL__/assignTeachers" method="post">
+        	<input type="hidden" id="oid" name="oid" value="{$myOriginality.oid}"/>
+        	<table class="list_table" id="teacherListTable" cellpadding="0" cellspacing="1" bgcolor="#c0de98" onMouseOver="changeto()"  onmouseout="changeback()">
+		<tr>
+            <td width="5%" height="26" background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">选择</td>
+            <td width="20%" height="26" background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">老师</td>
+            <td width="20%" height="26" background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">职称</td>
+            <td width="25%" height="26" background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">研究方向</td>
+            <td width="30%" height="26" background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">专业领域</td>
+          </tr>
+		  <volist name="teacherlist" id="teacher">
+          <tr>
+            <td height="26" bgcolor="#FFFFFF" align="center">
+            <input name="teacherid[]" type="checkbox" value="{$teacher.stuffid}">
+            </td>
+            <td height="26" bgcolor="#FFFFFF" align="center">{$teacher.teachername}</td>
+            <td height="26" bgcolor="#FFFFFF" align="center">{$teacher.teachertitle}</td>
+            <td height="26" bgcolor="#FFFFFF" align="center">{$teacher.major}</td>
+            <td height="26" bgcolor="#FFFFFF" align="center">{$teacher.area}</td>
+        </tr>
+		</volist>
+    </table>
+    		<div style="height:20px" align="center"><span id="msg" style="color:#F00"></span></div>
+			<center>
+			<input id="assignBtn" name="assignBtn" type="submit" value=" 分 配 " disabled/>&nbsp;&nbsp;&nbsp;&nbsp;
+			<input id="resetBtn" name="resetBtn" type="button" value=" 重 置 " />
+			</center>
+		</form>
+        <div id="divmark">
+        	<table class="list_table" id="markListTable" cellpadding="0" cellspacing="1" bgcolor="#c0de98" onMouseOver="changeto()"  				onmouseout="changeback()">
+				<tr>
+            		<td width="10%" height="26" background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">老师</td>
+            		<td width="10%" height="26" background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">分数</td>
+           		 	<td width="80%" height="26" background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">评语</td>
+          		</tr>
+		  		<volist name="reviewList" id="review">
+          		<tr>
+            		<td height="26" bgcolor="#FFFFFF" align="center">{$review.teachername}</td>
+            		<td height="26" bgcolor="#FFFFFF" align="center">{$review.mark}</td>
+            		<td height="26" bgcolor="#FFFFFF" align="center">{$review.comment}</td>
+        		</tr>
+				</volist>
+    		</table>
+            <form id="finalMarkForm" method="post" action="__URL__/updateFinalmark">
+            	<input type="hidden" id="oid" name="oid" value="{$myOriginality.oid}"/>
+                <label>最终成绩：</label>
+                <input type="text" id="finalmark" name="finalmark" style="width:100px;" value="{$myOriginality.finalmark}"/>
+                <input id="updateFinalMarkBtn" class="my_button" type="button" value=" 提 交 ">
+                &nbsp;&nbsp;<span id="markTips" style="color:#F00"></span>
+            </form>
+        </div>
+	</div>
+  </body>
+</html>

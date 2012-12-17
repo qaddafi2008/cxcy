@@ -75,5 +75,109 @@ class OriginalityAction extends Action{
 		else
 			$this->error('修改失败！');
 	}
+	
+	public function getOriginalityList(){
+		R('Admin/Authority/checkAdminLogin');//表示调用Admin分组下Authority模块的checkAdminLogin方法
+		
+		$originality = M('originality');
+		$list = $originality->field('oid,subject,author,submittime,isopen,asignment')->order('submittime desc')->select();//指定字段查询
+		
+		$this->assign ( 'originalityList', $list);
+		$this->display('originalityList');
+			
+	}
+	
+	public function getOriginalityDetail(){
+		R('Admin/Authority/checkAdminLogin');//表示调用Admin分组下Authority模块的checkAdminLogin方法
+		
+		$oid = $_GET['oid'];
+		
+		$originality = M('originality');
+		$result = $originality->where("oid=$oid")->find();
+		
+		//获得作者姓名
+		$stu = M('student');
+		$sname = $stu->where("sid=".$result['stuid'])->field('sname')->find();
+		$result['sname'] = $sname['sname'];
+		
+		if(1 == $result['asignment']){//已分配给评委老师
+			$model = new Model();
+			$querystr = "SELECT teachername,`comment`,mark from originalityreview,stuff WHERE originalityid=$oid and stuffid=teacherid";
+			$reviewResult = $model->query($querystr);
+		}else{//为分配给评委老师
+			//获得所有老师信息
+			$stuff = M('stuff');
+			$condition['role'] = 1;
+			$condition['teachername'] = array("neq","");
+			$condition['teachertitle'] = array("neq","");
+			$condition['major'] = array("neq","");
+			$condition['area'] = array("neq","");
+			$teacherlist = $stuff->where($condition)->select();
+		}
+		
+		
+		
+		$this->assign('teacherlist',$teacherlist);//要显示的老师列表
+		$this->assign('reviewList',$reviewResult);//评委老师评审结果
+		$this->assign('myOriginality',$result);
+		$this->display('originalityDetail');
+	}
+	
+	public function assignTeachers(){
+		R('Admin/Authority/checkAdminLogin');//表示调用Admin分组下Authority模块的checkAdminLogin方法
+		
+		$oid = $_POST['oid'];
+		$teacherIDs = $_POST['teacherid'];
+		//echo "$oid : $teacherIDs[0],$teacherIDs[1],$teacherIDs[2]";
+		$oreview = M('originalityreview');
+		$data['originalityid'] = $oid;
+		for($i=0;$i<count($teacherIDs);$i++){
+			$data['teacherid'] = $teacherIDs[$i];
+			if(!$oreview->add($data))
+				$this->error("分配失败！");
+		}
+		$originality = M('originality');
+		$savedata['asignment'] = 1;
+		if($originality->where("oid=$oid")->save($savedata))
+			$this->success("分配成功","getOriginalityList");
+		else
+			$this->error("修改分配状态失败！");
+	}
+	
+	public function updateFinalmark(){
+		R('Admin/Authority/checkAdminLogin');//表示调用Admin分组下Authority模块的checkAdminLogin方法
+		
+		$oid = $_POST['oid'];
+		$fmark = $_POST['finalmark'];
+		
+		$originality = M('originality');
+		$data['finalmark'] = $fmark;
+		if($originality->where("oid=$oid")->save($data))
+			$this->success('提交成功！','getOriginalityList');
+		else
+			$this->error("提交失败！");
+	}
+	
+	public function originalitypublic(){
+		$originality = M('originality');
+		$result = $originality->where("finalmark is NOT NULL")->field("oid,subject,author,finalmark,ispublic")->select();
+		
+		$this->assign('originalities',$result);
+		$this->display('originalityPublic');
+	}
+	
+	public function doPublicOriginalities(){
+		$oids = $_POST['oids'];
+		$originality = M('originality');
+		$data['ispublic'] = 1;
+		
+		for($i=0;$i<count($oids);$i++){
+			//echo "$oids[$i] ";
+			if(!$originality->where("oid = $oids[$i]")->save($data))
+				$this->error("批量发布失败！");
+		}
+		$this->success('批量发布成功！','originalitypublic');
+			
+	}
 }
 ?>

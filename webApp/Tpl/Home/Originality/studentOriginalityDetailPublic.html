@@ -2,6 +2,7 @@
 <div id="ocollection" align="right">
 <input type="hidden" id="isCollected" name="isCollected" value="{$myOriginality.isCollected}"/>
 <input type="hidden" id="commenter" name="commenter" value="<?php echo session(C('USER_NAME')); ?>" />
+<input type="hidden" id="urole" name="urole" value="{$myOriginality.urole}"/>
 <input type="hidden" id="baseurl" value="__URL__" />
 <input type="button" id="doCollect" name="doCollect" value="收 藏"/>
 </div>
@@ -20,18 +21,18 @@
     </tr>
     <tr>
       <th scope="row" class="tdtitle">创意背景说明</th>
-      <td>&nbsp;
+      <td>
       {$myOriginality.background}</td>
     </tr>
     <tr>
       <th scope="row" class="tdtitle">创意概述</th>
-      <td>&nbsp;
+      <td>
       {$myOriginality.abstract}</td>
     </tr>
     <tr>
       <th scope="row" class="tdtitle">创意功能说明</th>
-      <td>&nbsp;
-      {$myOriginality.functiondescription} </td>
+      <td>
+     &nbsp;{$myOriginality.functiondescription}&nbsp;</td>
     </tr>
     <tr>
       <th scope="row" class="tdtitle">创建时间</th>
@@ -41,6 +42,10 @@
       <th scope="row" class="tdtitle">创意申报表</th>
       <td><a id="existedFile" name="existedFile" href="__URL__/downloadStuDeclaredTable/tname/{$myOriginality.filepath}/tid/{$myOriginality.stuid}" >{$myOriginality.filepath}</a>
        </td>
+    </tr>
+    <tr>
+      <th scope="row" class="tdtitle">最终成绩</th>
+      <td>{$myOriginality.finalmark} </td>
     </tr>
 </table>
 <br/>

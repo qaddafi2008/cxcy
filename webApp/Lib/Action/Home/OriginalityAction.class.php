@@ -7,37 +7,63 @@ class OriginalityAction extends Action{
 		$urole = session(C('USER_ROLE'));
 		if(2 == $urole)//学生
 		{
-			$this->getOriginalityList();
-		}else if (1 == $urole)
+			$this->getOriginalityList(1);
+		}else if (1 == $urole)//老师
 		{
-			$this->test();
+			$this->getReviewRule();
 		}else
 			$this->error('请用学生或老师的账号登录');
 	}
 	
-	//学生的创意列表
-	public function getOriginalityList(){
-		R('Home/Authority/checkStudentLogin');//表示调用Admin分组下Authority模块的checkStudentLogin方法
-		//左侧导航栏
-		$modelname = "创意库："; //本模块名称
+	//获得学生角色的左侧导航菜单
+	private function getStuNavlist(){
 		$navindex = 0;
 		$navlist [$navindex++] = array ("url" => '__URL__/getOriginalityList', "title"=>'创意列表');
 		$navlist [$navindex++] = array ("url" => '__URL__/studentOriginality', "title" => '我的创意' );
 		$navlist [$navindex++] = array ("url" => '__URL__/studentCollection', "title" => '我的收藏' );
-		//从数据库转存信息
-		//$maincontent = null;
+		$navlist [$navindex++] = array ("url" => '__URL__/resultPublicity', "title" => '结果公示' );
+		return $navlist;
+	}
+	
+	//获得老师角色的左侧导航菜单
+	private function getTeacherNavlist(){
+		$navindex = 0;
+		$navlist [$navindex++] = array ("url" => '__URL__/getReviewRule', "title"=>'评审规则');
+		$navlist [$navindex++] = array ("url" => '__URL__/getMyAssignedOList', "title" => '创意列表' );
+		$navlist [$navindex++] = array ("url" => '__URL__/resultPublicity', "title" => '结果公示' );
+		return $navlist;
+	}
+	
+	//学生的创意列表,$actionModule为1或空 表示”创意列表“，为2表示”我的收藏“，为3表示”结果公示“
+	public function getOriginalityList($actionModule){
+		R('Home/Authority/checkStudentAndTeacherLogin');//表示调用Home分组下Authority模块的checkStudentAndTeacherLogin方法
 		
-		$originality = M('originality');
-		$list = $originality->where('isopen=1')->field('oid,subject,author,submittime,collectiontimes')->order('collectiontimes desc')->select();//指定字段查询
+		$urole = session(C('USER_ROLE'));
+		//左侧导航栏
+		$modelname = "创意库："; //本模块名称
+		if(1 == $urole)//4表示“老师的创意列表”
+			$navlist = $this->getTeacherNavlist();//获得左侧导航菜单
+		else
+			$navlist = $this->getStuNavlist();//获得左侧导航菜单
 		
-		//if($list){
-		//}else{
-			//$originalityList = null;
-		//}
 		
-		//$originalityList[0] = array("title" => '智能商务', "author"=> '小明', "submitTime"=> '2012-10-09 12:30:30');
-		//$originalityList[1] = array("title" => '情景智能', "author"=> '小红', "submitTime"=> '2012-10-19 12:30:31');
-		//$originalityList[2] = array("title" => '持续智能', "author"=> '小张', "submitTime"=> '2012-11-29 12:30:32');
+		if(1 == $actionModule || ''==$actionModule){//1表示”创意列表“
+			$originality = M('originality');
+			$list = $originality->where('isopen=1')->field('oid,subject,author,submittime,collectiontimes')->order('collectiontimes desc')->select();//指定字段查询
+		}else if(2 == $actionModule){//2表示”我的收藏“
+			$stuid = session(C('USER_AUTH_KEY'));
+			$queryStr = "SELECT oid,subject,author,submittime,collectiontimes from originality WHERE oid IN (SELECT originalityid from collection WHERE stuid =$stuid)";
+			$model = new Model();
+			$list = $model->query($queryStr);
+		}else if(3 == $actionModule){//3表示“结果公示”
+			$originality = M('originality');
+			$list = $originality->where('ispublic=1')->field('oid,subject,author,submittime,finalmark')->order('finalmark desc')->select();//指定字段查询
+		}else if(4 == $actionModule){//4表示“老师的创意列表”
+			$tid = session(C('USER_AUTH_KEY'));
+			$model = new Model();
+			$queryStr = "SELECT oid,subject,author,submittime,collectiontimes FROM originalityreview, originality WHERE teacherid=$tid AND oid=originalityid ORDER BY collectiontimes DESC";
+			$list = $model->query($queryStr);
+		}
 		
 		$this->assign ( 'modelname', $modelname );
 		$this->assign ( 'navlist', $navlist );
@@ -45,7 +71,10 @@ class OriginalityAction extends Action{
 		
 		//$this->assign ( 'originalityMode', 'student');
 		$this->assign ( 'originalityList', $list);
-		$this->assign ( 'functionBlock', 'originalityList');
+		if(3 == $actionModule)//结果公布，需要显示成绩
+			$this->assign ( 'functionBlock', 'resultPublicityList');//设置主模块显示的功能页面
+		else
+			$this->assign ( 'functionBlock', 'originalityList');//设置主模块显示的功能页面
 		
 		$this->display("index");
 	}
@@ -56,13 +85,18 @@ class OriginalityAction extends Action{
 		$userId = session(C('USER_AUTH_KEY'));
 		//左侧导航栏
 		$modelname = "创意库："; //本模块名称
-		$navindex = 0;
-		$navlist [$navindex++] = array ("url" => '__URL__/getOriginalityList', "title"=>'创意列表');
-		$navlist [$navindex++] = array ("url" => '__URL__/studentOriginality', "title" => '我的创意' );
-		$navlist [$navindex++] = array ("url" => '__URL__/studentCollection', "title" => '我的收藏' );
+		$navlist = $this->getStuNavlist();//获得左侧导航菜单
 		
 		$originality = M('originality');
 		$result = $originality->where("stuid=$userId")->find();
+		
+		//获取创意库模板
+		$pathOfOdeclaredTable = M('pathofodeclaredtable');
+		$odtResult = $pathOfOdeclaredTable->find();
+		if($odtResult){//已经有模板就进行赋值
+			$result['odtTemplate'] = $odtResult['path'];
+		}
+		
 		//echo $result;return;
 		if($result){
 			$this->assign('myOriginality',$result);
@@ -151,9 +185,9 @@ class OriginalityAction extends Action{
 		}
 	}
 	
-	//下载文件
+	//下载学生创意文件
 	public function downloadStuDeclaredTable(){
-		R('Home/Authority/checkLogin');//表示调用Admin分组下Authority模块的checkLogin方法
+		R('Home/Authority/checkLogin');//表示调用Home分组下Authority模块的checkLogin方法
 		
 		$file_name = $_GET['tname'];
 		$stuid = $_GET['tid'];
@@ -163,32 +197,163 @@ class OriginalityAction extends Action{
 	}
 	
 	//得到学生创意详细信息
-	public function getOriginalityDetail(){
-		R('Home/Authority/checkStudentLogin');//表示调用Admin分组下Authority模块的checkStudentLogin方法
+	public function getOriginalityDetail($ispublic){
+		R('Home/Authority/checkStudentAndTeacherLogin');//表示调用Admin分组下Authority模块的checkStudentLogin方法
+		$urole = session(C('USER_ROLE'));
 		$oid = $_GET['oid'];
 		
 		$originality = M('originality');
 		$result = $originality->where("oid=$oid")->find();
 		
-		if(0 == $result['isopen'])//防止利用url漏洞访问未公开的创意
-			$this->error('非法访问未公开的创意！');
+		if(0 == $result['isopen'] && 1 != $result['ispublic'])//防止利用url漏洞访问未公开的创意
+			if(2 == $urole)
+				$this->error('非法访问未公开的创意！');
 		
+		//获得作者姓名
 		$stu = M('student');
 		$sname = $stu->where("sid=".$result['stuid'])->field('sname')->find();
 		$result['sname'] = $sname['sname'];
 		
+		$result['urole'] = $urole;//当前用户身份
+		
+		
+		//读取评论信息
+		$ocomment = M('originalitycomment');
+		$rescomment = $ocomment->where("originalityid=$oid")->select();
+		
+		
+		if(2 == $urole){//学生
+			//查找是否有被当前用户收藏
+			$condition['stuid'] = session(C('USER_AUTH_KEY'));
+			$condition['originalityid'] = $oid;
+			$collection = M('collection');
+			if($collection->where($condition)->find())//找到记录，说明已被收藏
+				$result['isCollected'] = 1;
+			else//未被收藏
+				$result['isCollected'] = 0;
+		}else{//老师
+			$tid = session(C('USER_AUTH_KEY'));
+			$oreview = M('originalityreview');
+			$treview = $oreview->where("teacherid=$tid and originalityid=$oid")->find();
+		}
+		
+		
+		
 		//左侧导航栏
 		$modelname = "创意库："; //本模块名称
-		$navindex = 0;
-		$navlist [$navindex++] = array ("url" => '__URL__/getOriginalityList', "title"=>'创意列表');
-		$navlist [$navindex++] = array ("url" => '__URL__/studentOriginality', "title" => '我的创意' );
-		$navlist [$navindex++] = array ("url" => '__URL__/studentCollection', "title" => '我的收藏' );
-		
+		if(2 == $urole)//学生
+			$navlist = $this->getStuNavlist();//获得左侧导航菜单
+		else
+			$navlist = $this->getTeacherNavlist();//获得左侧导航菜单
+			
 		$this->assign ( 'modelname', $modelname );
 		$this->assign ( 'navlist', $navlist );
 		$this->assign('myOriginality',$result);
-		$this->assign('functionBlock', 'studentOriginalityDetail');//设置主模块显示的功能页面
+		$this->assign('ocomments',$rescomment);
+		$this->assign('treview',$treview);
+		if(1 == $ispublic)//本创意已经显示在”结果公示“中，可显示成绩
+			$this->assign('functionBlock', 'studentOriginalityDetailPublic');//设置主模块显示的功能页面
+		else if(1 == $urole)//老师
+			$this->assign('functionBlock', 'studentOriginalityDetailReview');
+		else//创意还未公示
+			$this->assign('functionBlock', 'studentOriginalityDetail');//设置主模块显示的功能页面
 		$this->display('page');
+	}
+	
+	//下载创意申请表模板
+	public function downloadODeclaredTableTmpl(){
+		$file_name = $_GET['tname'];
+		$success = Common::downloadFile($file_name,'OriginalityAdmin');
+		if($success == "nofile")
+				$this->error("找不到文件...");
+	}
+	
+	//为创意添加评论
+	public function addComment(){
+		$oid = $_POST['originalityid'];
+		$data['content'] = $_POST['comment'];
+		$data['commentername'] = $_POST['commenter'];
+		$data['originalityid'] = $oid;
+		$ocomment = M('originalitycomment');
+		
+		$res = $ocomment->add($data);
+		if($res){
+			$this->success("评论成功");
+		}else{
+			$this->error("添加评论失败！");
+		}
+	}
+	
+	//收藏指定的创意
+	public function doCollect(){
+		$oid = $_GET['oid'];
+		$stuid = session(C('USER_AUTH_KEY'));
+		
+		$data['originalityid'] = $oid;
+		$data['stuid'] = $stuid;
+		$collection = M('collection');
+		if($collection->add($data)){
+			//更新创意中的收藏次数
+			$originality = M('originality');
+			$ores = $originality->where("oid=$oid")->field('collectiontimes')->find();
+			$ores['collectiontimes'] = $ores['collectiontimes'] + 1;
+			$originality->where("oid=$oid")->save($ores);
+			
+			$this->ajaxReturn(1,"收藏成功！",1);
+		}else
+			$this->ajaxReturn(0,"收藏失败！",0);
+	}
+	
+	//我的收藏-学生
+	public function studentCollection(){
+		$this->getOriginalityList(2);
+	}
+	
+	//结果公示
+	public function resultPublicity(){
+		$this->getOriginalityList(3);
+	}
+	
+	//获取某个已公布创意的详细信息
+	public function getPublicOriginalityDetail(){
+		$this->getOriginalityDetail(1);//1表示已经公示
+	}
+	
+	//获取评审规则
+	public function getReviewRule(){
+		R('Home/Authority/checkTeacherLogin');//表示调用Home分组下Authority模块的checkStudentLogin方法
+		//左侧导航栏
+		$modelname = "创意库："; //本模块名称
+		$navlist = $this->getTeacherNavlist();//获得左侧导航菜单
+		
+		$reviewRule = M('reviewrule');
+		$result = $reviewRule->find(1);
+		
+		$this->assign('r',$result);
+		$this->assign ( 'modelname', $modelname );
+		$this->assign ( 'navlist', $navlist );
+		$this->assign ( 'functionBlock', 'reviewRule');//设置主模块显示的功能页面
+		
+		$this->display("index");
+	}
+	
+	//老师的创意列表
+	public function getMyAssignedOList(){
+		$this->getOriginalityList(4);//4表示老师的创意列表
+	}
+	
+	public function updateOMark(){
+		$oid = $_POST['originalityid'];
+		$data['comment'] = $_POST['ocomment'];
+		$data['mark'] = $_POST['omark'];
+		$tid = session(C('USER_AUTH_KEY'));
+		
+		$oreview = M('originalityreview');
+		if($oreview->where("teacherid=$tid and originalityid=$oid")->save($data))
+			$this->success("提交成功！");
+		else
+			$this->error("提交失败！");
+		
 	}
 	
 	public function test(){

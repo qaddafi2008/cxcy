@@ -23,5 +23,11 @@ class AuthorityAction extends Action {
 		if($urole == null || $urole!=2)
 			$this->error('请学生先登录！',__GROUP__);
 	}
+	
+	public function checkStudentAndTeacherLogin(){//判断学生是否登录
+		$urole = session(C('USER_ROLE'));
+		if($urole == null || ($urole!=2 && $urole!=1))
+			$this->error('请老师/学生先登录！',__GROUP__);
+	}
 }
 ?>

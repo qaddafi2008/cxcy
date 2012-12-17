@@ -1,0 +1,52 @@
+<script type="text/javascript" src="__PUBLIC__/js/originality-home-stuodetail.js"></script>
+<input type="hidden" id="finalMark" name="finalMark" value="{$myOriginality.finalmark}"/>
+<table id="stuodetailtable" width="100%" border="0">
+    <tr>
+      <th scope="row" class="tdtitle">创意名称</th>
+      <td>{$myOriginality.subject}</td>
+    </tr>
+    <tr>
+      <th scope="row" class="tdtitle">提交者</th>
+      <td>{$myOriginality.sname}</td>
+    </tr>
+    <tr>
+      <th scope="row" class="tdtitle">小组成员</th>
+      <td>{$myOriginality.author}</td>
+    </tr>
+    <tr>
+      <th scope="row" class="tdtitle">创意背景说明</th>
+      <td>
+      {$myOriginality.background}</td>
+    </tr>
+    <tr>
+      <th scope="row" class="tdtitle">创意概述</th>
+      <td>
+      {$myOriginality.abstract}</td>
+    </tr>
+    <tr>
+      <th scope="row" class="tdtitle">创意功能说明</th>
+      <td>
+      {$myOriginality.functiondescription} </td>
+    </tr>
+    <tr>
+      <th scope="row" class="tdtitle">创建时间</th>
+      <td>{$myOriginality.submittime} </td>
+    </tr>
+    <tr>
+      <th scope="row" class="tdtitle">创意申报表</th>
+      <td><a id="existedFile" name="existedFile" href="__URL__/downloadStuDeclaredTable/tname/{$myOriginality.filepath}/tid/{$myOriginality.stuid}" >{$myOriginality.filepath}</a>
+       </td>
+    </tr>
+</table>
+<br/>
+
+<span id="teachertips" style="color:#F00"></span>
+<form id="updateMarkForm" name="updateMarkForm" method="post" action="__URL__/updateOMark">
+      <label>评审意见:</label><br/>
+	  <textarea name="ocomment" id="ocomment" cols="80" rows="5">{$treview.comment}</textarea><br/>
+      <label>成绩:</label><input type="text" id="omark" name="omark" size="100px" value="{$treview.mark}"/>
+      <input type="hidden" id="originalityid" name="originalityid" value="{$myOriginality.oid}" /><br/>
+      <input type="button" id="updateOMarkbtn" name="updateOMarkbtn" style="width:80px" value="提 交" />
+</form>
+    	
+ 
