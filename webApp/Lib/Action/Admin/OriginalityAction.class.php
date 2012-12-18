@@ -54,6 +54,7 @@ class OriginalityAction extends Action{
 				$this->error("找不到文件...");
 	}
 	
+	//进入评审规则页面
 	public function reviewrule(){
 		$reviewRule = M('reviewrule');
 		$result = $reviewRule->find(1);
@@ -65,6 +66,7 @@ class OriginalityAction extends Action{
 		}	
 	}
 	
+	//更新评审规则
 	public function doUpdateReviewRule(){
 		$data['subject'] = $_POST['subject'];
 		$data['content'] = $_POST['content'];
@@ -76,6 +78,7 @@ class OriginalityAction extends Action{
 			$this->error('修改失败！');
 	}
 	
+	//获取创意列表
 	public function getOriginalityList(){
 		R('Admin/Authority/checkAdminLogin');//表示调用Admin分组下Authority模块的checkAdminLogin方法
 		
@@ -87,6 +90,7 @@ class OriginalityAction extends Action{
 			
 	}
 	
+	//获取创意详细信息
 	public function getOriginalityDetail(){
 		R('Admin/Authority/checkAdminLogin');//表示调用Admin分组下Authority模块的checkAdminLogin方法
 		
@@ -123,6 +127,7 @@ class OriginalityAction extends Action{
 		$this->display('originalityDetail');
 	}
 	
+	//分配老师
 	public function assignTeachers(){
 		R('Admin/Authority/checkAdminLogin');//表示调用Admin分组下Authority模块的checkAdminLogin方法
 		
@@ -144,6 +149,7 @@ class OriginalityAction extends Action{
 			$this->error("修改分配状态失败！");
 	}
 	
+	//更新最终成绩
 	public function updateFinalmark(){
 		R('Admin/Authority/checkAdminLogin');//表示调用Admin分组下Authority模块的checkAdminLogin方法
 		
@@ -158,6 +164,7 @@ class OriginalityAction extends Action{
 			$this->error("提交失败！");
 	}
 	
+	//进行创意公布的列表
 	public function originalitypublic(){
 		$originality = M('originality');
 		$result = $originality->where("finalmark is NOT NULL")->field("oid,subject,author,finalmark,ispublic")->select();
@@ -166,10 +173,12 @@ class OriginalityAction extends Action{
 		$this->display('originalityPublic');
 	}
 	
+	//批量发布
 	public function doPublicOriginalities(){
 		$oids = $_POST['oids'];
 		$originality = M('originality');
 		$data['ispublic'] = 1;
+		$data['publictime'] = date("Y-m-d H:i:s");
 		
 		for($i=0;$i<count($oids);$i++){
 			//echo "$oids[$i] ";
