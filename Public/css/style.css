@@ -532,12 +532,13 @@ table th{
 	width:200px;
 	/*text-align:right;*/
 	font-size:28px;
+}
 #ocommenttable .replytb{
 	text-align:right;
 	font-size:12px;
 }
 
-#ocollection #doCollect{
+#ocollection .bbtn{
 	width:80px;
     align:center;
     text-align:center;
