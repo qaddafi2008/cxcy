@@ -175,6 +175,8 @@ class OriginalityAction extends Action{
 	
 	//批量发布
 	public function doPublicOriginalities(){
+		R('Admin/Authority/checkAdminLogin');//表示调用Admin分组下Authority模块的checkAdminLogin方法
+		
 		$oids = $_POST['oids'];
 		$originality = M('originality');
 		$data['ispublic'] = 1;

@@ -1,0 +1,22 @@
+<table id="courseListTable" width="90%" border="0">
+  <thead>
+  <tr>
+    <th scope="col">已选课程</th>
+    <th scope="col">任课老师</th>
+    <th scope="col">限选人数</th>
+    <th scope="col">选课状态</th>
+  </tr>
+  </thead>
+  <tbody>
+  <volist name="coursesList" id="course">
+			<tr align="center">
+				<td class="subjectrow">
+                <a href="__URL__/getCourseDetail/cid/{$course.cid}">{$course.coursename}</a>
+                </td>
+				<td>{$course.teacher}</td>
+				<td >{$course.headcount}</td>
+				<td >{$course.status}</td>
+			</tr>
+  </volist>
+  </tbody>
+</table>

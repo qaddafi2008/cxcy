@@ -556,3 +556,13 @@ table th{
 #reviewruletable th{
     border:solid 1px;
 }
+
+#guideAndProcesstable{
+     border-collapse:collapse;
+}
+#guideAndProcesstable td{
+    border:solid 1px;
+}
+#guideAndProcesstable th{
+    border:solid 1px;
+}

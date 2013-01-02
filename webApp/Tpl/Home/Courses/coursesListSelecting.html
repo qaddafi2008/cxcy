@@ -1,0 +1,35 @@
+<?php
+if($coursesList != null){
+?>
+<script type="text/javascript" src="__PUBLIC__/js/courses-home-course.js"></script>
+<form id="cSelectionForm" name="cSelectionForm" action="__URL__/doSelectCourses" method="post">
+<table id="courseListTable" width="90%" border="0">
+  <thead>
+  <tr>
+    <th scope="col"><input type="checkbox" id="cb_all" name="cb_all" />选择</th>
+    <th scope="col">课程名</th>
+    <th scope="col">任课老师</th>
+    <th scope="col">限选人数</th>
+  </tr>
+  </thead>
+  <tbody>
+  <volist name="coursesList" id="course">
+			<tr align="center">
+				<td><input name="cids[]" type="checkbox" value="{$course.cid}" /></td>
+				<td  class="subjectrow">
+                <a href="__URL__/getCourseDetail/cid/{$course.cid}">{$course.coursename}</a>
+                </td>
+				<td >{$course.teacher}</td>
+				<td >{$course.headcount}</td>
+			</tr>
+  </volist>
+  </tbody>
+</table>
+<div align="center">
+<input type="button" value="  提 交  " id="selectCourseBtn" name="selectCourseBtn">
+</div>
+</form>
+<?php
+	}else
+		echo '<div align="center">暂无课程信息</div>';
+?>

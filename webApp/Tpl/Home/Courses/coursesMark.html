@@ -1,0 +1,29 @@
+<?php
+if($coursesList != null){
+?>
+<table id="courseListTable" width="90%" border="0">
+  <thead>
+  <tr>
+    <th scope="col">已选课程</th>
+    <th scope="col">任课老师</th>
+    <th scope="col">上课地点</th>
+    <th scope="col">成绩</th>
+  </tr>
+  </thead>
+  <tbody>
+  <volist name="coursesList" id="course">
+			<tr align="center">
+				<td class="subjectrow">
+                <a href="__URL__/getCourseDetail/cid/{$course.cid}">{$course.coursename}</a>
+                </td>
+				<td>{$course.teacher}</td>
+				<td >{$course.place}</td>
+				<td >{$course.mark}</td>
+			</tr>
+  </volist>
+  </tbody>
+</table>
+<?php
+	}else
+		echo '<div align="center">暂无信息</div>';
+?>

@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>pointlist.html</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="__PUBLIC__/css/admin/common.css" type="text/css" />
+    <link rel="stylesheet" href="__PUBLIC__/css/admin/main.css" type="text/css" />
+    <script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/courses-admin-course.js"></script>
+<script>
+var  highlightcolor='#eafcd5';
+//此处clickcolor只能用win系统颜色代码才能成功,如果用#xxxxxx的代码就不行,还没搞清楚为什么:(
+var  clickcolor='#51b2f6';
+function  changeto(){
+source=event.srcElement;
+if  (source.tagName=="TR"||source.tagName=="TABLE")
+return;
+while(source.tagName!="TD")
+source=source.parentElement;
+source=source.parentElement;
+cs  =  source.children;
+//alert(cs.length);
+if  (cs[1].style.backgroundColor!=highlightcolor&&source.id!="nc"&&cs[1].style.backgroundColor!=clickcolor)
+for(i=0;i<cs.length;i++){
+	cs[i].style.backgroundColor=highlightcolor;
+}
+}
+
+function  changeback(){
+if  (event.fromElement.contains(event.toElement)||source.contains(event.toElement)||source.id=="nc")
+return
+if  (event.toElement!=source&&cs[1].style.backgroundColor!=clickcolor)
+//source.style.backgroundColor=originalcolor
+for(i=0;i<cs.length;i++){
+	cs[i].style.backgroundColor="";
+}
+}
+</script>
+  </head>
+  
+  <body>
+  <div class="main_zone">		
+  <?php
+		if($memberList != null){
+  ?>
+  	<div style="height:50px;">
+		<span id="assignStatustip" style=" position:relative; top:15px;font-size:25px; font-weight:bold;">
+        【{$cname}】</span>
+     </div>
+	<form id="cMarksForm" name="cMarksForm" action="__URL__/doUpdateMarks" method="post">
+	<table id="cMarksTable" class="list_table" cellpadding="0" cellspacing="1" bgcolor="#c0de98" onMouseOver="changeto()"  onmouseout="changeback()">
+		<tr>
+            <td width="60%" height="26" background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">学生</td>
+            <td width="40%" height="26" background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">成绩</td>
+          </tr>
+          
+		  <volist name ='memberList' id ='vo'>
+          <tr>
+            <td height="26" bgcolor="#FFFFFF" align="center">{$vo.sname}</td>
+            <td height="26" bgcolor="#FFFFFF" align="center">
+            <input type="text" name="cmarks[]" style="width:100px;" value="{$vo.mark}"/>
+            <input type="hidden" name="ccids[]" value="{$vo.ccid}"/>
+            </td>
+        </tr>
+		</volist>
+    </table>
+    <div align="center">
+    	<input class="my_button" type="button" id="updateMarks_button" name="updateMarks_button" value=" 提 交 成 绩 " />
+    </div>
+	</form>
+	<?php
+		}else
+			echo '<div align="center">暂无选课学生</div>';
+	?>	
+  </div>
+  </body>
+</html>

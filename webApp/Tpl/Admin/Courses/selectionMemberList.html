@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>pointlist.html</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="__PUBLIC__/css/admin/common.css" type="text/css" />
+    <link rel="stylesheet" href="__PUBLIC__/css/admin/main.css" type="text/css" />
+    <script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/courses-admin-course.js"></script>
+<script>
+var  highlightcolor='#eafcd5';
+//此处clickcolor只能用win系统颜色代码才能成功,如果用#xxxxxx的代码就不行,还没搞清楚为什么:(
+var  clickcolor='#51b2f6';
+function  changeto(){
+source=event.srcElement;
+if  (source.tagName=="TR"||source.tagName=="TABLE")
+return;
+while(source.tagName!="TD")
+source=source.parentElement;
+source=source.parentElement;
+cs  =  source.children;
+//alert(cs.length);
+if  (cs[1].style.backgroundColor!=highlightcolor&&source.id!="nc"&&cs[1].style.backgroundColor!=clickcolor)
+for(i=0;i<cs.length;i++){
+	cs[i].style.backgroundColor=highlightcolor;
+}
+}
+
+function  changeback(){
+if  (event.fromElement.contains(event.toElement)||source.contains(event.toElement)||source.id=="nc")
+return
+if  (event.toElement!=source&&cs[1].style.backgroundColor!=clickcolor)
+//source.style.backgroundColor=originalcolor
+for(i=0;i<cs.length;i++){
+	cs[i].style.backgroundColor="";
+}
+}
+</script>
+  </head>
+  
+  <body>
+  <div class="main_zone">
+  	 <?php
+		if($selectionlist != null){
+  	 ?>		
+    <div style="height:20px">
+		<span style="float:right">
+			课程名：<input type="text" name="searchCname" id="searchCname"/>
+			<input id="courseNameSearchBtn" name="courseNameSearchBtn" class="my_button" type="button" value="搜索"/>&nbsp;&nbsp;&nbsp;
+		</span>
+	</div>
+	<hr />
+	<div style="height:20px;width:99%">
+		<span style="float:left">&nbsp;&nbsp;&nbsp;<input type="checkbox" id="cb_members_all" name="cb_members_all" />全选 </span>
+        <span style="float:right">
+        <input class="my_button" type="button" id="pass_button" name="pass_button" value="批量通过" />&nbsp;
+        <input class="my_button" type="button" id="reject_button" name="reject_button" value="批量拒绝" />
+        </span>
+    </div>
+
+	<form id="selectionMemberForm" name="selectionMemberForm" action="__URL__/doPassOrRejectSelection" method="post">
+    <input type="hidden" id="passOrReject" name="passOrReject" value="1"/>
+	<table id="selectionMembersTable" class="list_table" cellpadding="0" cellspacing="1" bgcolor="#c0de98" onMouseOver="changeto()"  onmouseout="changeback()">
+		<tr>
+            <td width="5%" height="26" background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">选择</td>
+            <td width="40%" height="26" background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">课程名</td>
+            <td width="35%" height="26" background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">选课学生</td>
+            <td width="10%" height="26" background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">限选人数</td>
+            <td width="10%" height="26" background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">选课状态</td>
+          </tr>
+		  <volist name ='selectionlist' id ='vo'>
+          <tr>
+            <td height="26" bgcolor="#FFFFFF" align="center">
+            <input name="ccids[]" type="checkbox" class="STYLE2" value="{$vo.ccid}" <?php echo '通过'==$vo['status']?"disabled":""; ?>/>
+            </td>
+            <td height="26" bgcolor="#FFFFFF" align="center" class="subjectRow">
+             {$vo.coursename}
+             </td>
+            <td height="26" bgcolor="#FFFFFF" align="center">{$vo.sname}</td>
+            <td height="26" bgcolor="#FFFFFF" align="center">{$vo.headcount}</td>
+            <td height="26" bgcolor="#FFFFFF" align="center">{$vo.status}</td>
+        </tr>
+		</volist>
+    </table>
+	</form>
+	<?php
+		}else
+			echo '<div align="center">暂无信息</div>';
+	?>	
+  </div>
+  </body>
+</html>
