@@ -1,0 +1,21 @@
+<script type="text/javascript" src="__PUBLIC__/js/lecture-home-lecture.js"></script>
+<div id="ocollection" align="right">
+<input type="hidden" id="isApply" name="isApply" value="{$isApply}"/>
+<input type="hidden" id="lid" name="lid" value="{$lid}" />
+<input type="hidden" id="baseurl" value="__URL__" />
+<input type="button" id="doApplyBtn" name="doApplyBtn" class="bbtn" value=" 申请认证参与 "/>
+</div>
+<table id="stuodetailtable" width="100%" border="0">
+    <tr>
+      <th scope="row" class="tdtitle">学号</th>
+      <th>姓名</th>
+    </tr>
+    <volist name="plist" id="vo">
+			<tr align="center">
+				<td class="subjectrow">{$vo.stuno}</td>
+				<td >{$vo.sname}</td>
+			</tr>
+    </volist>
+</table>
+
+

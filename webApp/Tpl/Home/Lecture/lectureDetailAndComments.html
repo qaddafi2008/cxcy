@@ -1,0 +1,46 @@
+<script type="text/javascript" src="__PUBLIC__/js/lecture-home-lecture.js"></script>
+<div id="ocollection" align="right">
+ <a href="__URL__/getParticipationList/lid/{$lecture.lid}/lname/{$lecture.lname}" style="font-size:20px">获取已参与该讲座的名单</a>
+</div>
+<table id="stuodetailtable" width="100%" border="0">
+    <tr>
+      <th scope="row" class="tdtitle">标题</th>
+      <th>{$lecture.lname}</th>
+    </tr>
+    <tr>
+      <th scope="row" class="tdtitle">内容</th>
+      <td>{$lecture.lcontent}</td>
+    </tr>
+    <tr>
+      <th scope="row" class="tdtitle">发布时间</th>
+      <td>{$lecture.updatetime}</td>
+    </tr>
+</table>
+<br/>
+<hr align="center" width="100%" />
+<h3>评论：</h3>
+<table id="lcommenttable" width="90%">
+
+<volist name="lcomments" id="lecturecomment">
+<tr><td colspan="2" align="left">
+<span style="color:#00C">{$lecturecomment.commenter}</span>：{$lecturecomment.content}
+</td></tr>
+<tr>
+  <td class="timetb" align="left" style="font-size:12px;">&nbsp;&nbsp;&nbsp;{$lecturecomment.commenttime}</td>
+  <td class="replytb" align="right" style="font-size:12px;">
+  <a href="#comment" data-uname="{$lecturecomment.commenter}">回复</a>
+  </td>
+</tr>
+</volist>
+
+<tr>
+	<td align="left" colspan="2">
+    	<form id="comForm" name="comForm" method="post" action="__URL__/addlComment">
+	      <textarea name="comment" id="comment" cols="80" rows="5"></textarea><br/>
+          <input type="hidden" id="lid" name="lid" value="{$lecture.lid}" />
+          <input type="hidden" id="commenter" name="commenter" value="<?php echo session(C('USER_NAME')); ?>" />
+          <input type="button" id="updateSObtn" name="updateSObtn" style="width:80px" value="回 复" />
+        </form>
+    </td>
+</tr>
+</table>

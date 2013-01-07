@@ -539,13 +539,19 @@ table th{
 }
 
 #ocollection .bbtn{
-	width:80px;
+	/*width:80px;*/
+	min-width:80px;
     align:center;
     text-align:center;
 	text-shadow:#00C;
     height:40px;
     margin-left:20px;
 }
+
+#ocollection .alink{
+    margin-left:20px;
+}
+
 
 #reviewruletable{
      border-collapse:collapse;

@@ -1,0 +1,24 @@
+<?php
+if($lectureList != null){
+?>
+
+<table id="originalityListTable" width="90%" border="0">
+  <thead>
+  <tr>
+    <th scope="col">标题</th>
+    <th scope="col">发布时间</th>
+  </tr>
+  </thead>
+  <tbody>
+  <volist name="lectureList" id="vo">
+			<tr align="center">
+				<td class="subjectrow"><a href="__URL__/getLectureDetail/lid/{$vo.lid}">{$vo.lname}</a></td>
+				<td >{$vo.updatetime}</td>
+			</tr>
+  </volist>
+  </tbody>
+</table>
+<?php
+	}else
+		echo '<div align="center">暂无信息</div>';
+?>

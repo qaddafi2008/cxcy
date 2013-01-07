@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>pointlist.html</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="__PUBLIC__/css/admin/common.css" type="text/css" />
+    <link rel="stylesheet" href="__PUBLIC__/css/admin/main.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/jquery-ui-1.8.21.custom.css" media="all" />
+    <script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/jquery-ui-1.8.21.custom.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/lecture-admin-lecture.js"></script>
+    
+<script>
+var  highlightcolor='#eafcd5';
+//此处clickcolor只能用win系统颜色代码才能成功,如果用#xxxxxx的代码就不行,还没搞清楚为什么:(
+var  clickcolor='#51b2f6';
+function  changeto(){
+source=event.srcElement;
+if  (source.tagName=="TR"||source.tagName=="TABLE")
+return;
+while(source.tagName!="TD")
+source=source.parentElement;
+source=source.parentElement;
+cs  =  source.children;
+//alert(cs.length);
+if  (cs[1].style.backgroundColor!=highlightcolor&&source.id!="nc"&&cs[1].style.backgroundColor!=clickcolor)
+for(i=0;i<cs.length;i++){
+	cs[i].style.backgroundColor=highlightcolor;
+}
+}
+
+function  changeback(){
+if  (event.fromElement.contains(event.toElement)||source.contains(event.toElement)||source.id=="nc")
+return
+if  (event.toElement!=source&&cs[1].style.backgroundColor!=clickcolor)
+//source.style.backgroundColor=originalcolor
+for(i=0;i<cs.length;i++){
+	cs[i].style.backgroundColor="";
+}
+}
+
+function  clickto(){
+source=event.srcElement;
+if  (source.tagName=="TR"||source.tagName=="TABLE")
+return;
+while(source.tagName!="TD")
+source=source.parentElement;
+source=source.parentElement;
+cs  =  source.children;
+//alert(cs.length);
+if  (cs[1].style.backgroundColor!=clickcolor&&source.id!="nc")
+for(i=0;i<cs.length;i++){
+	cs[i].style.backgroundColor=clickcolor;
+}
+else
+for(i=0;i<cs.length;i++){
+	cs[i].style.backgroundColor="";
+}
+}
+
+</script>
+  </head>
+  
+  <body>
+  <div class="main_zone">
+  
+  <div style="height:30px;">
+	<span style=" position:relative; top:15px;font-size:25px; font-weight:bold;">【{$lname}】——添加已参与的学生</span>
+  </div>
+  
+  <div style="height:20px">
+	<span style="float:right">
+		学生姓名：<input type="text" name="searchWordStu" id="searchWordStu"/>
+		<input id="studentSearchBtn" name="studentSearchBtn" class="my_button" type="submit" value="搜索"/>&nbsp;&nbsp;&nbsp;
+		
+	</span>
+	</div>
+	<hr />
+    
+    <div style="height:20px;width:99%">
+        <span style="float:right">
+        <input class="my_button" type="button" id="hasParticipatedBtn" name="hasParticipatedBtn" value="已参与" />&nbsp;
+        </span>
+    </div>
+	
+    <form id="stuParticipationForm" name="stuParticipationForm" action="__URL__/doAddParticipatedStudents" method="post">
+    <input type="hidden" id="lid" name="lid" value="{$lid}"/>
+	<table class="list_table" id="stuParticipationTable" cellpadding="0" cellspacing="1" bgcolor="#c0de98" onMouseOver="changeto()"  onmouseout="changeback()">
+		<tr>
+            <td width="10%" height="26" background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">选择</td>
+            <td width="50%" height="26" background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">学号</td>
+            <td width="40%" height="26" background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">学生姓名</td>
+          </tr>
+		  <volist name="stuList" id="vo">
+          <tr>
+          	<td height="26" bgcolor="#FFFFFF" class="pidRow" align="center">
+             <input name="sids[]" type="checkbox" class="STYLE2" value="{$vo.sid}" />
+            </td>
+            <td height="26" bgcolor="#FFFFFF" align="center">
+           {$vo.stuno}
+            </td>
+            <td height="26" bgcolor="#FFFFFF" class="subjectRow" align="center">{$vo.sname}</td>
+        </tr>
+		</volist>
+    </table>
+    </form>
+    <div style="height:30px;width:99%;position:relative; top:15px">
+    	
+    </div>
+  </div>
+  </body>
+</html>
