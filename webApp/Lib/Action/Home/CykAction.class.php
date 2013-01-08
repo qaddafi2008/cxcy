@@ -1,6 +1,6 @@
 <?php
 import('webApp.Action.Admin.Common');
-class OriginalityAction extends Action{
+class CykAction extends Action{
 
 	public function index() {
 		R('Home/Authority/checkLogin');//表示调用Admin分组下Authority模块的checkLogin方法

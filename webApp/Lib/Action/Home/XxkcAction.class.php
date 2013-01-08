@@ -1,5 +1,5 @@
 <?php
-class CoursesAction extends Action{
+class XxkcAction extends Action{
 	public function index() {
 		R('Home/Authority/checkStudentLogin');//表示调用Admin分组下Authority模块的checkStudentLogin方法
 		$this->getGuideAndProcess(1);

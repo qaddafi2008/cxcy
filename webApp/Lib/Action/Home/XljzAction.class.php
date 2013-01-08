@@ -1,5 +1,5 @@
 <?php
-	class LectureAction extends Action{
+	class XljzAction extends Action{
 		public function index(){
 			$this->getLectureList();
 		}
