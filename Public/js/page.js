@@ -498,5 +498,28 @@ function setTijiaoBox() {
             }
         }
     });
+	
+	//为个人信息更新按钮添加点击事件
+	$("#updateInfobtn").click(function(){
+		var newname = $("#sname").val();
+		if("" == newname)
+			alert("姓名不能为空！");
+		else if($("#hname").val() == newname)
+			alert("请修改后再点击按钮！");
+		else
+			$("#infoForm").submit();
+	});
+	
+	//为个人修改密码按钮添加点击事件
+	$("#updatePswdbtn").click(function(){
+		if($('#npswd').val() == ''){
+			alert('新密码不能为空！');
+		}else if($('#pswd').val() == $('#npswd').val()){
+			alert('新旧密码不能一样！');
+		}else if($('#snpswd').val() != $('#npswd').val())
+			alert('两次输入的新密码不同！');
+		else
+		    $("#passwordForm").submit();
+	});
 }
 

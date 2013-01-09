@@ -54,7 +54,10 @@
                  $role = session(C('USER_ROLE'));
                  if(null != $role)
                  {
-                 	echo session(C('USER_NAME'));
+                 	if(2 == $role)
+                 		echo ' <a href="__GROUP__/index/personalProfile" target="_top">'.session(C('USER_NAME')).'</a>';
+                    else
+                    	echo session(C('USER_NAME'));
                     echo '， <a href="__GROUP__/Index/logout" target="_top"><span>退出</span></a>';
                  }else
                  { 

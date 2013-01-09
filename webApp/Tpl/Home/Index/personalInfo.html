@@ -1,0 +1,18 @@
+<form id="infoForm" name="infoForm" method="post" action="__URL__/doModifyName">
+<table id="guideAndProcesstable" width="100%" border="0">
+    <tr>
+      <th scope="row">学号</th>
+      <td>{$sno}</td>
+    </tr>
+    <tr>
+      <th scope="row">姓名</th>
+      <td><input type="text" id="sname" name="sname" value="{$sname}"/></td>
+    </tr>       
+    
+</table>
+  <input type="hidden" id="hname" name="hname" value="{$sname}"/>
+  <div class="operationarea">
+  <input type="button" id="updateInfobtn" name="updateInfobtn" value="更新" />
+  </div>
+</form>
+

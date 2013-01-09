@@ -7,6 +7,78 @@ class IndexAction extends Action {
 		$this->display ();
 	}
 	
+	private function getStuNavlist(){
+		$navindex = 0;
+		$navlist [$navindex++] = array ("url" => '__URL__/personalProfile', "title"=>'个人资料');
+		$navlist [$navindex++] = array ("url" => '__URL__/modifyPassword', "title" => '修改密码' );
+		return $navlist;
+	}
+	
+	public function personalProfile(){
+		R('Home/Authority/checkStudentLogin');//表示调用Admin分组下Authority模块的checkStudentLogin方法
+		
+		//左侧导航栏
+		$modelname = "个人资料："; //本模块名称
+		$navlist = $this->getStuNavlist();//获得左侧导航菜单
+		
+		$stuid = session(C('USER_AUTH_KEY'));
+		$student= M('student');
+		$info = $student->where("sid = $stuid")->find();
+		
+		$this->assign('sno',$info['stuno']);
+		$this->assign('sname',$info['sname']);
+		$this->assign ( 'modelname', $modelname );
+		$this->assign ( 'navlist', $navlist );
+		$this->assign ( 'functionBlock', 'personalInfo');//设置主模块显示的功能页面
+		
+		$this->display("infoPage");
+	}
+	
+	public function doModifyName(){
+		R('Home/Authority/checkStudentLogin');//表示调用Admin分组下Authority模块的checkStudentLogin方法
+		
+		$data['sname'] = $_POST['sname'];
+		$stuid = session(C('USER_AUTH_KEY'));
+		$student= M('student');
+		if($student->where("sid = $stuid")->save($data)){
+			session ( C ( 'USER_NAME' ), $data['sname'] ); //USER_NAME为用户姓名
+			$this->success('更新成功！');
+		}else
+			$this->error('更新失败！');
+	}
+	
+	public function modifyPassword(){
+		R('Home/Authority/checkStudentLogin');//表示调用Admin分组下Authority模块的checkStudentLogin方法
+		
+		//左侧导航栏
+		$modelname = "个人资料："; //本模块名称
+		$navlist = $this->getStuNavlist();//获得左侧导航菜单
+		
+		$this->assign ( 'modelname', $modelname );
+		$this->assign ( 'navlist', $navlist );
+		$this->assign ( 'functionBlock', 'password');//设置主模块显示的功能页面
+		
+		$this->display("infoPage");
+	}
+	
+	public function doModifyPassword(){
+		R('Home/Authority/checkStudentLogin');//表示调用Admin分组下Authority模块的checkStudentLogin方法
+		
+		$student= M('student');
+		$stuid = session(C('USER_AUTH_KEY'));
+		$condition['sid'] = $stuid;
+		$condition['spassword'] = md5($_POST['pswd']);
+		if( !$student->where($condition)->find())
+			$this->error ( "原密码错误，请重输入！" );		
+		else{
+			$data['spassword'] = md5($_POST['npswd']);		
+		}						
+		if($student->where("sid = $stuid")->save($data))
+			$this->success("修改密码成功！");
+		else
+			$this->error("修改失败！");
+	}
+	
 	//登录
 	public function login() {
 		//echo .'-'.$_POST[''].'-'.$_POST['usertype'];
