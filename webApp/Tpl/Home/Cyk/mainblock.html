@@ -3,7 +3,19 @@
 			
 		<div>
 			<input type="hidden" id="baseurl" value="__URL__" />
-			<include file="$functionBlock" />
+			
+			
+			<switch name="functionBlock" >
+				<case value="reviewRule"><include file="reviewRule"/></case>
+				<case value="studentOriginalityDetailPublic"><include file="studentOriginalityDetailPublic"/></case>
+				<case value="studentOriginalityDetailReview"><include file="studentOriginalityDetailReview"/></case>
+				<case value="studentOriginalityDetail"><include file="studentOriginalityDetail"/></case>
+				<case value="studentOriginalityPage"><include file="studentOriginalityPage"/></case>
+				<case value="resultPublicityList"><include file="resultPublicityList"/></case>
+				<case value="originalityList"><include file="originalityList"/></case>	
+				<default />functionBlock没有匹配对象
+			</switch>
+			
 		</div>
 				
 	</div>
