@@ -105,8 +105,8 @@ class Common{
 	{
 		$real_file_name = $file_name."###".$suffix;     //下载文件名  
 		$file_dir = "./Uploads/";        //下载文件存放目录
-		$destfile =  Common::utf82gbk($file_dir . $real_file_name);
-		//$destfile = $file_dir . $real_file_name;
+		//$destfile =  Common::utf82gbk($file_dir . $real_file_name);
+		$destfile = $file_dir . $real_file_name;
 		//检查文件是否存在  
 		if (! file_exists ( $destfile )) {
 			//echo $file_name;
