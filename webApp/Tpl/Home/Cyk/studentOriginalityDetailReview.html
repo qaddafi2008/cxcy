@@ -44,7 +44,7 @@
 <form id="updateMarkForm" name="updateMarkForm" method="post" action="__URL__/updateOMark">
       <label>评审意见:</label><br/>
 	  <textarea name="ocomment" id="ocomment" cols="80" rows="5">{$treview.comment}</textarea><br/>
-      <label>成绩:</label><input type="text" id="omark" name="omark" size="100px" value="{$treview.mark}"/>
+      <label>成绩:</label><input type="text" id="omark" name="omark" size="10px" value="{$treview.mark}"/>
       <input type="hidden" id="originalityid" name="originalityid" value="{$myOriginality.oid}" /><br/>
       <input type="button" id="updateOMarkbtn" name="updateOMarkbtn" style="width:80px" value="提 交" />
 </form>

@@ -3,7 +3,13 @@
 			
 		<div>
 			<input type="hidden" id="baseurl" value="__URL__" />
-			<include file="$functionBlock" />
+			
+			<switch name="functionBlock" >
+				<case value="lectureList"><include file="lectureList"/></case>
+				<case value="participationList"><include file="participationList"/></case>
+				<case value="lectureDetailAndComments"><include file="lectureDetailAndComments"/></case>
+				<default />functionBlock没有匹配对象
+			</switch>
 		</div>
 				
 	</div>
