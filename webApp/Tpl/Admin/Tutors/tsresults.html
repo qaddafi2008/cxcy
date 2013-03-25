@@ -393,6 +393,7 @@ function confirmDel(){
 					<th background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">学生</th>
 					<th background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">导师</th>
 					<th background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">项目简介</th>
+					<th background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">意向值</th>
 					<th background="__PUBLIC__/images/admin/images/tab_14.gif" align="center">操作</th>
 				</tr>
 			</thead>
@@ -409,6 +410,7 @@ function confirmDel(){
 					<td height="26" bgcolor="#FFFFFF" align="center" class="tutorrow"><a href="javascript:getTeacherFullInfo({$info.teacherid})">{$info.teachername}</a></td>
 					<td height="26" bgcolor="#FFFFFF" align="center" class="outlinerow"><a
 						href="__URL__/downfile/{$info.studentid}/{$info.filename}">{$info.filename}</a></td>
+					<td height="26" bgcolor="#FFFFFF" align="center" class="snamerow">{$info.Intention}</td>
 					<td height="26" bgcolor="#FFFFFF" align="center" class="actionrow"><!-- <a class="approve">[批准]</a> -->　<a
 						class="delete">[删除]</a></td>
 				</tr>

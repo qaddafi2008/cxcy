@@ -13,7 +13,7 @@ class TutorsAction extends Action{
 		$tslist = "";
 		$condition = "";
 		$condition['selectionstatus'] = 1;
-		$tslist = $tsmodel->where($condition)->order('studentid')->select();
+		$tslist = $tsmodel->where($condition)->order('studentid ,Intention desc')->select();
 		$studentlist = $studentmodel->select();
 		$teacherlist = $stuff->where("role='1'")->select();
 
@@ -43,7 +43,7 @@ class TutorsAction extends Action{
 		$tslist = "";
 		$condition = "";
 		$condition['selectionstatus'] = 2;
-		$tslist = $tsmodel->where($condition)->order('studentid')->select();
+		$tslist = $tsmodel->where($condition)->order('studentid, Intention desc')->select();
 		$studentlist = $studentmodel->select();
 		$teacherlist = $stuff->where("role='1'")->select();
 

@@ -58,6 +58,9 @@ class CxssAction extends Action{
 		}elseif(strtotime($now)>strtotime($act['st'])&&strtotime($now)<strtotime($act['at'])){
 			$baomingMsg = "baoming";
 			$baomingDay = date("d",strtotime($act['at'])-strtotime($now)); 
+		}elseif(strtotime($now)>strtotime($act['at'])&&strtotime($now)<=strtotime($act['et'])){
+			$baomingMsg = "zuopin";
+			$baomingDay = date("d",strtotime($act['et'])-strtotime($now));		
 		}elseif(strtotime($now)>strtotime($act['at'])){
 			$baomingMsg = "报名已截止！";
 			$baomingDay = 0;
@@ -89,7 +92,16 @@ class CxssAction extends Action{
 		
 		$imgsrc = "__PUBLIC__/images/home/cxss.png";
 		$baomingbg = "__PUBLIC__/images/home/cxssbm.png";
-		$baomingButton = "__PUBLIC__/images/home/baoming.png";
+		$baomingButton = null;
+		$imgurl = null;
+		if($baomingMsg=="baoming"){
+			$baomingButton = "__PUBLIC__/images/home/baoming.png";
+			$imgurl = "__URL__/baoming";
+		}elseif($baomingMsg=="zuopin"){
+			$baomingButton = "__PUBLIC__/images/home/zuopin.png";
+			$imgurl = "__URL__/zuopin";
+		}
+		$this->assign("imgurl",$imgurl);
 		$this->assign("columncount",$columncount);
 		$this->assign("maincontent",$maincontent);
 		$this->assign("imgsrc",$imgsrc);
@@ -138,7 +150,7 @@ class CxssAction extends Action{
 		//$this->showpage(1,2);
 		$this->apply(60);
 	}
-	public function zuoping(){//作品
+	public function zuopin(){//作品
 		//$this->showpage(1,3);
 		$this->apply(63);
 	}
@@ -207,7 +219,7 @@ class CxssAction extends Action{
 			$navlist [$navindex++] = array ("url" => '__URL__/xinwen', "title"=>'赛事新闻');
 			$navlist [$navindex++] = array ("url" => '__URL__/jinzhan', "title" => '当前进展' );
 			$navlist [$navindex++] = array ("url" => '__URL__/baoming', "title" => '报名参加' );
-			$navlist [$navindex++] = array ("url" => '__URL__/zuoping', "title" => '提交作品' );
+			$navlist [$navindex++] = array ("url" => '__URL__/zuopin', "title" => '提交作品' );
 		}elseif($_SESSION['urole']==1){
 			//$navlist [$navindex++] = array ("url" => '__URL__/index', "title"=>'首页');
 			$navlist [$navindex++] = array ("url" => '__URL__/jieshao', "title" => '赛事介绍' );
@@ -347,8 +359,8 @@ class CxssAction extends Action{
 					$myacts[$i]['modify'] = "已结束";
 				}
 			}else{
-				if(strtotime($now)<strtotime($temp['endtime'])){
-					$myacts[$i]['modify'] = "";
+				if(strtotime($now)<=strtotime($temp['applytime'])){
+					$myacts[$i]['modify'] = "等待开放";
 				}
 				else{
 					$myacts[$i]['modify'] = "已结束";
@@ -378,10 +390,18 @@ class CxssAction extends Action{
 					$myacts[0]['modify'] = "还未开始";
 				}
 			}else{
-				if((strtotime($now)<strtotime($temp['applytime']))){
-					$myacts[0]['modify'] = "还未报名";
-				}elseif(strtotime($now)>strtotime($temp['endtime'])){
+				if((strtotime($now)<=strtotime($temp['applytime']))){
+					$myacts[0]['modify'] = "等待开放";
+				}
+				elseif(strtotime($now)>strtotime($temp['endtime'])){
 					$myacts[0]['modify'] = "已经结束";
+				}		
+				$conditiontemp = "";
+				$conditiontemp['studentid'] = $_SESSION['uid'];
+				$conditiontemp['acttype'] = $type - $type%10;
+				$myactstemp = $activityapplication->where($conditiontemp)->field("actapplicationid as id,actid,submittime,attachmentpath")->order('submittime')->select();
+				if(!$myactstemp){
+					$myacts[$i]['modify'] = "未报名";
 				}
 			}
 			$myacts[0]['content'] = "";

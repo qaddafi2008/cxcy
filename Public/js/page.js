@@ -3,8 +3,9 @@ var href = window.location.href;
 $(document).ready(function() {
     if($.browser.msie&&$.browser.version<=8.0) { 
         $("#browsertip").html("您正在使用IE"+$.browser.version+"，推荐您使用IE 9.0以上版本或Google Chrome，Mozilla Firefox以获取更高体验！");
-    } 
+    }
     var ishomepage = true;
+    
     $.each($("#menu>li>a"), function(j, item) {
         $(this).attr("class", "but");
     });
@@ -74,7 +75,27 @@ $(document).ready(function() {
     }, function() {
         $(this).children("dl").slideUp(100)
     });
-
+    if($.browser.msie&&$.browser.version<=8.0) { 
+        $("#menu li:eq(1)").mouseenter(function(){
+            //$("#sidebar").hide();
+            try{
+            $("#sidebar").animate({
+                top : (355) + "px"
+            }, {
+                duration : 200,
+                queue : false
+            });}catch(e){}
+        }).mouseleave(function(){
+            //$("#sidebar").show();
+            try{
+            $("#sidebar").animate({
+                top :  225 + "px"
+            }, {
+                duration : 200,
+                queue : false
+            });}catch(e){}
+        });
+       }
     
     //sidebar跟随滚动条滚动
     var offset = $("#main_block").offset();

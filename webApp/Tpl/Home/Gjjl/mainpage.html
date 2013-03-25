@@ -69,10 +69,13 @@ function initForIndex(){
 						<img id="comMsgboxbg" src="{$baomingbg}" />
 						<div class="msgbutton">
 							<if condition="($baomingMsg eq 'baoming')"> <span class="msg">距离报名截止还有<span
-								class="highlight">{$baomingDay}</span>天 </span><elseif
-								condition="($baomingMsg neq 'baoming')" /> <div style="font-size:20px;align:center;text-align:center;">{$baomingMsg}</div> </if>
+								class="highlight">{$baomingDay}</span>天 </span>
+								<elseif condition="($baomingMsg eq 'zuopin')"/>
+								<span class="msg">距离提交截止还有<span
+								class="highlight">{$baomingDay}</span>天 </span>
+								<elseif condition="($baomingMsg neq 'baoming' or $baomingMsg neq 'zuopin')" /> <div style="font-size:20px;align:center;text-align:center;">{$baomingMsg}</div> </if>
 							<div>
-								<a href="__URL__/baoming"><img id="baomintbt"
+								<a href="{$imgurl}"><img id="baomintbt"
 									src="{$baomingButton}" /></a>
 							</div>
 						</div>
