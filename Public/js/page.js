@@ -1,7 +1,9 @@
 var href = window.location.href;
 //当前url
 $(document).ready(function() {
-
+    if($.browser.msie&&$.browser.version<=8.0) { 
+        $("#browsertip").html("您正在使用IE"+$.browser.version+"，推荐您使用IE 9.0以上版本或Google Chrome，Mozilla Firefox以获取更高体验！");
+    } 
     var ishomepage = true;
     $.each($("#menu>li>a"), function(j, item) {
         $(this).attr("class", "but");

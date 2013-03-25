@@ -153,19 +153,41 @@
     		});
     		$("#bat_delete").click(function(){
     			var selectedcounts = 0;
+    			if(confirm("确认批量删除？")){
     			$.each($("#activitytable :checked"),function(){
     				var id=$(this).val();
-    				deleteRowByID(id);
+    				deleteRowByIDQuick(id);
     				selectedcounts++;
     			});
     			if(selectedcounts==0){
     				alert("未选择待删除项目！");
-    			}
+    			}}
     		});
     	}
     	
     	//按id删除记录
     	function deleteRowByID(id){
+    		if(confirm("确认删除该新闻？"))
+    		$.ajax({
+    			type : "get",
+    			url : $("#baseurl").val() + "/deleteByID/" + id,
+    			cache : false,
+    			success : function(msg) {
+    				//对返回的数据进行处理
+    				var msgtemp = eval('(' + msg + ')');
+    				if(msgtemp.status == 1){
+    					$.each($(":checkbox"),function(){
+    						if($(this).val() == id){
+    							$(this).parent("td").parent("tr").remove();
+    						}
+    					});
+    				}
+    				
+    			}
+    		});
+    	}
+    	//按id删除记录
+    	function deleteRowByIDQuick(id){
     		$.ajax({
     			type : "get",
     			url : $("#baseurl").val() + "/deleteByID/" + id,
@@ -241,8 +263,8 @@
 				<if condition="($pagetype eq 1)">
 				<a href="__URL__/apply/{$news.activityid}">[报名情况]</a>
 				</if>
-				<a href="__URL__/{$mode}/modify/{$news.activityid}">[详细信息]</a>
-            	<a href="__URL__/{$mode}/modify/{$news.activityid}">[修改]</a>
+				<a href="__URL__/{$mode}/modify/{$news.activityid}">[详细信息] </a>
+            	<a href="__URL__/{$mode}/modify/{$news.activityid}">[修改] </a>
             	<a class="delete">[删除]</a>
             	</td>
             	</tr>

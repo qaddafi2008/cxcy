@@ -26,6 +26,13 @@ html > body {
     background-image: url(images/index/header_bg.gif);
     background-position: top left;
     background-repeat: repeat-x;
+    z-index:9999;
+}
+#header #browsertip{
+    position:absolute;
+    z-index:99;
+    left:450px;
+    font-size:12px;
 }
 #header_inside {
     width: 1000px;
@@ -82,8 +89,8 @@ html > body {
     left: 0;
     top: 40px;
     margin-left:-50px;
-    display: none;
     z-index: 99;
+    display: none; 
 }
 .main_nav ul li dl dd a {
     text-align: center;
@@ -91,13 +98,16 @@ html > body {
     width: 220px;
     background-color: #a3bd38;
     border-radius:3px;
+    z-index: 99;
 }
 .main_nav ul li dl dd a:hover {
     text-decoration: none;
     background-color: #537224;
+    z-index: 99;
 }
 #wrapper {
-    padding: 0 0 10px 0
+    padding: 0 0 10px 0;
+    z-index: 1;
 }
 #content_inside {
     background-image: url(images/index/bg.gif);
@@ -117,6 +127,10 @@ html > body {
     border-radius:10px;
     border:1px solid #9BDF70;
     background-color: #F0FBEB;
+    z-index:0;
+}
+
+#sidebar_nav{
     z-index: 1;
 }
 
@@ -139,9 +153,6 @@ html > body {
 #list li {
     width: 162px;
     margin-left:15px;
-}
-
-.sidebar_nav{
 }
 
 .sidebar_nav ul li a {
@@ -177,6 +188,7 @@ html > body {
     background-color: #FAFCFD;
     border:1px solid #9BDF70;
     background-color: #F0FBEB;
+    z-index: 0;
 }
 /*
 .box { background:white url(boxes/box-bg.png) left top repeat-x; width:100%;}

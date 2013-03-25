@@ -22,7 +22,8 @@
 }
 #columns{
     padding:10px 10px 10px 10px;
-    min-height:200px;
+    min-height:300px;
+    
     width:980px;
 }
 #columns span{
@@ -40,7 +41,8 @@
     float:left;
     border:solid 1px #CCEFF5;
     border-radius:5px;
-    min-height: 150px;
+    min-height: 260px;
+    max-height:260px;
     display:inline; 
 }
 .column3 .column{
@@ -50,7 +52,8 @@
     float:left;
     border:solid 1px #CCEFF5;
     border-radius:5px;
-    min-height: 150px;
+    min-height: 260px;
+    max-height:260px;
     display:inline; 
 }
 .column .columncontent{

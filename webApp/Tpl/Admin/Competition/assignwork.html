@@ -166,9 +166,10 @@ function confirmDel(){
     		});
     		$("#bat_delfile").click(function(){
     			var selectedcounts = 0;
+        		if(confirm("是否清除这些分配?"))
     			$.each($("#activitytable :checked"),function(){
     				var id=$(this).val();
-    				deleteAssign(id);
+    				deleteAssignQuick(id);
     				selectedcounts++;
     			});
     			if(selectedcounts==0){
@@ -177,14 +178,15 @@ function confirmDel(){
     		});
     		$("#bat_delbackfile").click(function(){
     			var selectedcounts = 0;
+    			if(confirm("是否清除这些评审?")){
     			$.each($("#activitytable :checked"),function(){
     				var id=$(this).val();
-    				deleteAppraisal(id);
+    				deleteAppraisalQuick(id);
     				selectedcounts++;
     			});
     			if(selectedcounts==0){
     				alert("未选择待清除项目！");
-    			}
+    			}}
     		});
     	}
     	
@@ -239,6 +241,7 @@ function confirmDel(){
     	}
     	
     	function deleteAssign(id){
+    		if(confirm("是否清除此分配?"))
     		$.ajax({
     			type : "post",
     			url : $("#baseurl").val() + "/deleteAssign",
@@ -260,6 +263,48 @@ function confirmDel(){
     	}
     	
     	function deleteAppraisal(id){
+    		if(confirm("是否清除此评审?"))
+    		$.ajax({
+    			type : "post",
+    			url : $("#baseurl").val() + "/deleteAppraisal",
+    			data:{teacherid:id},
+    			cache : false,
+    			success : function(msg) {
+    				//对返回的数据进行处理
+    				var msgtemp = eval('(' + msg + ')');
+    				if(msgtemp.status == 1){
+    					$.each($(":checkbox"),function(){
+    						if($(this).val() == id){
+    							$(this).parent("td").parent("tr").children(".backfilenamerow").text("");
+    						}
+    					});
+    				}
+    				
+    			}
+    		});
+    	}
+    	function deleteAssignQuick(id){
+    		$.ajax({
+    			type : "post",
+    			url : $("#baseurl").val() + "/deleteAssign",
+    			data:{teacherid:id},
+    			cache : false,
+    			success : function(msg) {
+    				//对返回的数据进行处理
+    				var msgtemp = eval('(' + msg + ')');
+    				if(msgtemp.status == 1){
+    					$.each($(":checkbox"),function(){
+    						if($(this).val() == id){
+    							$(this).parent("td").parent("tr").children(".filenamerow").text("");
+    						}
+    					});
+    				}
+    				
+    			}
+    		});
+    	}
+    	
+    	function deleteAppraisalQuick(id){
     		$.ajax({
     			type : "post",
     			url : $("#baseurl").val() + "/deleteAppraisal",

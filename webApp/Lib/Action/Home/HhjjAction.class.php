@@ -210,23 +210,23 @@ class HhjjAction extends Action {
 		$navindex = 0;
 		if($_SESSION['urole']==2){
 			$navlist [$navindex++] = array ("url" => '__URL__/index', "title"=>'首页');
+			$navlist [$navindex++] = array ("url" => '__URL__/jieshao', "title" => '河合介绍' );
 			$navlist [$navindex++] = array ("url" => '__URL__/xinwen', "title"=>'新闻通知');
 			$navlist [$navindex++] = array ("url" => '__URL__/jinzhan', "title" => '当前进展' );
-			$navlist [$navindex++] = array ("url" => '__URL__/jieshao', "title" => '河合介绍' );
 			$navlist [$navindex++] = array ("url" => '__URL__/baoming', "title" => '报名参加' );
 			$navlist [$navindex++] = array ("url" => '__URL__/zuoping', "title" => '提交作品' );
 		}elseif($_SESSION['urole']==1){
 			$navlist [$navindex++] = array ("url" => '__URL__/index', "title"=>'首页');
+			$navlist [$navindex++] = array ("url" => '__URL__/jieshao', "title" => '河合介绍' );
 			$navlist [$navindex++] = array ("url" => '__URL__/xinwen', "title"=>'新闻通知');
 			$navlist [$navindex++] = array ("url" => '__URL__/jinzhan', "title" => '当前进展' );
-			$navlist [$navindex++] = array ("url" => '__URL__/jieshao', "title" => '河合介绍' );
 			$navlist [$navindex++] = array ("url" => '__URL__/shenpi', "title" => '下载审批' );
 			$navlist [$navindex++] = array ("url" => '__URL__/tijiao', "title" => '提交审批' );	
 		}else{
 			$navlist [$navindex++] = array ("url" => '__URL__/index', "title"=>'首页');
+			$navlist [$navindex++] = array ("url" => '__URL__/jieshao', "title" => '河合介绍' );
 			$navlist [$navindex++] = array ("url" => '__URL__/xinwen', "title"=>'新闻通知');
 			$navlist [$navindex++] = array ("url" => '__URL__/jinzhan', "title" => '当前进展' );
-			$navlist [$navindex++] = array ("url" => '__URL__/jieshao', "title" => '河合介绍' );
 			$navlist [$navindex++] = array ("url" => '__URL__/baoming', "title" => '报名参加' );
 		}
 		

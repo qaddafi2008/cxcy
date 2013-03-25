@@ -152,6 +152,7 @@
     		});
     		$("#bat_delete").click(function(){
     			var selectedcounts = 0;
+    			if(confirm("确认批量删除？")){
     			$.each($("#activitytable :checked"),function(){
     				var id=$(this).val();
     				deleteRowByID(id);
@@ -159,12 +160,32 @@
     			});
     			if(selectedcounts==0){
     				alert("未选择待删除项目！");
-    			}
+    			}}
     		});
     	}
     	
     	//按id删除记录
     	function deleteRowByID(id){
+    		if(confirm("确认删除？"))
+    		$.ajax({
+    			type : "get",
+    			url : $("#baseurl").val() + "/deleteApplyByID/" + id,
+    			cache : false,
+    			success : function(msg) {
+    				//对返回的数据进行处理
+    				var msgtemp = eval('(' + msg + ')');
+    				if(msgtemp.status == 1){
+    					$.each($(":checkbox"),function(){
+    						if($(this).val() == id){
+    							$(this).parent("td").parent("tr").remove();
+    						}
+    					});
+    				}
+    				
+    			}
+    		});
+    	}
+    	function deleteRowByIDQuick(id){
     		$.ajax({
     			type : "get",
     			url : $("#baseurl").val() + "/deleteApplyByID/" + id,
