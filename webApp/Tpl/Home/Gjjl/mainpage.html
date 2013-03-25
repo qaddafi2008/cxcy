@@ -40,6 +40,18 @@ function initForIndex(){
             }
         });
     }
+    var top = 9999;
+    $.each($(".column"),function(){
+    	if(top > $(this).offset().top){
+    		top = $(this).offset().top;
+    	}
+    }); 
+    $.each($(".column"),function(){
+    	var toptemp = $(this).offset().top;
+    	if(top!=toptemp){
+    		$(this).css("margin-top","-"+(toptemp-top)+"px");
+    	}
+    });
 }
 </script>
 </head>
@@ -73,7 +85,7 @@ function initForIndex(){
 								class="columnright"><a href="__URL__/{$mc.type}">更多>>></a></span></span>
 						</div>
 						<volist name='mc[content]' id="mcc">
-							<div class="columncontent">
+							<div class="columncontentOnly">
 							{$mcc}
 							</div>
 						</volist>

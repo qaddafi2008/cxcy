@@ -54,10 +54,22 @@
     border-radius:5px;
     min-height: 260px;
     max-height:260px;
+    width:290px;
     display:inline; 
 }
 .column .columncontent{
     display:inline;
+    text-overflow:ellipsis;
+    overflow: hidden; 
+    white-space:normal;
+}
+.column .columncontentOnly{
+    display:block;
+    text-overflow:ellipsis;
+    overflow: hidden; 
+    white-space:normal;
+    max-height:240px;
+    max-width:275px;
 }
 .column .columnheader{
     margin-bottom:10px;

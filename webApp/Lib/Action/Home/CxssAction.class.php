@@ -36,8 +36,8 @@ class CxssAction extends Action{
 		$maincontent[0]['name'] = "当前进展：";
 		$maincontent[0]['type'] = "jinzhan";
 		$maincontent[0]['content'] = $activitymodel->field("activitycontent as content")->where($condition)->find();
-		if(strlen($maincontent[0]['content']['content'])>280*3){
-			$maincontent[0]['content']['content'] =  iconv_substr($maincontent[0]['content']['content'],0,280*3,'utf-8')."...";
+		if(strlen($maincontent[0]['content']['content'])>500*3){
+			$maincontent[0]['content']['content'] =  iconv_substr($maincontent[0]['content']['content'],0,500*3,'utf-8')."...";
 		}
 		
 		

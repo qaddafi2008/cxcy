@@ -15,6 +15,7 @@ body {
     position: relative;
     font-family: Arial, Helvetica, sans-serif;
     font-family: '微软雅黑', Arial, Helvetica, sans-serif;
+    z-index: 1;
 }
 html > body {
     min-height: 100%;
@@ -107,7 +108,7 @@ html > body {
 }
 #wrapper {
     padding: 0 0 10px 0;
-    z-index: 1;
+    z-index: 0;
 }
 #content_inside {
     background-image: url(images/index/bg.gif);
