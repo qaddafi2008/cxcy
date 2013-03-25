@@ -36,6 +36,9 @@ class HhjjAction extends Action {
 		$this->index();
 	}
 	public function index() {//首页
+		if($_SESSION['urole']==1){
+			$this->redirect("shenpi");
+		}
 		$this->setSidebar();
 		$activitymodel = M("Activities");
 		$condition = "";
@@ -216,7 +219,7 @@ class HhjjAction extends Action {
 			$navlist [$navindex++] = array ("url" => '__URL__/baoming', "title" => '报名参加' );
 			$navlist [$navindex++] = array ("url" => '__URL__/zuoping', "title" => '提交作品' );
 		}elseif($_SESSION['urole']==1){
-			$navlist [$navindex++] = array ("url" => '__URL__/index', "title"=>'首页');
+			//$navlist [$navindex++] = array ("url" => '__URL__/index', "title"=>'首页');
 			$navlist [$navindex++] = array ("url" => '__URL__/jieshao', "title" => '河合介绍' );
 			$navlist [$navindex++] = array ("url" => '__URL__/xinwen', "title"=>'新闻通知');
 			$navlist [$navindex++] = array ("url" => '__URL__/jinzhan', "title" => '当前进展' );

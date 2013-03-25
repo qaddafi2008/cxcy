@@ -584,3 +584,12 @@ table th{
 #guideAndProcesstable th{
     border:solid 1px;
 }
+
+.tijiaobutton{
+    margin-top:80px;
+    margin-left:285px;
+    margin-right:auto;
+    font-size:18px;
+    width:200px;
+    height:50px;
+}

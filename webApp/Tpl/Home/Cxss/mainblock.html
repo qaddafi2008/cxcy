@@ -11,17 +11,17 @@
 			<p class="content">{$maincontent.content}</p>
 			<if condition="($maincontent.attachment neq null)">
 			<p class="attachment">附件地址：<a href="{$maincontent.fileurl}">{$maincontent.attachment}</a>
-			<div class="operationarea">
+			<br>
 			<if condition="($comtype eq 65) or ($comtype eq 85)">
-			<input type="button" value="更新审批" onclick="tijiao()">
+			<input type="button" value="更新审批" onclick="tijiao()" class="tijiaobutton">
 			</if>
 			</p></if>
 			<if condition="($maincontent.attachment eq null)">
 				<if condition="($comtype eq 65) or ($comtype eq 85)">
-			<input type="button" value="提交审批" onclick="tijiao()">
+			<input type="button" value="提交审批" onclick="tijiao()" class="tijiaobutton">
 			</if>
 			</if>
-			</div>
+			
 			</volist>
 		</div>
 		<include file="Cxss:tijiaopage"/>

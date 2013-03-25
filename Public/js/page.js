@@ -150,6 +150,7 @@ function initForCYDSTeacher() {
 
     $("#sssubmit").click(function() {
         var selected = 0;
+        if(confirm("确认提交？")){
         $.each($("#studentselectertable tbody :checked"), function() {
             selected++;
         });
@@ -158,7 +159,7 @@ function initForCYDSTeacher() {
         } else {
             $("#tips").html("请选择学生！");
             $("#tips").show();
-        }
+        }}
     });
 
     $("#epsubmit").click(function() {
