@@ -280,5 +280,27 @@ class ActivityAction extends Action{
 		$this->assign("newslist",$newslist);
 		$this->display("applylist");
 	}
+	
+	/**
+	 * 图片管理
+	 */
+	public function pictures(){
+		AuthorityAction::checkAdminLogin();
+		if($_POST['imgtype'] == 'index'){
+			if($_FILES ["file"]&&substr($_FILES["file"]["name"],strlen($_FILES["file"]["name"])-strlen(".png"))==".png"){
+				echo Common::uploadFileForDes("./Public/images/home/", "gjjl.png");
+				echo "<br>更换成功！";
+			}
+			Common::deleteDir("./webApp/Runtime");
+		}
+		$piclist[0]['id'] = 'index';
+		$piclist[0]['url'] = "__PUBLIC__/images/home/gjjl.png";
+		$piclist[0]['title'] = "国际交流首页图片";
+		$piclist[0]['advice'] = "924*300";
+		$piclist[0]['height'] = "200";
+		
+		$this->assign("piclist",$piclist);
+		$this->display("pictures");
+	}
 }
 ?>

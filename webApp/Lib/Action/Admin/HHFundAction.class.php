@@ -545,5 +545,62 @@ class HHFundAction extends Action{
 			$this->error("未知错误");
 		}
 	}
+	
+	/**
+	 * 图片管理
+	 */
+	public function pictures(){
+		AuthorityAction::checkAdminLogin();
+		if($_POST['imgtype']){
+			if($_POST['imgtype']=="index"){
+				if($_FILES ["file"]&&substr($_FILES["file"]["name"],strlen($_FILES["file"]["name"])-strlen(".png"))==".png"){
+					echo Common::uploadFileForDes("./Public/images/home/", "hhjj.png");
+					echo "<br>更换成功！";
+				}
+			}else if($_POST['imgtype']=="baoming"){
+				if($_FILES ["file"]&&substr($_FILES["file"]["name"],strlen($_FILES["file"]["name"])-strlen(".png"))==".png"){
+					echo Common::uploadFileForDes("./Public/images/home/", "hhjjbm.png");
+					echo "<br>更换成功！";
+				}
+			}else if($_POST['imgtype']=="baomingB"){
+				if($_FILES ["file"]&&substr($_FILES["file"]["name"],strlen($_FILES["file"]["name"])-strlen(".png"))==".png"){
+					echo Common::uploadFileForDes("./Public/images/home/", "hhbaoming.png");
+					echo "<br>更换成功！";
+				}
+			}else if($_POST['imgtype']=="zuopinB"){
+				if($_FILES ["file"]&&substr($_FILES["file"]["name"],strlen($_FILES["file"]["name"])-strlen(".png"))==".png"){
+					echo Common::uploadFileForDes("./Public/images/home/", "hhzuopin.png");
+					echo "<br>更换成功！";
+				}
+			}
+			Common::deleteDir("./webApp/Runtime");
+		}
+		$piclist[0]['id'] = 'index';
+		$piclist[0]['url'] = "__PUBLIC__/images/home/hhjj.png";
+		$piclist[0]['title'] = "创新赛事";
+		$piclist[0]['advice'] = "924*300";
+		$piclist[0]['height'] = "200";
+	
+		$piclist[1]['id'] = 'baoming';
+		$piclist[1]['url'] = "__PUBLIC__/images/home/hhjjbm.png";
+		$piclist[1]['title'] = "报名背景";
+		$piclist[1]['advice'] = "293*268";
+		$piclist[1]['height'] = "200";
+		
+		$piclist[2]['id'] = 'baomingB';
+		$piclist[2]['url'] = "__PUBLIC__/images/home/hhbaoming.png";
+		$piclist[2]['title'] = "报名按钮";
+		$piclist[2]['advice'] = "106*44";
+		$piclist[2]['height'] = "44";
+		
+		$piclist[3]['id'] = 'zuopinB';
+		$piclist[3]['url'] = "__PUBLIC__/images/home/hhzuopin.png";
+		$piclist[3]['title'] = "作品提交按钮";
+		$piclist[3]['advice'] = "106*44";
+		$piclist[3]['height'] = "44";
+	
+		$this->assign("piclist",$piclist);
+		$this->display("Activity:pictures");
+	}
 }
 ?>

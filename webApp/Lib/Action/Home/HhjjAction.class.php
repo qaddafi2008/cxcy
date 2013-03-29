@@ -67,10 +67,10 @@ class HhjjAction extends Action {
 			$baomingDay = 0;
 		}elseif(strtotime($now)>strtotime($act['st'])&&strtotime($now)<strtotime($act['at'])){
 			$baomingMsg = "baoming";
-			$baomingDay = date("d",strtotime($act['at'])-strtotime($now)); 
+			$baomingDay = round((strtotime($act['at'])-strtotime($now))/3600/24); 
 		}elseif(strtotime($now)>strtotime($act['at'])&&strtotime($now)<=strtotime($act['et'])){
 			$baomingMsg = "zuopin";
-			$baomingDay = date("d",strtotime($act['et'])-strtotime($now));		
+			$baomingDay = round((strtotime($act['et'])-strtotime($now))/3600/24);		
 		}else{
 			$baomingMsg = "敬请期待赛事来临";
 			$baomingDay = 0;
@@ -105,10 +105,10 @@ class HhjjAction extends Action {
 		$baomingButton = null;
 		$imgurl = null;
 		if($baomingMsg=="baoming"){
-			$baomingButton = "__PUBLIC__/images/home/baoming.png";
+			$baomingButton = "__PUBLIC__/images/home/hhbaoming.png";
 			$imgurl = "__URL__/baoming";
 		}elseif($baomingMsg=="zuopin"){
-			$baomingButton = "__PUBLIC__/images/home/zuopin.png";
+			$baomingButton = "__PUBLIC__/images/home/hhzuopin.png";
 			$imgurl = "__URL__/zuopin";
 		}
 		$this->assign("imgurl",$imgurl);

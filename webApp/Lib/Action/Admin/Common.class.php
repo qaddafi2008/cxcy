@@ -6,6 +6,53 @@
 * 3、GBK转utf-8（用于下载）
 */
 class Common{
+	
+	/**
+	 * 删除指定目录内所有内容
+	 * @param unknown_type $dir
+	 */
+	public static function deleteDir($dir)
+	{
+		if (rmdir($dir)==false && is_dir($dir)) {
+			if ($dp = opendir($dir)) {
+				while (($file=readdir($dp)) != false) {
+					if (is_dir($file) && $file!='.' && $file!='..') {
+						deleteDir($file);
+					} else {
+						unlink($file);
+					}
+				}
+				closedir($dp);
+			} else {
+				exit('Not permission');
+			}
+		}
+	}
+	
+	/**
+	 * 上传文件到指定文件夹，指定文件名
+	 * @param unknown_type $des
+	 * @param unknown_type $filename
+	 * @return string
+	 */
+	public static function uploadFileForDes($des,$filename) {
+		if(!$_FILES ["file"]) return "nofile";
+		if (($_FILES ["file"] ["size"] < 10 * 1024 * 1024)) {
+	
+			if ($_FILES ["file"] ["error"] > 0) {
+				return ERROR;
+			} else {
+				$destfile = $des . $filename;
+				unlink($destfile);
+				move_uploaded_file ( $_FILES ["file"] ["tmp_name"], Common::utf82gbk($destfile));//上传附件
+				return SUCCESS;
+			}
+		} else {
+			//echo "Invalid file";
+			return "Invalidsize";
+		}
+	}
+	
 	public static function upload($suffix) {//添加后缀形式的文件上传，确保不冲突，以  ### 为分隔
 		if(!$_FILES ["file"]) return "nofile";
 		if (($_FILES ["file"] ["size"] < 10 * 1024 * 1024)) {

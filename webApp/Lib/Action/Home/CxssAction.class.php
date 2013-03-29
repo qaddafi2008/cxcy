@@ -57,10 +57,10 @@ class CxssAction extends Action{
 			$baomingDay = 0;
 		}elseif(strtotime($now)>strtotime($act['st'])&&strtotime($now)<strtotime($act['at'])){
 			$baomingMsg = "baoming";
-			$baomingDay = date("d",strtotime($act['at'])-strtotime($now)); 
+			$baomingDay = round((strtotime($act['at'])-strtotime($now))/3600/24); 
 		}elseif(strtotime($now)>strtotime($act['at'])&&strtotime($now)<=strtotime($act['et'])){
 			$baomingMsg = "zuopin";
-			$baomingDay = date("d",strtotime($act['et'])-strtotime($now));		
+			$baomingDay = round((strtotime($act['et'])-strtotime($now))/3600/24);		
 		}elseif(strtotime($now)>strtotime($act['at'])){
 			$baomingMsg = "报名已截止！";
 			$baomingDay = 0;
