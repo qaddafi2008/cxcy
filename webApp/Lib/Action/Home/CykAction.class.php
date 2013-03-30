@@ -22,6 +22,7 @@ class CykAction extends Action{
 		$navlist [$navindex++] = array ("url" => '__URL__/studentOriginality', "title" => '我的创意' );
 		$navlist [$navindex++] = array ("url" => '__URL__/studentCollection', "title" => '我的收藏' );
 		$navlist [$navindex++] = array ("url" => '__URL__/resultPublicity', "title" => '结果公示' );
+		$navlist [$navindex++] = array ("url" => '__URL__/helpstudent', "title" => '使用帮助' );
 		return $navlist;
 	}
 	
@@ -73,6 +74,8 @@ class CykAction extends Action{
 		$this->assign ( 'originalityList', $list);
 		if(3 == $actionModule)//结果公布，需要显示成绩
 			$this->assign ( 'functionBlock', 'resultPublicityList');//设置主模块显示的功能页面
+		else if(2 == $actionModule)//我的收藏，需要显示删除操作
+			$this->assign ( 'functionBlock', 'collectionList');//设置主模块显示的功能页面
 		else
 			$this->assign ( 'functionBlock', 'originalityList');//设置主模块显示的功能页面
 		
@@ -354,6 +357,34 @@ class CykAction extends Action{
 		else
 			$this->error("提交失败！");
 		
+	}
+	
+	public function helpstudent(){
+		R('Home/Authority/checkStudentLogin');//表示调用Admin分组下Authority模块的checkStudentLogin方法
+		
+		$modelname = "创意库："; //本模块名称
+		$navlist = $this->getStuNavlist();//获得左侧导航菜单
+		$this->assign ( 'modelname', $modelname );
+		$this->assign ( 'navlist', $navlist );
+		$this->assign ( 'functionBlock', 'helpstudent');//设置主模块显示的功能页面
+		
+		$this->display("index");
+	}
+	
+	public function deleteCollection(){
+		$oid = $_GET['oid'];
+		$stuid = session(C('USER_AUTH_KEY'));
+		
+		$collection = M('collection');
+		if($collection->where("stuid=$stuid and originalityid=$oid")->delete()){
+			//更新创意中的收藏次数
+			$originality = M('originality');
+			$ores = $originality->where("oid=$oid")->field('collectiontimes')->find();
+			$ores['collectiontimes'] = $ores['collectiontimes'] - 1;
+			$originality->where("oid=$oid")->save($ores);
+			$this->success("删除收藏成功！");
+		}else
+			$this->error("删除收藏失败！");
 	}
 	
 	public function test(){

@@ -594,3 +594,8 @@ table th{
     width:200px;
     height:50px;
 }
+
+.helpsubject{
+	font-weight: bold;
+	font-size: 24px;
+}

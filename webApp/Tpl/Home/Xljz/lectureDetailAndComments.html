@@ -1,6 +1,10 @@
 <script type="text/javascript" src="__PUBLIC__/js/lecture-home-lecture.js"></script>
 <div id="ocollection" align="right">
- <a href="__URL__/getParticipationList/lid/{$lecture.lid}/lname/{$lecture.lname}" style="font-size:20px">获取已参与该讲座的名单</a>
+	<input type="hidden" id="isApply" name="isApply" value="{$isApply}"/>
+	<!--<a href="__URL__/getParticipationList/lid/{$lecture.lid}/lname/{$lecture.lname}" style="font-size:20px">获取已参与该讲座的名单</a>-->
+	<input type="hidden" id="lid" name="lid" value="{$lid}" />
+	<input type="hidden" id="baseurl" value="__URL__" />
+	<input type="button" id="doApplyBtn" name="doApplyBtn" class="bbtn" value=" 申请认证参与 "/>
 </div>
 <table id="stuodetailtable" width="100%" border="0">
     <tr>
