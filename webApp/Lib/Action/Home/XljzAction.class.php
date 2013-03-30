@@ -8,7 +8,10 @@
 		private function getNavlist(){
 			$navindex = 0;
 			$navlist [$navindex++] = array ("url" => '__URL__/getLectureList', "title"=>'讲座列表');
-			$navlist [$navindex++] = array ("url" => '__URL__/getAttendedLectures', "title"=>'已认证参与');
+			$urole = session(C('USER_ROLE'));
+			if(2 == $urole){//学生
+				$navlist [$navindex++] = array ("url" => '__URL__/getAttendedLectures', "title"=>'已认证参与');
+			}
 			return $navlist;
 		}
 		
