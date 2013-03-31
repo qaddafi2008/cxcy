@@ -52,6 +52,13 @@ class XxkcAction extends Action{
 		}else{//尚未选择课程
 			$courses = M('courses');
 			$result = $courses->where('ispublic=1')->field('cid,coursename,teacher,headcount')->select();
+			
+			//获得每个课程的已选人数
+			$curriculum = M('curriculum');
+			for($i=0;$i<count($result);$i++){
+				$numOfSelectedStu = $curriculum->where('courseid='.$result[$i]['cid'])->count();
+				$result[$i]['numOfSelectedStu'] = (null==$numOfSelectedStu?0:$numOfSelectedStu);
+			}
 		
 			$this->assign('coursesList',$result);
 			$this->assign ( 'functionBlock', 'coursesListSelecting');//设置主模块显示的功能页面

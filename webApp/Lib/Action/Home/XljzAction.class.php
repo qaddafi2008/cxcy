@@ -8,6 +8,10 @@
 		private function getNavlist(){
 			$navindex = 0;
 			$navlist [$navindex++] = array ("url" => '__URL__/getLectureList', "title"=>'讲座列表');
+			$urole = session(C('USER_ROLE'));
+			if(2 == $urole){//学生
+				$navlist [$navindex++] = array ("url" => '__URL__/getAttendedLectures', "title"=>'已认证参与');
+			}
 			return $navlist;
 		}
 		
@@ -42,6 +46,24 @@
 			
 			$this->assign('lecture', $l);
 			$this->assign('lcomments', $lcomments);
+			
+			$stuid = session(C('USER_AUTH_KEY'));
+			$urole = session(C('USER_ROLE'));
+			if(2 == $urole){//学生
+				$participation = M('participation');
+				$vo = $participation->where("stuid=$stuid and lectureid=$lid")->find();
+				if($vo){
+					if('已参与'==$vo['certificationstatus'])
+						$this->assign('isApply',2);//通过
+					else
+						$this->assign('isApply',1);//已申请
+				}else{
+						$this->assign('isApply',0);//尚未申请
+				}
+			
+			}
+				
+			$this->assign('lid', $lid);
 			
 			$this->assign ( 'modelname', $modelname );
 			$this->assign ( 'navlist', $navlist );
@@ -123,6 +145,25 @@
 				$this->ajaxReturn(1,"申请成功！",1);
 			else
 				$this->ajaxReturn(0,"申请失败！",0);
+		}
+		
+		public function getAttendedLectures(){
+			$stuid = session(C('USER_AUTH_KEY'));
+			
+			//查询登陆用户已被认证参与的讲座
+			$queryStr = "SELECT lid,lname,updatetime from lecture,participation WHERE certificationstatus='已参与' and stuid = $stuid and lid = lectureid order by updatetime DESC";
+			$model = new Model();
+			$res = $model->query($queryStr);
+			
+			//左侧导航栏
+			$modelname = "系列讲座："; //本模块名称
+			$navlist = $this->getNavlist();//获得左侧导航菜单
+			$this->assign('lectureList',$res);
+			$this->assign ( 'modelname', $modelname );
+			$this->assign ( 'navlist', $navlist );
+			$this->assign ( 'functionBlock', 'lectureList');//设置主模块显示的功能页面
+			
+			$this->display("index");
 		}
 		
 	}

@@ -10,6 +10,7 @@ if($coursesList != null){
     <th scope="col">课程名</th>
     <th scope="col">任课老师</th>
     <th scope="col">限选人数</th>
+	<th scope="col">已选人数</th>
   </tr>
   </thead>
   <tbody>
@@ -21,6 +22,7 @@ if($coursesList != null){
                 </td>
 				<td >{$course.teacher}</td>
 				<td >{$course.headcount}</td>
+				<td >{$course.numOfSelectedStu}</td>
 			</tr>
   </volist>
   </tbody>
