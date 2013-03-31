@@ -132,8 +132,10 @@
 			$participation = M('participation');
 			for($i=0;$i<count($sids);$i++){
 				$data['stuid'] = $sids[$i];
-				if(!$participation->add($data))
-					$this->error('批量添加失败！');
+				if(!$participation->where('lectureid='.$data['lectureid'].' and stuid='.$data['stuid'])->find()){//如果不存在，则进行添加
+					if(!$participation->add($data))
+						$this->error('批量添加失败！');
+				}
 			}
 			$this->success('批量添加学生至参与名单成功！');
 		}
